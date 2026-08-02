@@ -185,10 +185,15 @@
 
   /* ---------- Amostragem: rasteriza a forma e lê os pixels ---------- */
 
+  /* A rasterização roda a meia resolução: o passo da amostragem é bem maior
+     que um pixel, então metade da escala não muda o resultado e lê 4x menos
+     pixels — era o que segurava a thread principal no carregamento. */
+  var ESCALA = 0.5;
+
   function amostra(desenha, passo) {
     var fora = document.createElement('canvas');
-    fora.width = Math.max(1, Math.floor(L));
-    fora.height = Math.max(1, Math.floor(A));
+    fora.width = Math.max(1, Math.floor(L * ESCALA));
+    fora.height = Math.max(1, Math.floor(A * ESCALA));
 
     var oc = fora.getContext('2d', { willReadFrequently: true });
     if (!oc) return [];
@@ -196,13 +201,15 @@
     /* As formas são desenhadas num quadrado centrado, para não deformarem
        quando o canvas não é quadrado. */
     var lado = Math.min(L, A) * 0.94;
+    oc.scale(ESCALA, ESCALA);
     desenha(oc, lado, (L - lado) / 2, (A - lado) / 2);
 
     var img = oc.getImageData(0, 0, fora.width, fora.height).data;
 
     var pix = function (x, y) {
-      if (x < 0 || y < 0 || x >= fora.width || y >= fora.height) return null;
-      var i = (Math.floor(y) * fora.width + Math.floor(x)) * 4;
+      var ex = Math.floor(x * ESCALA), ey = Math.floor(y * ESCALA);
+      if (ex < 0 || ey < 0 || ex >= fora.width || ey >= fora.height) return null;
+      var i = (ey * fora.width + ex) * 4;
       return { r: img[i], g: img[i + 1] };
     };
 
@@ -509,7 +516,19 @@
     }, { threshold: 0 }).observe(tela);
   }
 
-  monta();
-  inicio = performance.now();
-  avalia();
+  /* A montagem rasteriza e amostra quatro formas — trabalho demais para a
+     thread principal durante o carregamento. Ela espera a primeira pintura
+     e o navegador ficar ocioso; até lá o canvas fica simplesmente vazio. */
+
+  function comeca() {
+    monta();
+    inicio = performance.now();
+    avalia();
+  }
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(comeca, { timeout: 1500 });
+  } else {
+    setTimeout(comeca, 260);
+  }
 })();

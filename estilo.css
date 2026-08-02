@@ -656,7 +656,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   padding-bottom: 44px;
 }
 
-.rodape h4 { color: var(--branco); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 16px; }
+.rodape h3 { color: var(--branco); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 16px; }
 
 .rodape ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 

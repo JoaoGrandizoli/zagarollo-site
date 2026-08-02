@@ -1,0 +1,14 @@
+{
+  "name": "zagarollo-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Site institucional da Zagarollo Embalagens",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
