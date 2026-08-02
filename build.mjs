@@ -78,8 +78,11 @@ function cartaoProduto(p) {
      justamente o erro que o site antigo comete no KIT E. */
   const foto = p.semFoto
     ? `<div class="produto-foto produto-foto--vazia" aria-hidden="true"><span>ficha não publicada</span></div>`
-    : `<img class="produto-foto" loading="lazy" decoding="async" src="imagens/produtos/${p.slug}.webp"
-         alt="Ficha do ${esc(p.nome)} com os formatos e as medidas" width="1000" height="542">`;
+    : `<img class="produto-foto" loading="lazy" decoding="async"
+         src="imagens/produtos/${p.slug}-480.webp"
+         srcset="imagens/produtos/${p.slug}-480.webp 480w, imagens/produtos/${p.slug}-900.webp 900w"
+         sizes="(max-width: 560px) 92vw, (max-width: 900px) 46vw, 30vw"
+         alt="Ficha do ${esc(p.nome)} com os formatos e as medidas" width="900" height="488">`;
 
   return `
   <article class="produto" data-familia="${p.familia}" data-tags="${p.tags.join(' ')}" data-nome="${esc(p.nome)}">
@@ -100,7 +103,9 @@ function cartoesFamilia() {
     const n = produtos.produtos.filter((p) => p.familia === f.id).length;
     return `
       <a class="familia revela" href="/produtos#${f.id}" aria-label="${esc(f.nome)} — ver os ${n} modelos">
-        <img loading="lazy" decoding="async" src="imagens/produtos/${f.foto}.webp" alt="" width="1000" height="542">
+        <img loading="lazy" decoding="async" src="imagens/produtos/${f.foto}-480.webp"
+             srcset="imagens/produtos/${f.foto}-480.webp 480w, imagens/produtos/${f.foto}-900.webp 900w"
+             sizes="(max-width: 900px) 92vw, 34vw" alt="" width="900" height="488">
         <div class="familia-texto">
           <h3>${esc(f.nome)}</h3>
           <p>${esc(f.chamada)}</p>
@@ -284,8 +289,15 @@ const quebrados = [];
 
 for (const { arquivo } of rotas) {
   const html = await readFile(path.join(DIST, arquivo), 'utf8');
-  for (const m of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-    const alvo = m[1].split('#')[0].split('?')[0];
+  const referencias = [];
+  for (const m of html.matchAll(/(?:href|src)="([^"]+)"/g)) referencias.push(m[1]);
+  /* srcset traz "arquivo 480w, arquivo 900w" — cada item precisa ser conferido. */
+  for (const m of html.matchAll(/srcset="([^"]+)"/g)) {
+    for (const parte of m[1].split(',')) referencias.push(parte.trim().split(/\s+/)[0]);
+  }
+
+  for (const bruto of referencias) {
+    const alvo = bruto.split('#')[0].split('?')[0];
     if (!alvo || /^(https?:|mailto:|tel:|data:)/.test(alvo)) continue;
     if (alvo.startsWith('/')) {
       /* Link absoluto: tem de bater com uma rota que o build gerou. */
