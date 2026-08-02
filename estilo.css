@@ -305,6 +305,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   padding: 96px 0;
 }
 
+/* Coluna estreita e centrada: o texto é curto e alinhado à esquerda numa
+   caixa de 1140px deixaria metade da seção vazia. */
+.manifesto .container { max-width: 800px; }
+
 .selo--claro { color: var(--verde-claro); }
 
 .manifesto-titulo {
