@@ -271,6 +271,71 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 
 .capa-figura img { border-radius: 12px; }
 
+/* O campo de partículas fica por cima da foto, sangrando para fora da moldura:
+   é ele que morfa entre a planificação, a caixa, a sacola e o coração. */
+#campo {
+  position: absolute;
+  inset: -14%;
+  width: 128%;
+  height: 128%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.capa-figura:has(#campo) img { opacity: .34; filter: saturate(.5) contrast(1.05); }
+
+/* ---------- Manifesto ---------- */
+
+.manifesto {
+  background: var(--azul-escuro);
+  color: var(--branco);
+  padding: 96px 0;
+}
+
+.selo--claro { color: var(--verde-claro); }
+
+.manifesto-titulo {
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+  font-weight: 700;
+  max-width: 18ch;
+}
+
+.manifesto-lista {
+  list-style: none;
+  padding: 0;
+  margin: 44px 0 0;
+  display: grid;
+  gap: 0;
+  max-width: 62ch;
+}
+
+.manifesto-lista li {
+  font-size: clamp(1.02rem, 1.7vw, 1.22rem);
+  color: rgba(255, 255, 255, .9);
+  padding: 20px 0 20px 28px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  position: relative;
+}
+
+.manifesto-lista li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 31px;
+  width: 12px;
+  height: 1px;
+  background: var(--verde-claro);
+}
+
+.manifesto-lista li:last-child { border-bottom: 1px solid rgba(255, 255, 255, .14); }
+
+.manifesto-fecho {
+  margin: 40px 0 0;
+  max-width: 58ch;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, .74);
+}
+
 /* ---------- Faixa de números ---------- */
 
 .numeros {
@@ -665,7 +730,23 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   .capa-acoes .botao { width: 100%; }
 }
 
+/* ---------- Entrada por scroll ----------
+   O elemento sobe e acende quando entra na tela. A classe só é aplicada
+   pelo JS, então sem JS tudo aparece normalmente. */
+
+.js .revela {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s cubic-bezier(.16, 1, .3, 1) var(--atraso, 0s),
+              transform .7s cubic-bezier(.16, 1, .3, 1) var(--atraso, 0s);
+}
+
+.js .revela--visivel { opacity: 1; transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
   html { scroll-behavior: auto; }
+
+  /* Sem movimento, mas o conteúdo não pode ficar invisível. */
+  .js .revela { opacity: 1; transform: none; }
 }

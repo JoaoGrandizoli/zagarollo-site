@@ -65,6 +65,45 @@
     });
   }
 
+  /* ---------- Entrada por scroll ----------
+     Elementos com .revela sobem e acendem ao entrar na tela. Irmãos diretos
+     entram escalonados, para o bloco não piscar todo de uma vez. */
+
+  var reveláveis = document.querySelectorAll('.revela');
+
+  if (reveláveis.length) {
+    var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (semMovimento || !('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(reveláveis, function (el) {
+        el.classList.add('revela--visivel');
+      });
+    } else {
+      /* O atraso vem da posição entre os irmãos, não de um contador global:
+         assim cada bloco recomeça o escalonamento do zero. */
+      Array.prototype.forEach.call(reveláveis, function (el) {
+        var irmaos = el.parentElement
+          ? Array.prototype.filter.call(el.parentElement.children, function (f) {
+              return f.classList.contains('revela');
+            })
+          : [el];
+
+        var i = irmaos.indexOf(el);
+        if (i > 0) el.style.setProperty('--atraso', (i * 0.09).toFixed(2) + 's');
+      });
+
+      var observador = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (entrada) {
+          if (!entrada.isIntersecting) return;
+          entrada.target.classList.add('revela--visivel');
+          observador.unobserve(entrada.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+      Array.prototype.forEach.call(reveláveis, function (el) { observador.observe(el); });
+    }
+  }
+
   /* ---------- Catálogo de produtos ---------- */
 
   var catalogo = document.getElementById('catalogo');

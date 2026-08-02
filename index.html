@@ -6,11 +6,16 @@
 <title>Zagarollo Embalagens — Caixas flexíveis e sacolas de papel desde 2002</title>
 <meta name="description" content="Fábrica de caixas flexíveis e sacolas de papel em Descalvado-SP. Mais de 29 modelos, personalização e atendimento em todo o Brasil desde 2002.">
 <link rel="canonical" href="https://www.zagarollo.com.br/">
-<link rel="icon" href="imagens/logo.png">
+<link rel="icon" href="imagens/logo-96.png" sizes="96x96">
+<link rel="preload" as="image" href="imagens/caixas.webp" fetchpriority="high">
 <link rel="stylesheet" href="estilo.css">
+<script>document.documentElement.classList.add('js');</script>
 <meta property="og:title" content="Zagarollo Embalagens — o que importa vai dentro">
 <meta property="og:description" content="Caixas flexíveis e sacolas de papel fabricadas em Descalvado-SP desde 2002.">
-<meta property="og:image" content="imagens/caixas.jpg">
+<meta property="og:image" content="https://www.zagarollo.com.br/imagens/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
 <script type="application/ld+json">
 {
@@ -18,7 +23,7 @@
   "@type": "Organization",
   "name": "Zagarollo Embalagens",
   "url": "https://www.zagarollo.com.br/",
-  "logo": "https://www.zagarollo.com.br/imagens/logo.png",
+  "logo": "https://www.zagarollo.com.br/imagens/logo.webp",
   "foundingDate": "2002",
   "description": "Fabricação de caixas flexíveis e sacolas de papel.",
   "address": {
@@ -46,7 +51,7 @@
 <header class="cabecalho">
   <div class="container">
     <a class="marca" href="index.html">
-      <img src="imagens/logo.png" alt="Zagarollo Embalagens" width="46" height="46">
+      <img src="imagens/logo.webp" alt="Zagarollo Embalagens" width="46" height="46" fetchpriority="high">
       <span>
         <span class="marca-nome">Zagarollo</span>
         <span class="marca-sub">Embalagens</span>
@@ -85,31 +90,32 @@
     </div>
 
     <figure class="capa-figura">
-      <img src="imagens/caixas.jpg" alt="Linha de caixas flexíveis e sacolas de papel Zagarollo" width="800" height="500">
+      <canvas id="campo" aria-hidden="true"></canvas>
+      <img src="imagens/caixas.webp" alt="Linha de caixas flexíveis e sacolas de papel Zagarollo" width="800" height="500" fetchpriority="high" decoding="async">
     </figure>
   </div>
 </section>
 
 <section class="numeros">
   <div class="container">
-    <div class="numero"><strong>2002</strong><span>ano de fundação</span></div>
-    <div class="numero"><strong>29</strong><span>modelos de linha</span></div>
-    <div class="numero"><strong>Brasil</strong><span>atendimento nacional</span></div>
-    <div class="numero"><strong>100%</strong><span>papel reciclável</span></div>
+    <div class="numero revela"><strong>2002</strong><span>ano de fundação</span></div>
+    <div class="numero revela"><strong>29</strong><span>modelos de linha</span></div>
+    <div class="numero revela"><strong>Brasil</strong><span>atendimento nacional</span></div>
+    <div class="numero revela"><strong>100%</strong><span>papel reciclável</span></div>
   </div>
 </section>
 
 <section class="secao">
   <div class="container">
-    <span class="selo">Por que embalagem importa</span>
-    <h2 class="secao-titulo">Todo mundo já usou uma das nossas. Poucos repararam.</h2>
-    <p class="secao-intro">
+    <span class="selo revela">Por que embalagem importa</span>
+    <h2 class="secao-titulo revela">Todo mundo já usou uma das nossas. Poucos repararam.</h2>
+    <p class="secao-intro revela">
       Presentear, levar e guardar. Uma embalagem de papel resolve as três coisas —
       e é sempre a primeira coisa que a pessoa toca antes de chegar no que está dentro.
     </p>
 
     <div class="conceito-grade">
-      <article class="conceito">
+      <article class="conceito revela">
         <div class="conceito-icone" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18M12 8v13"/>
@@ -124,7 +130,7 @@
         </p>
       </article>
 
-      <article class="conceito">
+      <article class="conceito revela">
         <div class="conceito-icone" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 8h14l1.2 12.2a1 1 0 0 1-1 1.1H4.8a1 1 0 0 1-1-1.1L5 8z"/>
@@ -139,7 +145,7 @@
         </p>
       </article>
 
-      <article class="conceito">
+      <article class="conceito revela">
         <div class="conceito-icone" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 7H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/>
@@ -159,16 +165,16 @@
 
 <section class="secao secao--cinza">
   <div class="container">
-    <span class="selo">Duas famílias, 29 modelos</span>
-    <h2 class="secao-titulo">Caixas flexíveis e sacolas de papel.</h2>
-    <p class="secao-intro">
+    <span class="selo revela">Duas famílias, 29 modelos</span>
+    <h2 class="secao-titulo revela">Caixas flexíveis e sacolas de papel.</h2>
+    <p class="secao-intro revela">
       A linha atende do varejo de rua à indústria: joalherias, confeitarias, floriculturas,
       lojas de roupa, fast food e distribuidores.
     </p>
 
     <div class="familias">
-      <a class="familia" href="produtos.html#caixas">
-        <img src="imagens/embalagens-presente-atacado-01.jpg" alt="Caixas flexíveis Zagarollo">
+      <a class="familia revela" href="produtos.html#caixas">
+        <img loading="lazy" decoding="async" src="imagens/caixas-card.webp" alt="Caixas flexíveis Zagarollo">
         <div class="familia-texto">
           <h3>Caixas flexíveis</h3>
           <p>24 modelos: quadrada, retangular, mista, inteiriça, com visor, alta, baixa e berço para bijuterias.</p>
@@ -176,8 +182,8 @@
         </div>
       </a>
 
-      <a class="familia" href="produtos.html#sacolas">
-        <img src="imagens/sacola-kraft-grande-01.jpg" alt="Sacolas de papel Zagarollo">
+      <a class="familia revela" href="produtos.html#sacolas">
+        <img loading="lazy" decoding="async" src="imagens/sacolas-card.webp" alt="Sacolas de papel Zagarollo">
         <div class="familia-texto">
           <h3>Sacolas de papel</h3>
           <p>5 linhas: pequenos formatos, alta, larga, fast food e sacos. Kraft, branca ou colorida.</p>
@@ -190,11 +196,11 @@
 
 <section class="secao" id="empresa">
   <div class="container sobre">
-    <img src="imagens/quem-somos.jpg" alt="Fábrica da Zagarollo Embalagens em Descalvado-SP" width="600" height="450">
+    <img class="revela" loading="lazy" decoding="async" src="imagens/quem-somos.webp" alt="Fábrica da Zagarollo Embalagens em Descalvado-SP" width="600" height="450">
 
     <div>
-      <span class="selo">A empresa</span>
-      <h2 class="secao-titulo">Vinte e poucos anos fazendo a mesma coisa, cada vez melhor.</h2>
+      <span class="selo revela">A empresa</span>
+      <h2 class="secao-titulo revela">Vinte e poucos anos fazendo a mesma coisa, cada vez melhor.</h2>
       <p>
         A Zagarollo Embalagens fabrica caixas flexíveis e sacolas de papel desde 2002.
         Instalada em Descalvado, no interior de São Paulo, a marca opera em todo o
@@ -229,12 +235,33 @@
   </div>
 </section>
 
+<section class="manifesto">
+  <div class="container">
+    <span class="selo selo--claro revela">O que vai dentro</span>
+    <h2 class="manifesto-titulo revela">A gente nunca vendeu uma caixa.</h2>
+
+    <ul class="manifesto-lista">
+      <li class="revela">Vendeu a caixa do anel que alguém passou meses juntando dinheiro para comprar.</li>
+      <li class="revela">A do bolo que precisava chegar inteiro na festa.</li>
+      <li class="revela">A sacolinha que a criança levou para casa e não deixou ninguém jogar fora.</li>
+      <li class="revela">A caixa que está no fundo do armário há vinte anos porque tem carta dentro.</li>
+    </ul>
+
+    <p class="manifesto-fecho revela">
+      Papel, cola e corte: é disso que a caixa é feita. Não é disso que ela serve.
+      Faz vinte e poucos anos que a Zagarollo embala coisa que é importante para
+      alguém — e quase nunca ficamos sabendo o quê. Tudo bem. A nossa parte é a
+      embalagem estar à altura do que vai dentro.
+    </p>
+  </div>
+</section>
+
 <section class="secao secao--azul" id="orcamento">
   <div class="container orcamento">
     <div>
-      <span class="selo">Orçamento</span>
-      <h2 class="secao-titulo">Conte o que você precisa embalar.</h2>
-      <p class="secao-intro">
+      <span class="selo revela">Orçamento</span>
+      <h2 class="secao-titulo revela">Conte o que você precisa embalar.</h2>
+      <p class="secao-intro revela">
         Diga o modelo, a quantidade e para que serve. A gente responde com preço,
         prazo e as opções de personalização que cabem no seu volume.
       </p>
@@ -274,7 +301,7 @@
       </div>
     </div>
 
-    <form class="formulario" id="form-orcamento">
+    <form class="formulario revela" id="form-orcamento">
       <div class="dupla">
         <div class="campo">
           <label for="nome">Nome</label>
@@ -343,7 +370,7 @@
     <div class="rodape-grade">
       <div>
         <div class="rodape-marca">
-          <img src="imagens/logo.png" alt="" width="44" height="44">
+          <img src="imagens/logo.webp" alt="" width="44" height="44" loading="lazy" decoding="async">
           <strong>Zagarollo Embalagens</strong>
         </div>
         <p>
@@ -385,6 +412,7 @@
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.6.3-.5v-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4A3.5 3.5 0 0 0 5.9 9c0 1.5 1.1 3 1.3 3.2s2.2 3.3 5.2 4.6a17 17 0 0 0 1.8.7 4.2 4.2 0 0 0 1.9.1c.6-.1 1.8-.7 2-1.5s.2-1.3.2-1.4-.2-.2-.5-.3zM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
 </a>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
+<script src="campo.js" defer></script>
 </body>
 </html>

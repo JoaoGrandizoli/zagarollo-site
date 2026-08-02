@@ -6,11 +6,15 @@
 <title>Produtos — Caixas flexíveis e sacolas de papel | Zagarollo Embalagens</title>
 <meta name="description" content="Linha completa da Zagarollo: 24 modelos de caixa flexível e 5 linhas de sacola de papel kraft, branca e colorida. Personalização e atacado.">
 <link rel="canonical" href="https://www.zagarollo.com.br/produtos">
-<link rel="icon" href="imagens/logo.png">
+<link rel="icon" href="imagens/logo-96.png" sizes="96x96">
 <link rel="stylesheet" href="estilo.css">
+<script>document.documentElement.classList.add('js');</script>
 <meta property="og:title" content="Produtos — Zagarollo Embalagens">
 <meta property="og:description" content="24 modelos de caixa flexível e 5 linhas de sacola de papel.">
-<meta property="og:image" content="imagens/caixas.jpg">
+<meta property="og:image" content="https://www.zagarollo.com.br/imagens/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 
@@ -25,7 +29,7 @@
 <header class="cabecalho">
   <div class="container">
     <a class="marca" href="index.html">
-      <img src="imagens/logo.png" alt="Zagarollo Embalagens" width="46" height="46">
+      <img src="imagens/logo.webp" alt="Zagarollo Embalagens" width="46" height="46" fetchpriority="high">
       <span>
         <span class="marca-nome">Zagarollo</span>
         <span class="marca-sub">Embalagens</span>
@@ -62,8 +66,8 @@
 
 <section class="secao">
   <div class="container">
-    <span class="selo">Catálogo</span>
-    <h2 class="secao-titulo">Encontre o formato certo.</h2>
+    <span class="selo revela">Catálogo</span>
+    <h2 class="secao-titulo revela">Encontre o formato certo.</h2>
 
     <div class="filtros" role="group" aria-label="Filtrar produtos por categoria">
       <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Tudo <span data-contagem="todos"></span></button>
@@ -80,35 +84,35 @@
 
 <section class="secao secao--cinza" id="acabamentos">
   <div class="container">
-    <span class="selo">Acabamento e personalização</span>
-    <h2 class="secao-titulo">O mesmo formato, com a cara da sua marca.</h2>
-    <p class="secao-intro">
+    <span class="selo revela">Acabamento e personalização</span>
+    <h2 class="secao-titulo revela">O mesmo formato, com a cara da sua marca.</h2>
+    <p class="secao-intro revela">
       Todos os kits de caixa podem sair em papel liso ou estampado. As sacolas saem em
       kraft natural, branca ou colorida, com alça torcida de papel.
     </p>
 
     <div class="acabamentos">
-      <div class="acabamento">
+      <div class="acabamento revela">
         <strong>Estampas especiais</strong>
         <span>Padronagens exclusivas para presente, festa e datas comemorativas.</span>
       </div>
-      <div class="acabamento">
+      <div class="acabamento revela">
         <strong>Estampa fosca</strong>
         <span>Acabamento sem brilho, para linhas mais sóbrias e joalherias.</span>
       </div>
-      <div class="acabamento">
+      <div class="acabamento revela">
         <strong>Estampa branca</strong>
         <span>Base branca, ideal para receber impressão da marca.</span>
       </div>
-      <div class="acabamento">
+      <div class="acabamento revela">
         <strong>Cartão fosco</strong>
         <span>Gramatura mais rígida, para peças que precisam de estrutura.</span>
       </div>
-      <div class="acabamento">
+      <div class="acabamento revela">
         <strong>Kraft natural</strong>
         <span>O papel de sempre: resistente, reciclável e sem tratamento.</span>
       </div>
-      <div class="acabamento">
+      <div class="acabamento revela">
         <strong>Sacola colorida</strong>
         <span>Cartela de cores para varejo, fast food e sazonais.</span>
       </div>
@@ -131,7 +135,7 @@
     <div class="rodape-grade">
       <div>
         <div class="rodape-marca">
-          <img src="imagens/logo.png" alt="" width="44" height="44">
+          <img src="imagens/logo.webp" alt="" width="44" height="44" loading="lazy" decoding="async">
           <strong>Zagarollo Embalagens</strong>
         </div>
         <p>
@@ -208,6 +212,6 @@
 ]
 </script>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>

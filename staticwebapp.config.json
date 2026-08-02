@@ -2,7 +2,28 @@
   "trailingSlash": "auto",
   "routes": [
     { "route": "/produtos", "rewrite": "/produtos.html" },
-    { "route": "/index.html", "redirect": "/", "statusCode": 301 }
+    { "route": "/index.html", "redirect": "/", "statusCode": 301 },
+
+    {
+      "route": "/imagens/*",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+    },
+    {
+      "route": "/*.css",
+      "headers": { "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800" }
+    },
+    {
+      "route": "/*.js",
+      "headers": { "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800" }
+    },
+    {
+      "route": "/*.html",
+      "headers": { "Cache-Control": "public, max-age=0, must-revalidate" }
+    },
+    {
+      "route": "/",
+      "headers": { "Cache-Control": "public, max-age=0, must-revalidate" }
+    }
   ],
   "navigationFallback": {
     "rewrite": "/index.html",
@@ -12,14 +33,15 @@
     "404": { "rewrite": "/index.html", "statusCode": 200 }
   },
   "globalHeaders": {
-    "Cache-Control": "public, max-age=3600, must-revalidate",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "SAMEORIGIN",
     "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'self'"
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=(), interest-cohort=()",
+    "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; connect-src 'self'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'self'; object-src 'none'"
   },
   "mimeTypes": {
     ".json": "application/json",
-    ".webmanifest": "application/manifest+json"
+    ".webmanifest": "application/manifest+json",
+    ".webp": "image/webp"
   }
 }
