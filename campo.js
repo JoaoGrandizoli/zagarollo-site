@@ -19,42 +19,66 @@
   var ctx = tela.getContext('2d');
   var reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Desenho das quatro formas, em coordenadas 0..1 ---------- */
+  /* ---------- Desenho das quatro formas, em coordenadas 0..1 ----------
+   *
+   * Cada forma é pintada em dois canais no canvas fora da tela:
+   *   vermelho = área da peça (de onde os pontos são amostrados)
+   *   verde    = os vincos — as linhas de dobra e as arestas das faces
+   * Na amostragem, um ponto que caiu em cima de verde vira "vinco" e é
+   * desenhado forte. É o que faz a caixa ler como caixa e não como mancha. */
 
-  function retangulo(c, L, T, R, B, e, ax, ay) {
+  function areaRet(c, L, T, R, B, e, ax, ay) {
     c.fillStyle = '#f00';
     c.fillRect(L * e + ax, T * e + ay, (R - L) * e, (B - T) * e);
   }
 
-  /* A folha plana, vincada: quadrado central e quatro abas. */
+  function vinco(c, e, pontos, fechar) {
+    c.strokeStyle = '#0f0';
+    c.lineWidth = Math.max(2.5, e * 0.012);
+    c.beginPath();
+    c.moveTo(pontos[0][0], pontos[0][1]);
+    for (var i = 1; i < pontos.length; i++) c.lineTo(pontos[i][0], pontos[i][1]);
+    if (fechar) c.closePath();
+    c.stroke();
+  }
+
+  /* A folha plana: quadrado central, quatro abas e as linhas de dobra. */
   function planificacao(c, e, ax, ay) {
-    retangulo(c, 0.36, 0.36, 0.64, 0.64, e, ax, ay);
-    retangulo(c, 0.12, 0.38, 0.36, 0.62, e, ax, ay);
-    retangulo(c, 0.64, 0.38, 0.88, 0.62, e, ax, ay);
-    retangulo(c, 0.38, 0.12, 0.62, 0.36, e, ax, ay);
-    retangulo(c, 0.38, 0.64, 0.62, 0.88, e, ax, ay);
-    retangulo(c, 0.44, 0.05, 0.56, 0.12, e, ax, ay);
-    retangulo(c, 0.44, 0.88, 0.56, 0.95, e, ax, ay);
+    var P = function (x, y) { return [x * e + ax, y * e + ay]; };
+
+    areaRet(c, 0.36, 0.36, 0.64, 0.64, e, ax, ay);
+    areaRet(c, 0.12, 0.38, 0.36, 0.62, e, ax, ay);
+    areaRet(c, 0.64, 0.38, 0.88, 0.62, e, ax, ay);
+    areaRet(c, 0.38, 0.12, 0.62, 0.36, e, ax, ay);
+    areaRet(c, 0.38, 0.64, 0.62, 0.88, e, ax, ay);
+    areaRet(c, 0.44, 0.05, 0.56, 0.12, e, ax, ay);
+    areaRet(c, 0.44, 0.88, 0.56, 0.95, e, ax, ay);
+
+    /* Os quatro vincos do quadrado central: é por aqui que a folha dobra. */
+    vinco(c, e, [P(0.36, 0.36), P(0.64, 0.36), P(0.64, 0.64), P(0.36, 0.64)], true);
   }
 
   /* A mesma folha, montada: caixa em perspectiva isométrica. */
   function caixa(c, e, ax, ay) {
     var P = function (x, y) { return [x * e + ax, y * e + ay]; };
 
-    var faces = [
-      [P(0.50, 0.20), P(0.84, 0.38), P(0.50, 0.56), P(0.16, 0.38)],
-      [P(0.16, 0.38), P(0.50, 0.56), P(0.50, 0.84), P(0.16, 0.66)],
-      [P(0.50, 0.56), P(0.84, 0.38), P(0.84, 0.66), P(0.50, 0.84)]
-    ];
+    var topo = [P(0.50, 0.20), P(0.84, 0.38), P(0.50, 0.56), P(0.16, 0.38)];
+    var esq  = [P(0.16, 0.38), P(0.50, 0.56), P(0.50, 0.84), P(0.16, 0.66)];
+    var dir  = [P(0.50, 0.56), P(0.84, 0.38), P(0.84, 0.66), P(0.50, 0.84)];
 
     c.fillStyle = '#f00';
-    faces.forEach(function (face) {
+    [topo, esq, dir].forEach(function (face) {
       c.beginPath();
       c.moveTo(face[0][0], face[0][1]);
       for (var i = 1; i < face.length; i++) c.lineTo(face[i][0], face[i][1]);
       c.closePath();
       c.fill();
     });
+
+    /* As arestas das três faces — sem elas o cubo vira um hexágono cheio. */
+    vinco(c, e, topo, true);
+    vinco(c, e, [P(0.50, 0.56), P(0.50, 0.84)], false);
+    vinco(c, e, [P(0.16, 0.38), P(0.16, 0.66), P(0.50, 0.84), P(0.84, 0.66), P(0.84, 0.38)], false);
   }
 
   /* A sacola: corpo trapezoidal, banda da dobra e alça torcida. */
@@ -69,13 +93,18 @@
     c.closePath();
     c.fill();
 
-    /* A alça é traço, não área — por isso vai desenhada com stroke. */
-    c.strokeStyle = '#f00';
-    c.lineWidth = Math.max(3, e * 0.028);
+    vinco(c, e, corpo, true);
+    vinco(c, e, [P(0.25, 0.42), P(0.75, 0.42)], false);   /* a dobra da boca */
+    vinco(c, e, [P(0.37, 0.33), P(0.37, 0.88)], false);   /* o fole lateral */
+    vinco(c, e, [P(0.63, 0.33), P(0.63, 0.88)], false);
+
+    /* A alça é traço, não área: entra nos dois canais para render pontos. */
+    c.lineWidth = Math.max(3, e * 0.03);
     c.beginPath();
     c.moveTo(0.38 * e + ax, 0.33 * e + ay);
-    c.bezierCurveTo(0.38 * e + ax, 0.13 * e + ay, 0.62 * e + ax, 0.13 * e + ay, 0.62 * e + ax, 0.33 * e + ay);
-    c.stroke();
+    c.bezierCurveTo(0.38 * e + ax, 0.12 * e + ay, 0.62 * e + ax, 0.12 * e + ay, 0.62 * e + ax, 0.33 * e + ay);
+    c.strokeStyle = '#f00'; c.stroke();
+    c.strokeStyle = '#0f0'; c.lineWidth = Math.max(2, e * 0.014); c.stroke();
   }
 
   /* O coração. Aparece por dois segundos e some. */
@@ -83,17 +112,26 @@
     var X = function (v) { return v * e + ax; };
     var Y = function (v) { return v * e + ay; };
 
+    var traca = function () {
+      c.beginPath();
+      c.moveTo(X(0.50), Y(0.82));
+      c.bezierCurveTo(X(0.50), Y(0.82), X(0.11), Y(0.56), X(0.11), Y(0.36));
+      c.bezierCurveTo(X(0.11), Y(0.21), X(0.24), Y(0.15), X(0.33), Y(0.15));
+      c.bezierCurveTo(X(0.42), Y(0.15), X(0.48), Y(0.22), X(0.50), Y(0.27));
+      c.bezierCurveTo(X(0.52), Y(0.22), X(0.58), Y(0.15), X(0.67), Y(0.15));
+      c.bezierCurveTo(X(0.76), Y(0.15), X(0.89), Y(0.21), X(0.89), Y(0.36));
+      c.bezierCurveTo(X(0.89), Y(0.56), X(0.50), Y(0.82), X(0.50), Y(0.82));
+      c.closePath();
+    };
+
     c.fillStyle = '#f00';
-    c.beginPath();
-    c.moveTo(X(0.50), Y(0.82));
-    c.bezierCurveTo(X(0.50), Y(0.82), X(0.11), Y(0.56), X(0.11), Y(0.36));
-    c.bezierCurveTo(X(0.11), Y(0.21), X(0.24), Y(0.15), X(0.33), Y(0.15));
-    c.bezierCurveTo(X(0.42), Y(0.15), X(0.48), Y(0.22), X(0.50), Y(0.27));
-    c.bezierCurveTo(X(0.52), Y(0.22), X(0.58), Y(0.15), X(0.67), Y(0.15));
-    c.bezierCurveTo(X(0.76), Y(0.15), X(0.89), Y(0.21), X(0.89), Y(0.36));
-    c.bezierCurveTo(X(0.89), Y(0.56), X(0.50), Y(0.82), X(0.50), Y(0.82));
-    c.closePath();
+    traca();
     c.fill();
+
+    c.strokeStyle = '#0f0';
+    c.lineWidth = Math.max(2.5, e * 0.012);
+    traca();
+    c.stroke();
   }
 
   var FORMAS = [planificacao, caixa, sacola, coracao];
@@ -162,9 +200,15 @@
 
     var img = oc.getImageData(0, 0, fora.width, fora.height).data;
 
+    var pix = function (x, y) {
+      if (x < 0 || y < 0 || x >= fora.width || y >= fora.height) return null;
+      var i = (Math.floor(y) * fora.width + Math.floor(x)) * 4;
+      return { r: img[i], g: img[i + 1] };
+    };
+
     var dentro = function (x, y) {
-      if (x < 0 || y < 0 || x >= fora.width || y >= fora.height) return false;
-      return img[(Math.floor(y) * fora.width + Math.floor(x)) * 4] > 0;
+      var p = pix(x, y);
+      return !!p && (p.r > 0 || p.g > 0);
     };
 
     var lista = [];
@@ -173,12 +217,20 @@
         /* O tremor tira o ar de papel quadriculado da grade regular. */
         var jx = x + (Math.random() - 0.5) * passo * 0.55;
         var jy = y + (Math.random() - 0.5) * passo * 0.55;
-        if (!dentro(jx, jy)) continue;
 
-        var borda = !dentro(jx - passo, jy) || !dentro(jx + passo, jy) ||
-                    !dentro(jx, jy - passo) || !dentro(jx, jy + passo);
+        var p = pix(jx, jy);
+        if (!p || (!p.r && !p.g)) continue;
 
-        lista.push({ x: jx, y: jy, borda: borda });
+        var contorno = !dentro(jx - passo, jy) || !dentro(jx + passo, jy) ||
+                       !dentro(jx, jy - passo) || !dentro(jx, jy + passo);
+
+        /* Vinco = linha de dobra (canal verde) ou silhueta da peça. */
+        var ehVinco = p.g > 0 || contorno;
+
+        /* O miolo entra rareado: cheio demais vira mancha e some a estrutura. */
+        if (!ehVinco && Math.random() > 0.42) continue;
+
+        lista.push({ x: jx, y: jy, borda: ehVinco });
       }
     }
     return lista;
