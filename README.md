@@ -11,10 +11,35 @@ que a pessoa toca antes de chegar no que está dentro dela.
 
 ## Páginas
 
-| Arquivo | Conteúdo |
+| Rota | Conteúdo |
 | --- | --- |
-| `index.html` | Capa, os três usos da embalagem, as duas famílias de produto, a empresa, orçamento e contato |
-| `produtos.html` | Catálogo dos 29 modelos com filtro por categoria, e as opções de acabamento |
+| `/` | Capa com a animação, os três usos da embalagem, as três famílias, a empresa e o manifesto |
+| `/produtos` | Os 29 modelos com foto e a tabela de medidas de cada referência (192 no total) |
+| `/personalizacao` | As 6 famílias de acabamento das caixas e as 11 cores das sacolas |
+| `/representantes` | 61 representantes em 27 estados, com filtro por UF |
+| `/empresa` | Quem somos, missão, visão e valores |
+| `/contato` | Telefones, endereço, link do mapa e pedido de orçamento |
+| `/404` | Página de erro com os caminhos do site |
+
+Cada rota é um fragmento em `paginas/`, com um cabeçalho JSON no topo, montado
+sobre `modelo.html` na compilação. O cabeçalho e o rodapé existem uma vez só.
+
+## De onde vem o conteúdo
+
+Tudo o que o site afirma sobre a empresa vem do material publicado por ela.
+Duas fontes viraram dados estruturados em `dados/`:
+
+- **`produtos.json`** — as medidas dos 29 modelos foram **transcritas das fichas
+  técnicas** que a fábrica publica em `zagarollo.com.br/imagens/caixas-flexiveis/`.
+  Elas existiam só dentro de imagens, ilegíveis para busca e para leitor de tela.
+  Nenhuma medida é estimada.
+- **`representantes.json`** — a lista de `/representantes` do site original.
+
+⚠️ **Ao escrever qualquer texto novo:** se a frase afirma um fato sobre a
+empresa (material, certificação, processo, história), ela precisa ter fonte no
+material da própria Zagarollo. Uma versão anterior deste site trazia "100% papel
+reciclável" e "papel próprio para alimento" — as duas inventadas, a segunda é
+afirmação regulatória. Na dúvida, escreva a pergunta em vez da afirmação.
 
 ## A animação da capa
 
@@ -69,14 +94,25 @@ python3 -c "import hashlib,base64; s=\"document.documentElement.classList.add('j
 
 ## Desempenho
 
-Lighthouse em emulação de celular com rede 4G lenta:
+Lighthouse em emulação de celular com rede 4G lenta, nas cinco páginas públicas:
+**100 em desempenho, 100 em acessibilidade e 100 em boas práticas**. LCP entre
+0,9 s e 1,1 s, bloqueio da thread principal em 0 ms, nenhum deslocamento de layout.
 
-| Página | Desempenho | Acessibilidade | Boas práticas | SEO |
-| --- | --- | --- | --- | --- |
-| `/` | 100 | 100 | 100 | 100 |
-| `/produtos` | 96 | 100 | 100 | 100 |
+O SEO fica em 69 **de propósito**: a única auditoria que falha é `is-crawlable`,
+porque o `robots.txt` bloqueia a indexação enquanto o site não está no domínio
+real (ver "Indexação" abaixo). Publicando com `SITE_URL` definido, vai a 100.
 
-LCP de 0,9 s, bloqueio da thread principal em 0 ms, nenhum deslocamento de layout.
+### Indexação
+
+`build.mjs` gera um `robots.txt` que **proíbe indexação** sempre que `SITE_URL`
+não for `https://www.zagarollo.com.br`. Dois motivos:
+
+1. Um segundo site indexado com o mesmo conteúdo competiria com o oficial.
+2. A página de representantes publica nome, celular e e-mail de 61 pessoas.
+   Esses dados são públicos no site da empresa; criar uma segunda cópia
+   indexável num domínio que a empresa não controla, não.
+
+Para publicar de verdade: `SITE_URL=https://www.zagarollo.com.br npm run build`.
 
 Três decisões carregam a maior parte disso:
 
