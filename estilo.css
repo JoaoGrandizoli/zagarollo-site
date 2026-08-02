@@ -127,7 +127,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 .marca-nome { font-weight: 700; font-size: 1.15rem; letter-spacing: -.02em; line-height: 1.1; }
 .marca-sub { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-suave); }
 
-.menu { display: flex; align-items: center; gap: 30px; }
+.menu { display: flex; align-items: center; gap: 26px; }
+
+/* Itens do menu nunca encolhem abaixo do próprio texto. */
+.menu > * { flex: none; }
 
 .menu a {
   text-decoration: none;
