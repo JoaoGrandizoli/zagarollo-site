@@ -712,7 +712,9 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   .secao { padding: 64px 0; }
   .capa { padding: 64px 0 72px; }
   .capa .container, .sobre, .orcamento, .familias { grid-template-columns: 1fr; gap: 36px; }
-  .capa-campo { order: -1; max-width: 380px; }
+  /* No celular o campo vem DEPOIS do texto: acima dele, empurrava a manchete
+     para fora da primeira tela. */
+  .capa-campo { max-width: 340px; }
   .conceito-grade { grid-template-columns: 1fr; }
   .numeros .container { grid-template-columns: 1fr 1fr; gap: 28px 16px; }
   .rodape-grade { grid-template-columns: 1fr; gap: 34px; }
