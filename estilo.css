@@ -144,6 +144,16 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 
 .menu a:hover, .menu a[aria-current="page"] { color: var(--azul); border-bottom-color: var(--verde); }
 
+/* O CTA do menu é botão, não link de navegação: `.menu a` é mais específico
+   que `.botao--principal` e sobrescreveria cor, padding e borda. */
+.menu a.botao {
+  padding: 12px 24px;
+  border-bottom: 1.5px solid transparent;
+}
+
+.menu a.botao--principal { color: var(--branco); }
+.menu a.botao--principal:hover { color: var(--branco); border-bottom-color: transparent; }
+
 .menu-botao {
   display: none;
   background: none;
