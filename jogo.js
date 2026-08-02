@@ -125,7 +125,7 @@
     obstaculos = [];
     itens = [];
     chaoDeslize = 0;
-    velocidade = 5.4;
+    velocidade = 6.3;
     pontos = 0;
     distancia = 0;
     piscar = 0;
@@ -144,13 +144,14 @@
   function nasce() {
     var ultimoX = 0;
     obstaculos.concat(itens).forEach(function (o) { if (o.x > ultimoX) ultimoX = o.x; });
-    if (ultimoX > L - 210) return;
+    if (ultimoX > L - 290) return;
 
     if (Math.random() < 0.62) {
       var eGota = Math.random() < 0.5;
+      /* y é a BASE menos a altura: o obstáculo apoia no chão, não afunda nele. */
       obstaculos.push(eGota
-        ? { tipo: 'gota', x: L + 40, y: CHAO - 16, w: 26, h: 46 }
-        : { tipo: 'tesoura', x: L + 40, y: CHAO - 22, w: 40, h: 48 });
+        ? { tipo: 'gota', x: L + 40, y: CHAO - 46, w: 30, h: 46 }
+        : { tipo: 'tesoura', x: L + 40, y: CHAO - 48, w: 42, h: 48 });
     } else {
       itens.push({ x: L + 40, y: CHAO - 96 - Math.random() * 52, w: 24, h: 30, giro: 0 });
     }
@@ -188,11 +189,11 @@
     var dt = Math.min(2.6, (agora - ultimo) / 16.667);
     ultimo = agora;
 
-    velocidade = Math.min(11.4, velocidade + 0.0022 * dt);
+    velocidade = Math.min(12.2, velocidade + 0.0026 * dt);
     chaoDeslize += velocidade * dt;
     distancia += velocidade * dt;
     /* Distância rende devagar; a sacola recolhida é que faz o placar andar. */
-    pontos = distancia / 24 + bonus;
+    pontos = distancia / 15 + bonus;
 
     heroi.vy += GRAVIDADE * dt;
     heroi.y += heroi.vy * dt;
@@ -239,8 +240,8 @@
     });
 
     obstaculos.forEach(function (o) {
-      if (o.tipo === 'gota') gota(o.x + o.w / 2, o.y + o.h * 0.55, 13);
-      else tesoura(o.x + o.w / 2, o.y + o.h * 0.5, 24);
+      if (o.tipo === 'gota') gota(o.x + o.w / 2, o.y + o.h * 0.68, 17);
+      else tesoura(o.x + o.w / 2, o.y + o.h * 0.46, 23);
     });
 
     ctx.save();
