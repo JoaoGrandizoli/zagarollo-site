@@ -2,7 +2,34 @@
   "trailingSlash": "auto",
   "routes": [
     { "route": "/produtos", "rewrite": "/produtos.html" },
+    { "route": "/personalizacao", "rewrite": "/personalizacao.html" },
+    { "route": "/representantes", "rewrite": "/representantes.html" },
+    { "route": "/empresa", "rewrite": "/empresa.html" },
+    { "route": "/contato", "rewrite": "/contato.html" },
+
     { "route": "/index.html", "redirect": "/", "statusCode": 301 },
+    { "route": "/produtos.html", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/personalizacao.html", "redirect": "/personalizacao", "statusCode": 301 },
+    { "route": "/representantes.html", "redirect": "/representantes", "statusCode": 301 },
+    { "route": "/empresa.html", "redirect": "/empresa", "statusCode": 301 },
+    { "route": "/contato.html", "redirect": "/contato", "statusCode": 301 },
+
+    { "route": "/quem-somos", "redirect": "/empresa", "statusCode": 301 },
+    { "route": "/fale-conosco", "redirect": "/contato", "statusCode": 301 },
+    { "route": "/informacoes", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/promocoes", "redirect": "/", "statusCode": 301 },
+    { "route": "/mapa-site", "redirect": "/", "statusCode": 301 },
+    { "route": "/caixa-flexivel", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/caixas-flexiveis", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/sacolas", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/sacos", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/kit-*", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/sacola-*", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/sacolas-*", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/fabrica-*", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/embalagem-*", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/embalagens-*", "redirect": "/produtos", "statusCode": 301 },
+    { "route": "/distribuidor-*", "redirect": "/produtos", "statusCode": 301 },
 
     {
       "route": "/imagens/*",
@@ -25,19 +52,15 @@
       "headers": { "Cache-Control": "public, max-age=0, must-revalidate" }
     }
   ],
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/imagens/*", "/*.css", "/*.js", "/*.json", "/*.xml", "/*.txt"]
-  },
   "responseOverrides": {
-    "404": { "rewrite": "/index.html", "statusCode": 200 }
+    "404": { "rewrite": "/404.html" }
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "SAMEORIGIN",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": "geolocation=(), microphone=(), camera=(), interest-cohort=()",
-    "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; connect-src 'self'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'self'; object-src 'none'"
+    "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-r9fhPO6iFo9dtwbrvSe56ziQrVtkPyIU1QfApOLgSzc='; connect-src 'self'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'self'; object-src 'none'"
   },
   "mimeTypes": {
     ".json": "application/json",

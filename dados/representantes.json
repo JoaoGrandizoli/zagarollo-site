@@ -1,0 +1,653 @@
+[
+ {
+  "sigla": "AC",
+  "uf": "Acre",
+  "representantes": [
+   {
+    "nome": "Márcio José Nobre da Silva",
+    "telefones": [
+     "(68)99988-3251"
+    ],
+    "email": "marciomsrepresentacoes@gmail.com",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "AL",
+  "uf": "Alagoas",
+  "representantes": [
+   {
+    "nome": "Flávio Monteiro",
+    "telefones": [
+     "(82) 99329-5711 e (82) 99949-2565"
+    ],
+    "email": "flavio@lucmar.com.br",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "AP",
+  "uf": "Amapá",
+  "representantes": [
+   {
+    "nome": "Luiz Carlos da Silva Paiva",
+    "telefones": [
+     "(96) 98120-1611"
+    ],
+    "email": "lupa2015.paiva@gmail.com",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "AM",
+  "uf": "Amazonas",
+  "representantes": [
+   {
+    "nome": "Elizeu Rodrigues",
+    "telefones": [
+     "(92)3651-8275 e (92)99112-5584"
+    ],
+    "email": "elizeu.am@uol.com.br",
+    "area": "Manaus e Região"
+   },
+   {
+    "nome": "Abimael Alves Moreira",
+    "telefones": [
+     "(69)3227-3879, (69)99224-6649 e (69)99958-9088"
+    ],
+    "email": "moreira.pvh.moreira@gmail.com",
+    "area": "Humaitá"
+   }
+  ]
+ },
+ {
+  "sigla": "BA",
+  "uf": "Bahia",
+  "representantes": [
+   {
+    "nome": "Edísio Ferreira Silva",
+    "telefones": [
+     "(73) 3613-1440, (73) 3026-0800 e (73) 98815-3275"
+    ],
+    "email": "edisiorepresentante@gmail.com",
+    "area": "Todo o Estado"
+   },
+   {
+    "nome": "Joaquim Celmo da Costa",
+    "telefones": [
+     "(88) 98886-0003 e (88) 99686-2799"
+    ],
+    "email": "joaquimcelmo@yahoo.com",
+    "area": "Juazeiro"
+   },
+   {
+    "nome": "Erasmo Barbosa e Silva",
+    "telefones": [
+     "77 98880-0816",
+     "77 98869-8589"
+    ],
+    "email": "erasmobarbosa73@gmail.com",
+    "area": "Barreiras, Bom Jesus da Lapa, Brumado, Caetité, Guanambi, Itapetinga, Livramento de Nossa Senhora, Luís Eduardo Magalhães, Macaúbas, Poções, Riacho de Santana Santa Maria da Vitória e Vitória da Conquista"
+   }
+  ]
+ },
+ {
+  "sigla": "CE",
+  "uf": "Ceará",
+  "representantes": [
+   {
+    "nome": "Suely Barbosa de Sousa",
+    "telefones": [
+     "(85) 99917-1098"
+    ],
+    "email": "gmr.rep@hotmail.com",
+    "area": "Aquiraz, Baturité, Beberibe, Canindé, Cascavel, Caucaia, Eusébio, Fortaleza, Horizonte, Itaitinga, Itapajé, Maracanaú, Maranguape, Pacajus, Pacatuba, Pentecoste, São Gonçalo do Amarante, Trairi e Limoeiro do Norte"
+   },
+   {
+    "nome": "Joaquim Celmo da Costa",
+    "telefones": [
+     "(88) 98886-0003 e (88) 99686-2799"
+    ],
+    "email": "joaquimcelmo@yahoo.com",
+    "area": "Acaraú, Acopiara, Amontada, Aracati, Barbalha, Boa Viagem, Brejo Santo, Camocim, Crateús, Crato, Granja, Guaraciaba do Norte, Icó, Iguatu, Ipu, Ipueiras, Itapipoca, Itarema, Jaguaribe, Juazeiro do Norte, Massapê, Mauriti, Missão Velha, Mombaça, Morada Nova, Pedra Branca, Quixadá, Quixeramobim, Russas, Santa Quitéria, São Benedito, Sobral, Tauá, Tianguá, Várzea Alegre e Viçosa do Ceará"
+   }
+  ]
+ },
+ {
+  "sigla": "DF",
+  "uf": "Distrito Federal",
+  "representantes": [
+   {
+    "nome": "Cléo Fernando",
+    "telefones": [
+     "(61) 98642-0017"
+    ],
+    "email": "cl.fernando@bol.com.br",
+    "area": "Brasília"
+   }
+  ]
+ },
+ {
+  "sigla": "ES",
+  "uf": "Espírito Santo",
+  "representantes": [
+   {
+    "nome": "WELLINGTON GONCALVES LOPES",
+    "telefones": [
+     "(28) 3511-6643 e (28) 99972-2544"
+    ],
+    "email": "wellington3995@gmail.com",
+    "area": "Cachoeiro de Itapemirim, Castelo, Marataízes, Alegre e Itapemirim."
+   },
+   {
+    "nome": "HELCIO SIQUEIRA",
+    "telefones": [
+     "(33) 3278-4535 e (35) 98704-4052"
+    ],
+    "email": "hvs.representacao@gmail.com",
+    "area": "Barra de São Francisco, Conceição da Barra, Colatina, Domingos Martins, Marechal Floriano, Novo Venécia e São Gabriel da Palha."
+   },
+   {
+    "nome": "Helder",
+    "telefones": [
+     "(27)3322-7054 e (27)99983-0418"
+    ],
+    "email": "helder.saoroque@gmail.com",
+    "area": "Aracruz, Cariacica, Linhares, Santa Maria de Jetibá, São Mateus, Serra, Viana, Vila Velha, Vitória e Guarapari"
+   }
+  ]
+ },
+ {
+  "sigla": "GO",
+  "uf": "Goiás",
+  "representantes": [
+   {
+    "nome": "William Pereira",
+    "telefones": [
+     "(62)3095-3504 e (62)8401-3504"
+    ],
+    "email": "gade.repre@gmail.com",
+    "area": "Anápolis, Aparecida de Goiânia, Bela Vista de Goiás, Goiânia, Inhumas, Nerópolis, Senador Canedo, Trindade, Caldas Novas, Catalão, Goiatuba, Itumbiara, Jataí, Mineiros, Morrinhos, Rio Verde e Santa Helena de Goiás"
+   },
+   {
+    "nome": "Cléo Fernando",
+    "telefones": [
+     "(61) 98642-0017"
+    ],
+    "email": "cl.fernando@bol.com.br",
+    "area": "Anicuns, Bom Jesus de Goiás, Iporá, Palmeiras de Goiás, Pires do Rio, Quirinópolis, São Luís de Montes Belos, Goianésia, Itaberaí, Itapuranga, Jaraguá, Minaçu, Niquelândia, Pirenópolis, Porangatu, Posse e Uruaçu."
+   }
+  ]
+ },
+ {
+  "sigla": "MA",
+  "uf": "Maranhão",
+  "representantes": [
+   {
+    "nome": "José de Ribamar Costa Rabelo",
+    "telefones": [
+     "(98)3244-2502, (98)98145-9688, (98)98871-3448 e (98)99107-0172"
+    ],
+    "email": "ribamarpersona@yahoo.com.br",
+    "area": "Bom Jardim, Chapadinha, Itapecuru-Mirim, Paço do Lumiar, Pinheiro, Santa Inês, Santa Rita, São José de Ribamar, São Luís, Zé Doca, Bacabal, Caxias, Codó e Presidente Dutra"
+   },
+   {
+    "nome": "Telemarketing",
+    "telefones": [
+     "(19) 99291-0497"
+    ],
+    "email": "telemarketing@zagarollo.com.br",
+    "area": "Açailândia, Estreito, Imperatriz e Porto Franco"
+   }
+  ]
+ },
+ {
+  "sigla": "MT",
+  "uf": "Mato Grosso",
+  "representantes": [
+   {
+    "nome": "Helimar Lopes Parron",
+    "telefones": [
+     "(65)2129-3164 e (65)99972-7476"
+    ],
+    "email": "helimarlopes@gmail.com",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "MS",
+  "uf": "Mato Grosso do Sul",
+  "representantes": [
+   {
+    "nome": "Mapa Representações (Thiago)",
+    "telefones": [
+     "(64) 3453-4583 e (61) 98103-7032"
+    ],
+    "email": "comercial@maparepresentacao.com",
+    "area": "Todo Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "MG",
+  "uf": "Minas Gerais",
+  "representantes": [
+   {
+    "nome": "Dora Siqueira",
+    "telefones": [
+     "(35) 98875-3160"
+    ],
+    "email": "dorasiq21@gmail.com",
+    "area": "Areado; Borda da Mata; Botelhos; Guaranésia; Jacutinga; Lambari; Machado; Monte Verde; Ouro Fino; Camanducaia; Cambuí; Cruzília; Campanha; Conceição do Rio Verde; Coqueiral; Itamonte; Maria da Fé; Paraguaçu; Perdões; Poço Fundo; Senador Amaral."
+   },
+   {
+    "nome": "Antônio Carlos",
+    "telefones": [
+     "(31)3035-9535, (31)3043-8558 e (31)9209-4090"
+    ],
+    "email": "papelmais.rep@gmail.com",
+    "area": "Belo Horizonte e grande BH, Contagem, Betim, Lagoa Santa, Sete Lagoas Curvelo. Ouro Preto. Ponte Nova, Itabira, Cel. Fabriciano, Ipatinga, Viçosa Luz, Nova Serrana, Lagoa da Prata, Divinópolis, Itaúna, Para de Minas, Oliveira, Campo Belo, Arcos, Barbacena, São João Del Rei, Lavras, Conselheiro Lafaiete e Ouro Branco"
+   },
+   {
+    "nome": "Marco Aurélio",
+    "telefones": [
+     "(35)99880-2427"
+    ],
+    "email": "famarepresentacoesmg@hotmail.com",
+    "area": "São Sebastião do Paraíso, Passos, Campo Belo, Formiga, Arcos, Lavras, Poços de Caldas, Varginha, Alfenas, Muzambinho, Guaxupé, Monte Santo de Minas, Itajubá, São Lourenço, Baependi, Boa Esperança, Perdões, Ilicínea, Alpinópolis, Carmo do Rio Claro, Pouso Alegre, Santa Rita do Sapucaí, Andradas, Elói Mendes, Três Corações, Três Pontas, Lambari, Maria da Fé e Caxambu."
+   },
+   {
+    "nome": "Zanata Representações (Leandro, Liomar e Ozilda)",
+    "telefones": [
+     "(34) 3231-2131 e (34) 999205-1115"
+    ],
+    "email": "leandro@zanatarepresentacoes.com.br",
+    "area": "Araguari, Araxá, Buritis, Canapolis, Capinópolis, Carmo do Paranaiba, Centralina, Coromandel, Ituiutaba, João Pinheiro, Monte Carmelo, Paracatu, Patos de Minas, Patrocínio, Perdizes, Prata, Monte de Alegre de Minas, Sacramento, Santa Vitória, São Gotardo, Tupaciguara, Uberaba, Uberlândia e Unaí"
+   },
+   {
+    "nome": "HELCIO SIQUEIRA",
+    "telefones": [
+     "(33) 3278-4535 e (35) 98704-4052"
+    ],
+    "email": "hvs.representacao@gmail.com",
+    "area": "Almenara, Araçuaí, Capelinha, Caratinga, Governador Valadares, Malacacheta, Manhuaçu, Nanuque e Teófilo Otoni."
+   },
+   {
+    "nome": "José Maria Carlos de Faria",
+    "telefones": [
+     "(32) 99183-8750"
+    ],
+    "email": "jjplasrepresentacoes@gmail.com",
+    "area": "Alto Rio Doce, Barbacena, Carangola, Cataguases, Lagoa Dourada, Muriaé, Prados, Santos Dumont, São João Del Rei, Tiradentes, Ubá, Visconde do Rio Branco."
+   },
+   {
+    "nome": "Walter Silva de Oliveira",
+    "telefones": [
+     "(38) 99865-8087"
+    ],
+    "email": "wsowalterdeoliveira@gmail.com",
+    "area": "Bocaiúva, Corinto, Diamantina, Jaíba, Janaúba, Januária, Montes Claros, Pirapora, Porteirinha, Salinas, São Francisco, Taiobeiras, Várzea da Palma."
+   }
+  ]
+ },
+ {
+  "sigla": "PA",
+  "uf": "Pará",
+  "representantes": [
+   {
+    "nome": "Michel de Oliveira Kzam",
+    "telefones": [
+     "(91) 98831-5062"
+    ],
+    "email": "michel@kzan.com.br",
+    "area": "Abaetetuba, Ananindeua, Barcarena, Belém, Benevides, Bragança, Cametá, Capanema, Capitão Poço, Castanhal, Marituba e Paragominas"
+   },
+   {
+    "nome": "ERICK SANDRO MARRUAZ DA SILVA",
+    "telefones": [
+     "(91) 3236-0847 e (91) 99347-2413"
+    ],
+    "email": "marruazerick@gmail.com",
+    "area": "Alenquer, Altamira, Breu Branco, Canaã dos Carajás, Conceição do Araguaia, Dom Eliseu, Eldorado dos Carajás, Goianésia do Pará, Itaituba, Itupiranga, Jacareacanga, Jacundá, Juruti, Marabá, Monte Alegre, Novo Repartimento, Óbidos, Oriximiná, Parauapebas, Porto de Moz, Redenção, Rondon do Pará, Rurópolis, Santana do Araguaia, Santarém, São Félix do Xingu, Tucumã, Tucuruí, Uruará e Xinguara."
+   }
+  ]
+ },
+ {
+  "sigla": "PB",
+  "uf": "Paraíba",
+  "representantes": [
+   {
+    "nome": "Vawbert Cordeiro Costa",
+    "telefones": [
+     "(83)99978-8071, (83)98723-5550"
+    ],
+    "email": "cordeirorepres@bol.com.br",
+    "area": "Todo o Estado"
+   },
+   {
+    "nome": "SERGIO BRAZ CAVALCANTI SILVA",
+    "telefones": [
+     "(83) 99863-2667"
+    ],
+    "email": "sergio_cavalcanti02@hotmail.com",
+    "area": "Todo o Estado."
+   }
+  ]
+ },
+ {
+  "sigla": "PR",
+  "uf": "Paraná",
+  "representantes": [
+   {
+    "nome": "CARLOS EDUARDO HAMILKO",
+    "telefones": [
+     "(41) 99883-2617"
+    ],
+    "email": "eliscj@terra.com.br",
+    "area": "Almirante Tamandaré, Araucária, Campina Grande do Sul, Campo Largo, Colombo, Curitiba, Fazenda Rio Grande, Francisco Beltrão, Guaratuba, Lapa, Palmas, Paranaguá, Pato Branco, Pinhais, Piraquara e Quedas do Iguaçu."
+   },
+   {
+    "nome": "Jorge Dalla Costa",
+    "telefones": [
+     "(45)3227-9179 e (45)99974-5500"
+    ],
+    "email": "jorgerepcomerciais@gmail.com",
+    "area": "Cascavel, Toledo, Foz do Iguaçu, Medianeira, Céu Azul, Matelândia, São Miguel do Iguaçu, Santa Terezinha do Itaipu e Marechal Cândido Rondon"
+   },
+   {
+    "nome": "Claosny Zotto",
+    "telefones": [
+     "(43) 9986-1775"
+    ],
+    "email": "claosny@gmail.com",
+    "area": "Londrina, Região de Londrina e Maringá e Região"
+   },
+   {
+    "nome": "Fernando José Peres Martins",
+    "telefones": [
+     "(42) 3304-6258 e (42) 9925-9921"
+    ],
+    "email": "Castro, Guarapuava, Irati, Pitanga, Ponta Grossa, Prudentópolis, São Mateus do Sul, União da Vitória, Pinhão, Reserva, Palmital, Candói, Cantagalo, Turvo, Boa Ventura de São Roque, Foz do Jordão, Santa Maria do Oeste, Marquinho, Rio Bonito do Iguaçu, Goioxim, Campina do Simão, Virmond, Guamiranga, Imbituva, Ivaí, Rebouças, Rio Azul, Mallet, Paulo Frontin, Paula Freitas, Carambeí, General Carneiro, Bituruna, Tibagi, Laranjeiras do Sul e Nova Laranjeiras",
+    "area": ""
+   },
+   {
+    "nome": "Meire Galvani Cardoso",
+    "telefones": [
+     "(47)99972-9294 e (47)99242-4242"
+    ],
+    "email": "meiregalvani@terra.com.br",
+    "area": "Almirante Tamandaré, Araucária, Campina Grande do Sul, Campo Largo, Colombo, Curitiba, Fazenda Rio Grande, Guaratuba, Lapa, Paranaguá, Pinhais e Piraquara."
+   }
+  ]
+ },
+ {
+  "sigla": "PE",
+  "uf": "Pernambuco",
+  "representantes": [
+   {
+    "nome": "Michele Marinho Silva",
+    "telefones": [
+     "(81) 99707-0128"
+    ],
+    "email": "michele.representacao@gmail.com",
+    "area": "Surubim, Limoeiro, Vitória de Santo Antão, Gravata, Bezerros, Caruaru, Santa Cruz, Garanhuns, Arco Verde, Serra Talhada, Belo Jardim, Barreiros, Palmares, Timbauba, Abreu e Lima, Goiana e Carpina"
+   },
+   {
+    "nome": "José Heriberto",
+    "telefones": [
+     "(81) 99766-8080"
+    ],
+    "email": "heribertoqueiroz@hotmail.com",
+    "area": "Surubim, Limoeiro, Vitória de Santo Antão, Gravata, Bezerros, Caruaru, Santa Cruz, Garanhuns, Arco Verde, Serra Talhada, Belo Jardim, Barreiros, Palmares, Timbauba, Abreu e Lima, Goiana e Carpina."
+   },
+   {
+    "nome": "Joaquim Celmo da Costa",
+    "telefones": [
+     "(88) 98886-0003 e (88) 99686-2799"
+    ],
+    "email": "joaquimcelmo@yahoo.com",
+    "area": "Araripina, Bodocó, Cabrobó, Ouricuri, Petrolina, Salgueiro, Santa Maria da Boa Vista, Serra Talhada e Exú"
+   },
+   {
+    "nome": "Maria Catarina de Lemos Silva",
+    "telefones": [
+     "(81) 99866-0735"
+    ],
+    "email": "mcatarinarepresentacoes@gmail.com",
+    "area": ""
+   }
+  ]
+ },
+ {
+  "sigla": "PI",
+  "uf": "Piauí",
+  "representantes": [
+   {
+    "nome": "Airton José de Sá Castro",
+    "telefones": [
+     "(86)3233-5908 e (86)99924-4485"
+    ],
+    "email": "sacastro@oi.com.br",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "RJ",
+  "uf": "Rio de Janeiro",
+  "representantes": [
+   {
+    "nome": "R4 Embalagens",
+    "telefones": [
+     "(21)2221-8722, (21)2256-3197"
+    ],
+    "email": "comercial@4embalagens.com.br, r4embalagens@gmail.com",
+    "area": "Cidade do Rio de Janeiro"
+   }
+  ]
+ },
+ {
+  "sigla": "RN",
+  "uf": "Rio Grande do Norte",
+  "representantes": [
+   {
+    "nome": "Alexandre Rodrigues (AE Representações)",
+    "telefones": [
+     "(84) 99402-7425"
+    ],
+    "email": "aeerepresentacoes@hotmail.com",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "RS",
+  "uf": "Rio Grande do Sul",
+  "representantes": [
+   {
+    "nome": "Luiz Aloani",
+    "telefones": [
+     "(51)3031-1006 e (51)9979-0214"
+    ],
+    "email": "aloaloani@aloaloani.com.br, comercial6@aloaloani.com.br",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "RO",
+  "uf": "Rondônia",
+  "representantes": [
+   {
+    "nome": "Abimael Alves Moreira",
+    "telefones": [
+     "(69)3227-3879, (69)99264-6649 e (68)99958-9088"
+    ],
+    "email": "moreira.pvh.moreira@gmail.com",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "RR",
+  "uf": "Roraima",
+  "representantes": [
+   {
+    "nome": "Elizeu Rodrigues",
+    "telefones": [
+     "(92)3651-8275 e (92)99112-5584"
+    ],
+    "email": "elizeu.am@uol.com.br",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "SC",
+  "uf": "Santa Catarina",
+  "representantes": [
+   {
+    "nome": "Valdir Evaristo",
+    "telefones": [
+     "(47)3328-2701, (47)9193-5369 e(47)9102-4100"
+    ],
+    "email": "valmarbnu@gmail.com",
+    "area": "Florianópolis e Região"
+   },
+   {
+    "nome": "Paulo Henrique Mendes",
+    "telefones": [
+     "(49)3025-0669 e (49)98428-1439"
+    ],
+    "email": "mendescco@yahoo.com",
+    "area": "Chapecó e Região"
+   },
+   {
+    "nome": "Meire Galvani Cardoso",
+    "telefones": [
+     "(47)99972-9294"
+    ],
+    "email": "meiregalvani@terra.com.br",
+    "area": "Joinville e Região"
+   }
+  ]
+ },
+ {
+  "sigla": "SP",
+  "uf": "São Paulo",
+  "representantes": [
+   {
+    "nome": "MANOEL ROBERTO MONTILHA",
+    "telefones": [
+     "(17) 99650-2973"
+    ],
+    "email": "montilhafestas@terra.com.br",
+    "area": "Barretos, Bebedouro, Catanduva, Colina, Estrela d'Oeste, Fernandópolis, Guaíra, Jales, José Bonifácio, Mirassol, Novo Horizonte, Olímpia, Santa Fé do Sul, São José do Rio Preto, Tanabi, Viradouro e Votuporanga."
+   },
+   {
+    "nome": "Peterson Rodrigo Biazon",
+    "telefones": [
+     "(18) 3022-2217 e (18) 98129-0192"
+    ],
+    "email": "prbiazon@gmail.com",
+    "area": "Assis; Palmital; Paraguaçu Paulista; Presidente Prudente; Candido Mota; Rancharia; AVARÉ; GARÇA; MARILIA; OURINHOS; PIRAJÚ; SANTA CRUZ RIO PARDO; TUPÃ; BASTOS; ITAÍ e PARANAPANEMA."
+   },
+   {
+    "nome": "Telemarketing",
+    "telefones": [
+     "(19) 99291-0497"
+    ],
+    "email": "telemarketing@zagarollo.com.br",
+    "area": "Américo Brasiliense; Araraquara; Barrinha; Batatais; Brodowski; Cajuru; Cravinhos; Dourado; Franca; Guariba; Ibaté; Ibitinga; Igarapava; Itápolis; Ituverava; Jaboticabal; Jardinópolis; Luís Antônio; Matão; Monte Alto; Orlândia; Pitangueiras; Pontal; Ribeirão Preto; Santa Rosa de Viterbo; São Carlos; São Joaquim da Barra; São Simão; Serrana; Sertãozinho; Tabatinga; Taquaritinga; Altinópolis; Dumont; Guará e Pradópolis."
+   },
+   {
+    "nome": "Telemarketing",
+    "telefones": [
+     "(19) 99291-0497"
+    ],
+    "email": "telemarketing@zagarollo.com.br",
+    "area": "Aguaí, Águas de Lindóia, Americana, Amparo, Araras, Artur Nogueira, Caconde, Capivari, Casa Branca, Divinolândia, Espírito Santo do Pinhal, Holambra, Hortolândia, Iracemápolis, Itapira, Itirapina, Jaguariúna, Leme, Limeira, Lindoia, Louveira, Mococa, Mogi Guaçu, Mogi Mirim, Monte Mor, Nova Odessa, Paulínia, Pedreira, Piracicaba, Pirassununga, Porto Ferreira, Santa Barbará D'Oeste, Santa Cruz das Palmeiras, Santa Rita do Passa Quatro, Santo Antônio de Posse, São José do Rio Pardo, São Pedro, Serra Negra, Socorro, Tambaú, Tapiratiba, Valinhos, Vargem Grande do Sul e Vinhedo."
+   },
+   {
+    "nome": "Jacqueline Maria de Oliveira Santos",
+    "telefones": [
+     "(12) 98210-6382"
+    ],
+    "email": "jacque_oliveira.rep@hotmail.com",
+    "area": "Aparecida; Caçapava; Cachoeira Paulista; Campos do Jordão; Caraguatatuba; Cruzeiro; Guararema; Guaratinguetá; Jacareí; Lorena; Mogi das Cruzes; Pindamonhangaba; São José dos Campos; São Sebastião; Taubaté; Tremembé e Ubatuba."
+   },
+   {
+    "nome": "Sr. Antônio",
+    "telefones": [
+     "(11)2253-8140 e (11) 97199-3180"
+    ],
+    "email": "jo_antonio03@hotmail.com",
+    "area": "São Paulo; Grande São Paulo; Baixada Santista; Vale do Paraíba"
+   },
+   {
+    "nome": "Rafael Batista Leite (P.A.D. Company)",
+    "telefones": [
+     "(18) 99649-6682 e (18) 99727-7200"
+    ],
+    "email": "padrepresentacoes@gmail.com",
+    "area": "Bauru e Região; Presidente Prudente e Região; São José do Rio Preto e Região."
+   },
+   {
+    "nome": "William Guerra",
+    "telefones": [
+     "(19)99848-9585"
+    ],
+    "email": "william.embalagens@hotmail.com",
+    "area": "Araras; Rio Claro; Cordeirópolis; Limeira; Iracemápolis; Cosmópolis; Paulínia; Santa Gertrudes; Artur Nogueira; Charqueada; São Pedro; Aguas de São Pedro; São Manoel; Botucatu; Avaré; Piraju ; Fartura; Itaguaí; Itaí; Taquarituba; Itaporanga; Itaberá; Carlópolis;"
+   },
+   {
+    "nome": "Ivan Primo Giozzet",
+    "telefones": [
+     "(19) 3542-7594 e (19) 99622-6065"
+    ],
+    "email": "igiozzet@yahoo.com.br",
+    "area": "Itu, Salto, Monte Mor, Piracicaba, Santa Bárbara do Oeste, Indaiatuba, Boituva, Porto Feliz, Cerquilho, Tatuí e Tietê"
+   }
+  ]
+ },
+ {
+  "sigla": "SE",
+  "uf": "Sergipe",
+  "representantes": [
+   {
+    "nome": "Iolanda Barreto Gomes e Ariosvaldo Gomes dos Santos Filho",
+    "telefones": [
+     "(79)999506700 e (79)99877-0339"
+    ],
+    "email": "yolandayo00@rotmail.com / arissomm1234@gmail.com",
+    "area": "Atuação em Todo o Estado"
+   },
+   {
+    "nome": "Brandão",
+    "telefones": [
+     "(79)3113-2127, (79)8871-4978"
+    ],
+    "email": "wrbrandaorep@bol.com.br",
+    "area": "Todo o Estado"
+   }
+  ]
+ },
+ {
+  "sigla": "TO",
+  "uf": "Tocantins",
+  "representantes": [
+   {
+    "nome": "Telemarketing",
+    "telefones": [
+     "(19) 99291-0497"
+    ],
+    "email": "telemarketing@zagarollo.com.br",
+    "area": "Todo o Estado"
+   }
+  ]
+ }
+]

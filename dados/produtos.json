@@ -1,0 +1,315 @@
+{
+  "_fonte": "Medidas e referências transcritas das fichas técnicas publicadas pela própria Zagarollo em zagarollo.com.br/imagens/caixas-flexiveis/. Nada aqui é estimado.",
+  "familias": [
+    {
+      "id": "caixas",
+      "nome": "Caixas flexíveis",
+      "chamada": "Vinte e dois kits, do porta-anel ao formato de sapato. Montam na hora e fecham por encaixe.",
+      "foto": "kit-a-quadrado"
+    },
+    {
+      "id": "sacolas",
+      "nome": "Sacolas e sacos",
+      "chamada": "Alça torcida de papel, em kraft natural, branco ou onze cores. Do brinde de festa ao delivery.",
+      "foto": "sacola-alta"
+    },
+    {
+      "id": "transporte",
+      "nome": "Caixas para transporte",
+      "chamada": "Pizza, bolo e salgado; e a caixa tipo correio, para quem despacha.",
+      "foto": "kit-alfa"
+    }
+  ],
+  "produtos": [
+    {
+      "slug": "kit-a-quadrado", "nome": "KIT A — Quadrado", "familia": "caixas", "tags": [],
+      "desc": "O formato base da linha, em sete tamanhos que encaixam um dentro do outro.",
+      "medidas": [
+        {"ref": "26", "dim": "5,5 × 5,5 × 2,5 cm"}, {"ref": "22", "dim": "9,5 × 9,5 × 4 cm"},
+        {"ref": "13", "dim": "15 × 15 × 6 cm"}, {"ref": "15", "dim": "20 × 20 × 7,5 cm"},
+        {"ref": "10", "dim": "23,5 × 23,5 × 10 cm"}, {"ref": "09", "dim": "29,5 × 29,5 × 10 cm"},
+        {"ref": "08", "dim": "32,5 × 32,5 × 10 cm"}
+      ]
+    },
+    {
+      "slug": "kit-b-retangular", "nome": "KIT B — Retangular", "familia": "caixas", "tags": [],
+      "desc": "Retangular clássica. A nº 31 é a medida de agenda; a nº 24, de camisa.",
+      "medidas": [
+        {"ref": "35", "dim": "5 × 10 × 3 cm"}, {"ref": "20", "dim": "12,5 × 8 × 4 cm"},
+        {"ref": "34", "dim": "13 × 18 × 4 cm"}, {"ref": "31", "dim": "23,5 × 17,5 × 5,5 cm", "nota": "agenda"},
+        {"ref": "33", "dim": "30 × 21 × 6 cm"}, {"ref": "24", "dim": "37 × 25 × 6 cm", "nota": "camisa"},
+        {"ref": "36", "dim": "43 × 32 × 7 cm"}
+      ]
+    },
+    {
+      "slug": "kit-c-misto", "nome": "KIT C — Misto", "familia": "caixas", "tags": [],
+      "desc": "Formatos altos e fechados por dobra na tampa. É o kit de panetone e ovo de Páscoa.",
+      "medidas": [
+        {"ref": "95", "dim": "13 × 13 × 22 cm"}, {"ref": "96", "dim": "14,5 × 14,5 × 17,5 cm"},
+        {"ref": "97", "dim": "17 × 17 × 20 cm"}, {"ref": "98", "dim": "19 × 19 × 22 cm"},
+        {"ref": "107", "dim": "30 × 11,5 × 7,5 cm"}, {"ref": "126", "dim": "14 × 14 × 25 cm"},
+        {"ref": "127", "dim": "10,5 × 10,5 × 20 cm"}
+      ]
+    },
+    {
+      "slug": "kit-d-inteirico", "nome": "KIT D — Inteiriço", "familia": "caixas", "tags": [],
+      "desc": "Peça única, sem tampa solta: fecha por dobra e não tem parte para perder.",
+      "medidas": [
+        {"ref": "27", "dim": "5,5 × 5,5 × 2,5 cm"}, {"ref": "28", "dim": "9 × 9 × 4 cm"},
+        {"ref": "07", "dim": "14,5 × 12 × 6,5 cm"}, {"ref": "37", "dim": "16 × 22 × 4 cm"},
+        {"ref": "17", "dim": "24,5 × 20 × 4,8 cm"}, {"ref": "06", "dim": "29 × 24 × 6 cm"},
+        {"ref": "30", "dim": "41,5 × 27 × 7 cm"}
+      ]
+    },
+    {
+      "slug": "kit-e", "nome": "KIT E", "familia": "caixas", "tags": [], "semFoto": true,
+      "desc": "Formato de linha. A ficha técnica deste kit não está publicada — a página do site antigo mostra, por engano, a ficha do KIT F. Peça as medidas no orçamento.",
+      "medidas": []
+    },
+    {
+      "slug": "kit-f", "nome": "KIT F", "familia": "caixas", "tags": [],
+      "desc": "Peças pequenas e planas: envelope de CD, estojo de caneta e cinco formatos de almofada (B1 a B5).",
+      "medidas": [
+        {"ref": "16", "dim": "14,5 × 12,5 × 1 cm", "nota": "CD"}, {"ref": "18", "dim": "23 × 9 × 2 cm", "nota": "caneta"},
+        {"ref": "73/B1", "dim": "3,5 × 1,5 cm"}, {"ref": "74/B2", "dim": "5 × 2 cm"},
+        {"ref": "75/B3", "dim": "6,8 × 2,6 cm"}, {"ref": "76/B4", "dim": "4,5 × 3 × 3 cm"},
+        {"ref": "77/B5", "dim": "4 × 3,2 × 1,5 cm"}
+      ]
+    },
+    {
+      "slug": "kit-g-visor", "nome": "KIT G — Visor", "familia": "caixas", "tags": ["visor"],
+      "desc": "Janela recortada em ondas na tampa: o produto aparece sem precisar abrir.",
+      "medidas": [
+        {"ref": "29", "dim": "10,5 × 7 × 3,5 cm"}, {"ref": "01", "dim": "14 × 10 × 4,5 cm"},
+        {"ref": "43", "dim": "12 × 20 × 4,5 cm"}, {"ref": "03", "dim": "19 × 24 × 4,5 cm"},
+        {"ref": "44", "dim": "7 × 7 × 3,5 cm"}, {"ref": "02", "dim": "15 × 15 × 4,5 cm"},
+        {"ref": "42", "dim": "25 × 10 × 4,5 cm"}
+      ]
+    },
+    {
+      "slug": "kit-h-visor-ii", "nome": "KIT H — Visor II", "familia": "caixas", "tags": ["visor", "festa"],
+      "desc": "Segunda geração do visor, com recorte em coração e em estrela.",
+      "medidas": [
+        {"ref": "59", "dim": "10,5 × 7 × 3,5 cm"}, {"ref": "60", "dim": "12 × 20 × 4,5 cm"},
+        {"ref": "61", "dim": "14 × 10 × 4,5 cm"}, {"ref": "62", "dim": "15 × 15 × 4,5 cm"},
+        {"ref": "104", "dim": "7 × 7 × 3,5 cm"}, {"ref": "105", "dim": "15 × 15 × 4,5 cm"},
+        {"ref": "128", "dim": "6,2 × 6,2 × 3,5 cm"}
+      ]
+    },
+    {
+      "slug": "kit-i-festa-i", "nome": "KIT I — Festa I", "familia": "caixas", "tags": ["festa"],
+      "desc": "Lembrancinha de festa: sacolinha com alça vazada, caixa borboleta, coração e sextavada.",
+      "medidas": [
+        {"ref": "47", "dim": "6 × 4 × 5 cm"}, {"ref": "50", "dim": "3,5 × 4,5 cm"},
+        {"ref": "51", "dim": "3,5 × 2,5 cm"}, {"ref": "52", "dim": "3,5 × 3,5 × 1,5 cm"},
+        {"ref": "53", "dim": "2,5 × 2,5 × 1 cm"}, {"ref": "54", "dim": "3 × 7 × 12 cm"},
+        {"ref": "106", "dim": "6 × 6 × 4 cm"}
+      ]
+    },
+    {
+      "slug": "kit-j-festa-ii", "nome": "KIT J — Festa II", "familia": "caixas", "tags": ["festa"],
+      "desc": "Formatos de doce e brinde: trouxinha, baú, escama, cone e sextavada.",
+      "medidas": [
+        {"ref": "48", "dim": "5 × 5 × 3,5 cm"}, {"ref": "49", "dim": "7 × 4 × 3 cm", "nota": "baú"},
+        {"ref": "55", "dim": "5 × 3 × 2,5 cm"}, {"ref": "138", "dim": "6 × 6 × 3,5 cm"},
+        {"ref": "58", "dim": "4 × 4 × 1,5 cm"}, {"ref": "65", "dim": "2 × 2 × 15 cm", "nota": "cone"},
+        {"ref": "66", "dim": "4 × 4 × 2,5 cm"}
+      ]
+    },
+    {
+      "slug": "kit-k-quadrado-baixo", "nome": "KIT K — Quadrado baixo", "familia": "caixas", "tags": [],
+      "desc": "A mesma planta do KIT A com altura reduzida, para peças rasas. A nº 38 é medida de CD.",
+      "medidas": [
+        {"ref": "72", "dim": "5,5 × 5,5 × 1,8 cm"}, {"ref": "71", "dim": "9,5 × 9,5 × 3 cm"},
+        {"ref": "38", "dim": "15 × 15 × 3 cm", "nota": "CD"}, {"ref": "46", "dim": "18 × 18 × 4 cm"},
+        {"ref": "70", "dim": "23,5 × 23,5 × 4 cm"}, {"ref": "69", "dim": "29,5 × 29,5 × 4,5 cm"},
+        {"ref": "68", "dim": "32,5 × 32,5 × 5 cm"}
+      ]
+    },
+    {
+      "slug": "kit-l-alto", "nome": "KIT L — Alto", "familia": "caixas", "tags": [],
+      "desc": "Caixas com altura, para peças que não deitam. A nº 11 é a medida de sapato.",
+      "medidas": [
+        {"ref": "78", "dim": "12,5 × 8 × 7 cm"}, {"ref": "39", "dim": "17,5 × 12,5 × 10 cm"},
+        {"ref": "11", "dim": "30 × 17,5 × 10 cm", "nota": "sapato"}, {"ref": "79", "dim": "37 × 25 × 11 cm"},
+        {"ref": "80", "dim": "5,5 × 5,5 × 5,5 cm"}, {"ref": "21", "dim": "9,5 × 9,5 × 9 cm"},
+        {"ref": "82", "dim": "14,5 × 14,5 × 14 cm"}
+      ]
+    },
+    {
+      "slug": "kit-m-visor", "nome": "KIT M — Visor", "familia": "caixas", "tags": ["visor"],
+      "desc": "Visor com recorte decorado na tampa, em sete proporções.",
+      "medidas": [
+        {"ref": "84", "dim": "10,5 × 7 × 3,5 cm"}, {"ref": "85", "dim": "14 × 10 × 4,5 cm"},
+        {"ref": "86", "dim": "12 × 20 × 4,5 cm"}, {"ref": "90", "dim": "20 × 15,5 × 3 cm"},
+        {"ref": "88", "dim": "7 × 7 × 3,5 cm"}, {"ref": "87", "dim": "15 × 15 × 4,5 cm"},
+        {"ref": "89", "dim": "12,5 × 9 × 3 cm"}
+      ]
+    },
+    {
+      "slug": "kit-n-retangular-longo", "nome": "KIT N — Retangular longo", "familia": "caixas", "tags": [],
+      "desc": "Comprimento estendido, de estojo de caneta a caixa de 60 cm para flores e utensílios.",
+      "medidas": [
+        {"ref": "81", "dim": "3 × 16 × 2,5 cm", "nota": "caneta"}, {"ref": "19", "dim": "19 × 6 × 3,5 cm"},
+        {"ref": "83", "dim": "27,5 × 10 × 3,5 cm"}, {"ref": "91", "dim": "30 × 12 × 4,5 cm"},
+        {"ref": "92", "dim": "38,5 × 16,5 × 5 cm"}, {"ref": "93", "dim": "50 × 22 × 5,5 cm"},
+        {"ref": "94", "dim": "60 × 26 × 6 cm"}
+      ]
+    },
+    {
+      "slug": "kit-o-visor-iv", "nome": "KIT O — Visor IV", "familia": "caixas", "tags": ["visor"],
+      "desc": "Visor reto ocupando quase toda a tampa, sem recorte decorativo.",
+      "medidas": [
+        {"ref": "99", "dim": "10,5 × 7 × 3,5 cm"}, {"ref": "100", "dim": "14 × 10 × 4,5 cm"},
+        {"ref": "101", "dim": "12 × 20 × 4,5 cm"}, {"ref": "102", "dim": "15 × 15 × 4,5 cm"},
+        {"ref": "103", "dim": "12,5 × 9,5 × 3 cm"}, {"ref": "122", "dim": "6,2 × 6,2 × 3,5 cm"},
+        {"ref": "123", "dim": "15,5 × 5,5 × 5 cm"}
+      ]
+    },
+    {
+      "slug": "kit-p-garrafas", "nome": "KIT P — Garrafas", "familia": "caixas", "tags": [],
+      "desc": "Embalagem vertical com alça vazada, para garrafa. Inclui a versão de duas garrafas e dois porta-anéis.",
+      "medidas": [
+        {"ref": "167", "dim": "10,5 × 10,5 × 40 cm"}, {"ref": "14", "dim": "9 × 9 × 36,5 cm"},
+        {"ref": "134", "dim": "28 × 9 × 38 cm", "nota": "duas garrafas"}, {"ref": "166", "dim": "7 × 7 × 25 cm"},
+        {"ref": "133", "dim": "18 × 7 × 26 cm"}, {"ref": "57", "dim": "4,5 × 4,5 × 2,5 cm"},
+        {"ref": "57A", "dim": "3,2 × 3,2 × 2 cm"}
+      ]
+    },
+    {
+      "slug": "kit-q-visor", "nome": "KIT Q — Visor", "familia": "caixas", "tags": ["visor", "festa"],
+      "desc": "Sextavadas e retangulares com visor redondo ou recorte de estrela.",
+      "medidas": [
+        {"ref": "108", "dim": "10,5 × 10,5 × 2 cm"}, {"ref": "109", "dim": "15 × 15 × 3,5 cm"},
+        {"ref": "110", "dim": "18 × 18 × 4,5 cm"}, {"ref": "111", "dim": "6 × 6 × 4 cm"},
+        {"ref": "112", "dim": "11,5 × 6 × 4 cm"}, {"ref": "120", "dim": "17,5 × 6 × 4 cm"},
+        {"ref": "124", "dim": "6 × 6 × 3,8 cm"}
+      ]
+    },
+    {
+      "slug": "kit-r-misto", "nome": "KIT R — Misto", "familia": "caixas", "tags": [],
+      "desc": "Sortimento de tampa e fundo em sete proporções, do porta-joia à caixa de 20 cm.",
+      "medidas": [
+        {"ref": "12", "dim": "17,5 × 10 × 6 cm"}, {"ref": "32", "dim": "20 × 15 × 2,5 cm"},
+        {"ref": "67", "dim": "17,5 × 10 × 3,5 cm"}, {"ref": "125", "dim": "10 × 15 × 3 cm"},
+        {"ref": "129", "dim": "6,5 × 6,5 × 3 cm"}, {"ref": "130", "dim": "12 × 12 × 5 cm"},
+        {"ref": "131", "dim": "4 × 4 × 1,5 cm"}
+      ]
+    },
+    {
+      "slug": "kit-s-berco", "nome": "KIT S — Berço e berço de bijuterias", "familia": "caixas", "tags": ["visor"],
+      "desc": "Caixa com visor e berço interno que segura a peça no lugar. Os berços avulsos servem as caixas 22, 32, 20 e 125.",
+      "medidas": [
+        {"ref": "45", "dim": "5 × 5 × 2,5 cm"}, {"ref": "63", "dim": "9,5 × 12,5 × 3 cm"},
+        {"ref": "64", "dim": "15,5 × 20 × 3 cm"}
+      ]
+    },
+    {
+      "slug": "kit-t", "nome": "KIT T", "familia": "caixas", "tags": [],
+      "desc": "Peças planas de pouca altura, entre 1 e 2,1 cm, para itens finos.",
+      "medidas": [
+        {"ref": "151", "dim": "15,3 × 7,6 × 1,5 cm"}, {"ref": "150", "dim": "13,2 × 13,2 × 1,5 cm"},
+        {"ref": "163", "dim": "19 × 12,5 × 2,1 cm"}, {"ref": "149", "dim": "13,4 × 4 × 1,3 cm"},
+        {"ref": "164", "dim": "8 × 10 × 1 cm"}, {"ref": "136", "dim": "13,5 × 11,5 × 1,7 cm"},
+        {"ref": "148", "dim": "11 × 5 × 1,3 cm"}
+      ]
+    },
+    {
+      "slug": "kit-u", "nome": "KIT U", "familia": "caixas", "tags": ["visor"],
+      "desc": "Molduras com visor grande, incluindo o recorte redondo de 32,5 cm.",
+      "medidas": [
+        {"ref": "56", "dim": "3,5 × 9,5 × 6,5 cm"}, {"ref": "132", "dim": "20 × 15,5 × 4 cm"},
+        {"ref": "147", "dim": "32,5 × 32,5 × 5 cm"}, {"ref": "165", "dim": "32,5 × 13 × 6 cm"},
+        {"ref": "137", "dim": "15 × 15 × 5 cm"}, {"ref": "135", "dim": "24,5 × 18,5 × 3 cm"}
+      ]
+    },
+    {
+      "slug": "kit-v", "nome": "KIT V", "familia": "caixas", "tags": ["visor"],
+      "desc": "Linha de chocolate e doce, com as medidas de 250 g, 350 g e 500 g, mais a caixa de garrafa com visor.",
+      "medidas": [
+        {"ref": "139", "dim": "41 × 4 × 3,5 cm"}, {"ref": "162", "dim": "21,5 × 14,5 × 6,5 cm"},
+        {"ref": "168", "dim": "7 × 7 × 3 cm"}, {"ref": "169", "dim": "11,5 × 6 × 3 cm"},
+        {"ref": "170", "dim": "17,5 × 6 × 3 cm"}, {"ref": "178", "dim": "18 × 7,5 × 25 cm"}
+      ]
+    },
+    {
+      "slug": "kit-alfa", "nome": "KIT α — Pizza, bolo e salgado", "familia": "transporte", "tags": [],
+      "desc": "Caixa de transporte em papelão branco. As três primeiras são redondas, medidas em diâmetro.",
+      "medidas": [
+        {"ref": "181", "dim": "25 cm de diâmetro"}, {"ref": "182", "dim": "30 cm de diâmetro"},
+        {"ref": "183", "dim": "35 cm de diâmetro"}, {"ref": "184", "dim": "27,5 × 27,5 × 9,5 cm"},
+        {"ref": "185", "dim": "32,5 × 32,5 × 11,5 cm"}, {"ref": "186", "dim": "41 × 41 × 12 cm"},
+        {"ref": "187", "dim": "34,5 × 34,5 × 6 cm"}
+      ]
+    },
+    {
+      "slug": "kit-beta", "nome": "KIT β — Tipo correio", "familia": "transporte", "tags": [],
+      "desc": "Caixa de papelão para despacho, do envelope rígido à caixa de 27 × 35 × 20 cm.",
+      "medidas": [
+        {"ref": "188", "dim": "34,5 × 27,5 × 3,8 cm"}, {"ref": "189", "dim": "17,5 × 13 × 8,5 cm"},
+        {"ref": "190", "dim": "26,5 × 17,5 × 9 cm"}, {"ref": "191", "dim": "26,5 × 22 × 13 cm"},
+        {"ref": "192", "dim": "27 × 35 × 20 cm"}
+      ]
+    },
+    {
+      "slug": "sacolas-pequenos-formatos", "nome": "KIT Sacolas — pequenos formatos", "familia": "sacolas", "tags": ["festa"],
+      "desc": "As sacolinhas da linha, de 21,5 a 41,5 cm de altura. Brinde de evento, bijuteria e perfumaria.",
+      "medidas": [
+        {"ref": "154", "dim": "13 × 10 × 41,5 cm"}, {"ref": "155", "dim": "12 × 8,5 × 22 cm"},
+        {"ref": "156", "dim": "14 × 9 × 21,5 cm"}, {"ref": "157", "dim": "16 × 9 × 21,5 cm"},
+        {"ref": "158", "dim": "14 × 9 × 27,5 cm"}, {"ref": "159", "dim": "16 × 9 × 33,5 cm"},
+        {"ref": "160", "dim": "12 × 8,5 × 30 cm"}
+      ]
+    },
+    {
+      "slug": "sacola-alta", "nome": "KIT Sacola alta", "familia": "sacolas", "tags": [],
+      "desc": "Sacola vertical com alça torcida de papel, de 27 a 45 cm de altura.",
+      "medidas": [
+        {"ref": "113", "dim": "18 × 10,5 × 27 cm"}, {"ref": "114", "dim": "18 × 10,5 × 33 cm"},
+        {"ref": "115", "dim": "24 × 10,5 × 33 cm"}, {"ref": "116", "dim": "24 × 10,5 × 39 cm"},
+        {"ref": "118", "dim": "31 × 12,5 × 39 cm"}, {"ref": "119", "dim": "37 × 13,5 × 45 cm"},
+        {"ref": "140", "dim": "40 × 13,5 × 45 cm"}
+      ]
+    },
+    {
+      "slug": "sacola-larga", "nome": "KIT Sacola larga", "familia": "sacolas", "tags": [],
+      "desc": "Boca larga, de 24 a 40 cm de frente, para compra volumosa e caixa dentro.",
+      "medidas": [
+        {"ref": "141", "dim": "24 × 10,5 × 27 cm"}, {"ref": "142", "dim": "31 × 12,5 × 27 cm"},
+        {"ref": "143", "dim": "37 × 13,5 × 25 cm"}, {"ref": "144", "dim": "40 × 13,5 × 25 cm"},
+        {"ref": "145", "dim": "31 × 12,5 × 33 cm"}, {"ref": "146", "dim": "37 × 13,5 × 32 cm"},
+        {"ref": "117", "dim": "40 × 13,5 × 32 cm"}
+      ]
+    },
+    {
+      "slug": "sacola-fast-food", "nome": "Sacola fast food", "familia": "sacolas", "tags": [],
+      "desc": "Boca larga e fundo reforçado, em duas medidas, para delivery e balcão.",
+      "medidas": [
+        {"ref": "161", "dim": "31 × 17 × 29,5 cm"}, {"ref": "179", "dim": "24 × 15 × 25 cm"}
+      ]
+    },
+    {
+      "slug": "sacos", "nome": "Sacos", "familia": "sacolas", "tags": [],
+      "desc": "Saco de papel sem alça, gramatura 80 g, em cinco medidas. Padaria, mercearia e embalagem interna.",
+      "medidas": [
+        {"ref": "113", "dim": "18 × 10,5 × 27 cm"}, {"ref": "115", "dim": "24 × 10,5 × 33 cm"},
+        {"ref": "118", "dim": "31 × 12,5 × 39 cm"}, {"ref": "156", "dim": "14 × 9 × 21,5 cm"},
+        {"ref": "179", "dim": "24 × 15 × 25 cm"}
+      ]
+    }
+  ],
+  "acabamentos": {
+    "caixas": [
+      {"nome": "Estampas Especiais", "desc": "A maior cartela da linha: padronagens de festa, data comemorativa, poá, xadrez, floral e listrado."},
+      {"nome": "Estampas Especiais — Fosco", "desc": "Fundo colorido sem brilho, em nove cores."},
+      {"nome": "Estampas Especiais — Branco", "desc": "Padronagem impressa sobre base branca, em oito desenhos."},
+      {"nome": "Kraft Decorado", "desc": "Lançamento de 2020: sete estampas impressas sobre o kraft, do náutico ao azulejo português."},
+      {"nome": "Cartão Fosco", "desc": "Cartão liso sem brilho, em dezesseis cores."},
+      {"nome": "Cartão Brilhante", "desc": "Cartão liso com brilho, em treze cores."}
+    ],
+    "sacolas": {
+      "desc": "As sacolas e os sacos podem ser personalizados. As cores são aplicadas tanto no papel branco quanto no papel kraft.",
+      "cores": ["Amarelo", "Azul", "Azul Bebê", "Laranja", "Limão", "Pink", "Preto", "Rosa Bebê", "Verde", "Vermelho", "Vinho"]
+    }
+  }
+}

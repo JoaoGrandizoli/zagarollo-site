@@ -16,6 +16,9 @@
   --tinta: #1c2434;
   --tinta-suave: #5a6478;
   --linha: #e2e6ee;
+  /* --linha serve a separador decorativo (1,25:1). Onde a borda é a ÚNICA
+     coisa que delimita um controle, o mínimo é 3:1 — use --linha-forte. */
+  --linha-forte: #9aa3b8;
   --branco: #ffffff;
   --fundo: #f7f8fb;
 
@@ -163,9 +166,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   background: none;
   border: 1px solid var(--linha);
   border-radius: 10px;
-  padding: 9px 12px;
+  min-width: 44px;
+  min-height: 44px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1;
   color: var(--azul);
 }
@@ -197,8 +201,8 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 .botao--contorno { border-color: var(--linha); color: var(--tinta); background: var(--branco); }
 .botao--contorno:hover { border-color: var(--azul); color: var(--azul); }
 
-.botao--claro { background: rgba(255, 255, 255, .14); color: var(--branco); border-color: rgba(255, 255, 255, .4); }
-.botao--claro:hover { background: rgba(255, 255, 255, .24); }
+.botao--claro { background: rgba(0, 0, 0, .3); color: var(--branco); border-color: rgba(255, 255, 255, .78); }
+.botao--claro:hover { background: rgba(0, 0, 0, .44); border-color: var(--branco); }
 
 /* ---------- Capa ---------- */
 
@@ -441,22 +445,23 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: .5;
+  opacity: .4;
   transition: var(--transicao);
 }
 
-.familia:hover img { opacity: .62; transform: scale(1.03); }
+/* Escurece no hover. Clarear degradava o contraste no único estado interativo. */
+.familia:hover img { opacity: .3; transform: scale(1.03); }
 
 .familia-texto {
   position: relative;
   padding: 34px;
-  background: linear-gradient(to top, rgba(35, 56, 107, .95), rgba(35, 56, 107, 0));
+  background: linear-gradient(to top, rgba(35, 56, 107, .97) 0%, rgba(35, 56, 107, .93) 62%, rgba(35, 56, 107, .5) 100%);
   width: 100%;
 }
 
 .familia-texto h3 { font-size: 1.6rem; }
-.familia-texto p { margin: 8px 0 0; color: rgba(255, 255, 255, .85); font-size: .98rem; }
-.familia-texto span { display: inline-block; margin-top: 14px; font-weight: 700; color: var(--verde-claro); }
+.familia-texto p { margin: 8px 0 0; color: rgba(255, 255, 255, .95); font-size: .98rem; }
+.familia-texto span { display: inline-block; margin-top: 14px; font-weight: 700; color: #a8e3c4; }
 
 /* ---------- Quem somos ---------- */
 
@@ -487,11 +492,11 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 }
 
 .filtro {
-  border: 1.5px solid var(--linha);
+  border: 1.5px solid var(--linha-forte);
   background: var(--branco);
   color: var(--tinta-suave);
   border-radius: 999px;
-  padding: 9px 20px;
+  padding: 12px 20px;
   font-weight: 600;
   font-size: .92rem;
   cursor: pointer;
@@ -596,17 +601,17 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   font-family: inherit;
   font-size: .97rem;
   padding: 12px 14px;
-  border: 1.5px solid var(--linha);
+  border: 1.5px solid var(--linha-forte);
   border-radius: 10px;
   background: var(--branco);
   color: var(--tinta);
   transition: var(--transicao);
 }
 
-.campo input:focus, .campo select:focus, .campo textarea:focus {
-  outline: none;
+.campo input:focus-visible, .campo select:focus-visible, .campo textarea:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 1px;
   border-color: var(--azul);
-  box-shadow: 0 0 0 3px rgba(47, 75, 143, .12);
 }
 
 .campo textarea { resize: vertical; min-height: 96px; }
@@ -664,7 +669,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   padding-bottom: 44px;
 }
 
-.rodape h3 { color: var(--branco); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 16px; }
+.rodape-titulo { color: var(--branco); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 16px; }
 
 .rodape ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 
@@ -768,4 +773,313 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 
   /* Sem movimento, mas o conteúdo não pode ficar invisível. */
   .js .revela { opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   Acessibilidade
+   ========================================================================== */
+
+/* Indicador de foco. O site inteiro dependia do anel padrão do navegador —
+   ilegível sobre a capa azul e sobre o botão verde do WhatsApp. */
+:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.capa :focus-visible,
+.manifesto :focus-visible,
+.chamada :focus-visible,
+.rodape :focus-visible,
+.topo :focus-visible,
+.familia:focus-visible,
+.zap:focus-visible { outline-color: var(--branco); }
+
+.zap:focus-visible { outline-offset: 3px; box-shadow: 0 0 0 7px rgba(0, 0, 0, .5); }
+
+@media (forced-colors: active) {
+  :focus-visible { outline: 3px solid Highlight; }
+}
+
+/* O cabeçalho fixo tem 79px: sem isto, o elemento focado por Tab e o alvo de
+   uma âncora aterrissam atrás dele. */
+:where(a, button, input, select, textarea, summary, [tabindex]),
+:where(section, h1, h2, h3)[id] { scroll-margin-top: 96px; }
+
+/* Pular para o conteúdo: sem ele são 9 paradas de Tab antes do miolo. */
+.pular {
+  position: absolute;
+  left: 12px;
+  top: -120px;
+  z-index: 100;
+  background: var(--azul);
+  color: var(--branco);
+  padding: 14px 24px;
+  border-radius: 0 0 var(--raio) var(--raio);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top .16s ease;
+}
+
+.pular:focus { top: 0; }
+main:focus { outline: none; }
+
+/* Visível só para leitor de tela. */
+.sr-so {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* O padrão do navegador fica entre 2,35:1 e 3,5:1. */
+.campo input::placeholder,
+.campo textarea::placeholder { color: var(--tinta-suave); opacity: 1; }
+
+/* Alvos de toque: a caixa clicável de um link inline é só a altura da linha. */
+.topo a, .rodape a, .contato a { display: inline-block; padding: 5px 0; }
+
+/* ==========================================================================
+   Catálogo — cartões com foto e tabela de medidas
+   ========================================================================== */
+
+.produto { padding: 0; overflow: hidden; }
+
+.produto-foto {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1000 / 542;
+  object-fit: cover;
+  background: var(--fundo);
+  border-bottom: 1px solid var(--linha);
+}
+
+.produto-corpo {
+  padding: 22px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.produto-tag--transporte { background: #fdf2e7; color: #8a4b12; }
+
+.medidas { margin-top: 2px; }
+
+.medidas summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: .88rem;
+  color: var(--azul);
+  padding: 6px 0;
+  list-style-position: inside;
+}
+
+.medidas summary:hover { text-decoration: underline; }
+
+.medidas table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: .88rem;
+}
+
+.medidas th, .medidas td {
+  text-align: left;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.medidas thead th {
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+  border-bottom-width: 1.5px;
+}
+
+.medidas tbody th { font-weight: 700; white-space: nowrap; width: 5.5em; }
+.medidas tbody td { color: var(--tinta-suave); }
+.medida-nota { color: var(--kraft); font-style: italic; }
+.medidas-ausente { font-size: .9rem; color: var(--tinta-suave); margin: 0; }
+
+.produto-cta {
+  margin-top: auto;
+  padding-top: 8px;
+  font-weight: 700;
+  font-size: .9rem;
+  text-decoration: none;
+  color: var(--verde-texto);
+}
+
+.produto-cta:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   Representantes
+   ========================================================================== */
+
+.uf-busca { display: grid; gap: 8px; max-width: 420px; margin-bottom: 44px; }
+.uf-busca label { font-weight: 700; font-size: .95rem; }
+
+.uf-busca select {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 13px 14px;
+  border: 1.5px solid var(--linha-forte);
+  border-radius: 10px;
+  background: var(--branco);
+  color: var(--tinta);
+}
+
+.uf { margin-bottom: 48px; }
+
+.uf-titulo {
+  font-size: 1.35rem;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--azul);
+  margin-bottom: 22px;
+}
+
+.uf-titulo span {
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+  margin-left: 10px;
+}
+
+.reps { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
+
+.rep {
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 20px 22px;
+  background: var(--branco);
+}
+
+.rep h3 { font-size: 1.02rem; margin-bottom: 6px; }
+.rep-area { font-size: .88rem; color: var(--tinta-suave); margin: 0 0 12px; }
+.rep-contato { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+.rep-contato a { font-size: .92rem; text-decoration: none; word-break: break-word; }
+.rep-contato a:hover { text-decoration: underline; }
+
+.caixa-destaque {
+  background: var(--branco);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  padding: 32px;
+  box-shadow: var(--sombra);
+}
+
+.caixa-destaque h3 { font-size: 1.3rem; margin-bottom: 12px; }
+.caixa-destaque p { color: var(--tinta-suave); margin: 0 0 22px; }
+
+/* ==========================================================================
+   Personalização
+   ========================================================================== */
+
+.cores {
+  list-style: none;
+  padding: 0;
+  margin: 34px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cores li {
+  border: 1.5px solid var(--linha-forte);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: .92rem;
+  font-weight: 600;
+  background: var(--branco);
+}
+
+.figura { margin: 40px 0 0; }
+.figura img { border-radius: var(--raio); border: 1px solid var(--linha); width: 100%; height: auto; }
+.figura figcaption { font-size: .88rem; color: var(--tinta-suave); margin-top: 10px; }
+
+.passos { list-style: none; counter-reset: passo; padding: 0; margin: 40px 0 0; display: grid; gap: 22px; max-width: 62ch; }
+
+.passos li {
+  counter-increment: passo;
+  padding-left: 56px;
+  position: relative;
+  color: var(--tinta-suave);
+}
+
+.passos li::before {
+  content: counter(passo);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--azul-claro);
+  color: var(--azul);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.passos strong { color: var(--tinta); display: block; }
+
+.nota-honesta {
+  margin: 40px 0 0;
+  padding: 22px 26px;
+  border-left: 3px solid var(--verde);
+  background: var(--verde-fundo);
+  border-radius: 0 var(--raio) var(--raio) 0;
+  color: var(--tinta-suave);
+  font-size: .98rem;
+  max-width: 62ch;
+}
+
+/* ==========================================================================
+   Formulário e rodapé — ajustes
+   ========================================================================== */
+
+.formulario-titulo { font-size: 1.25rem; margin-bottom: 4px; }
+.obrigatorio { color: #b3261e; }
+.campo-dica { font-size: .84rem; color: var(--tinta-suave); }
+.formulario-nota--ativa { color: var(--tinta); font-weight: 600; }
+
+.rodape-titulo {
+  color: var(--branco);
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+/* O balão do WhatsApp é fixo no canto: sem isto ele cobre o fim do rodapé. */
+@media (max-width: 900px) { .rodape-base { padding-bottom: 88px; } }
+
+@media (max-width: 900px) {
+  .uf-busca { max-width: none; }
+  .caixa-destaque { padding: 26px 22px; }
+  .passos li { padding-left: 48px; }
+}
+
+/* Kit sem ficha publicada: marcador neutro no lugar da foto. */
+.produto-foto--vazia {
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(45deg, var(--fundo), var(--fundo) 10px, #eef1f6 10px, #eef1f6 20px);
+}
+
+.produto-foto--vazia span {
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
 }

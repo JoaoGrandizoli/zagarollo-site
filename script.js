@@ -1,10 +1,18 @@
 /* Zagarollo Embalagens — comportamento do site.
-   Sem dependências externas: menu, ano do rodapé, formulário e catálogo. */
+   Sem dependências. Tudo aqui é progressivo: o conteúdo já vem no HTML e o
+   JavaScript só acrescenta menu, filtros, entrada por scroll e o formulário. */
 
 (function () {
   'use strict';
 
+  /* O <head> esconde os elementos com .revela e arma um temporizador de
+     segurança. Chegar aqui prova que este arquivo carregou — desarma. */
+  clearTimeout(window.__revelaFailsafe);
+
   var EMAIL_COMERCIAL = 'telemarketing@zagarollo.com.br';
+  var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function texto(el, valor) { if (el) el.textContent = valor; }
 
   /* ---------- Menu no celular ---------- */
 
@@ -12,24 +20,53 @@
   var menu = document.getElementById('menu');
 
   if (botaoMenu && menu) {
-    botaoMenu.addEventListener('click', function () {
-      var aberto = menu.getAttribute('data-aberto') === 'true';
-      menu.setAttribute('data-aberto', String(!aberto));
-      botaoMenu.setAttribute('aria-expanded', String(!aberto));
-    });
+    /* Com o menu aberto o painel cobre a página. Marcar o resto como inert
+       impede que o Tab leve o foco para trás dele — que é invisível ali. */
+    var FORA = ['main', '.rodape', '.topo', '.zap'];
+
+    var aberto = function () { return menu.getAttribute('data-aberto') === 'true'; };
+
+    function alterna(novo, devolverFoco) {
+      menu.setAttribute('data-aberto', String(novo));
+      botaoMenu.setAttribute('aria-expanded', String(novo));
+      botaoMenu.setAttribute('aria-label', novo ? 'Fechar menu' : 'Abrir menu');
+
+      FORA.forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        if (novo) el.setAttribute('inert', '');
+        else el.removeAttribute('inert');
+      });
+
+      if (!novo && devolverFoco) botaoMenu.focus();
+    }
+
+    botaoMenu.addEventListener('click', function () { alterna(!aberto(), false); });
 
     menu.addEventListener('click', function (evento) {
-      if (evento.target.tagName === 'A') {
-        menu.setAttribute('data-aberto', 'false');
-        botaoMenu.setAttribute('aria-expanded', 'false');
-      }
+      if (evento.target.closest('a')) alterna(false, false);
     });
+
+    document.addEventListener('keydown', function (evento) {
+      if (evento.key === 'Escape' && aberto()) alterna(false, true);
+    });
+
+    document.addEventListener('click', function (evento) {
+      if (!aberto()) return;
+      if (menu.contains(evento.target) || botaoMenu.contains(evento.target)) return;
+      alterna(false, false);
+    });
+
+    /* Ao voltar para a largura de desktop o painel some por CSS; o estado
+       precisa acompanhar, senão o `inert` fica grudado numa página visível. */
+    var largura = window.matchMedia('(min-width: 901px)');
+    var aoTrocar = function (e) { if (e.matches && aberto()) alterna(false, false); };
+    if (largura.addEventListener) largura.addEventListener('change', aoTrocar);
   }
 
   /* ---------- Ano no rodapé ---------- */
 
-  var ano = document.getElementById('ano');
-  if (ano) ano.textContent = String(new Date().getFullYear());
+  texto(document.getElementById('ano'), String(new Date().getFullYear()));
 
   /* ---------- Formulário de orçamento ----------
      Sem backend: monta um e-mail já preenchido para o comercial. */
@@ -41,53 +78,68 @@
       evento.preventDefault();
 
       var dados = new FormData(formulario);
-      var valor = function (campo) { return (dados.get(campo) || '').toString().trim(); };
+      var v = function (campo) { return (dados.get(campo) || '').toString().trim(); };
 
       var linhas = [
-        'Nome: ' + valor('nome'),
-        'Empresa: ' + (valor('empresa') || '—'),
-        'E-mail: ' + valor('email'),
-        'Telefone: ' + (valor('telefone') || '—'),
-        'Produto: ' + valor('produto'),
-        'Quantidade estimada: ' + (valor('quantidade') || '—'),
+        'Nome: ' + v('nome'),
+        'Empresa: ' + (v('empresa') || '—'),
+        'E-mail: ' + v('email'),
+        'Telefone: ' + (v('telefone') || '—'),
+        'Cidade: ' + (v('cidade') || '—'),
+        'Produto: ' + (v('produto') || '—'),
+        'Quantidade estimada: ' + (v('quantidade') || '—'),
         '',
         'Para que serve a embalagem:',
-        valor('mensagem') || '—',
+        v('mensagem') || '—',
         '',
         '— enviado pelo site zagarollo.com.br'
       ];
 
-      var assunto = 'Pedido de orçamento — ' + valor('produto') + ' — ' + valor('nome');
+      var assunto = 'Pedido de orçamento — ' + (v('produto') || 'embalagens') + ' — ' + v('nome');
 
+      /* Se não houver cliente de e-mail registrado, atribuir location.href a um
+         mailto: não faz nada e não lança erro. O aviso abaixo é o que impede o
+         visitante de sair achando que enviou. */
+      texto(document.getElementById('form-status'),
+        'Abrindo o seu programa de e-mail com o pedido preenchido. Se nada abrir, ' +
+        'escreva para ' + EMAIL_COMERCIAL + ' ou ligue 19 3583-1743.');
+
+      var nota = document.getElementById('nota-envio');
+      if (nota) nota.classList.add('formulario-nota--ativa');
+
+      /* \r\n, e não \n: a RFC 6068 pede CRLF e o Outlook colapsa as quebras sem ele. */
       window.location.href = 'mailto:' + EMAIL_COMERCIAL +
         '?subject=' + encodeURIComponent(assunto) +
-        '&body=' + encodeURIComponent(linhas.join('\n'));
+        '&body=' + encodeURIComponent(linhas.join('\r\n'));
     });
+
+    /* Pré-seleciona o assunto quando a pessoa chega de /representantes. */
+    if (/[?&]assunto=representacao/.test(window.location.search)) {
+      var seletor = document.getElementById('produto');
+      if (seletor) {
+        for (var i = 0; i < seletor.options.length; i++) {
+          if (/representante/i.test(seletor.options[i].text)) { seletor.selectedIndex = i; break; }
+        }
+      }
+    }
   }
 
-  /* ---------- Entrada por scroll ----------
-     Elementos com .revela sobem e acendem ao entrar na tela. Irmãos diretos
-     entram escalonados, para o bloco não piscar todo de uma vez. */
+  /* ---------- Entrada por scroll ---------- */
 
   var reveláveis = document.querySelectorAll('.revela');
 
   if (reveláveis.length) {
-    var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     if (semMovimento || !('IntersectionObserver' in window)) {
       Array.prototype.forEach.call(reveláveis, function (el) {
         el.classList.add('revela--visivel');
       });
     } else {
-      /* O atraso vem da posição entre os irmãos, não de um contador global:
-         assim cada bloco recomeça o escalonamento do zero. */
       Array.prototype.forEach.call(reveláveis, function (el) {
         var irmaos = el.parentElement
           ? Array.prototype.filter.call(el.parentElement.children, function (f) {
               return f.classList.contains('revela');
             })
           : [el];
-
         var i = irmaos.indexOf(el);
         if (i > 0) el.style.setProperty('--atraso', (i * 0.09).toFixed(2) + 's');
       });
@@ -104,81 +156,106 @@
     }
   }
 
-  /* ---------- Catálogo de produtos ---------- */
+  /* ---------- Filtro do catálogo ----------
+     Os 29 produtos já vêm no HTML, renderizados na compilação. Aqui só
+     escondemos o que não bate com o filtro. */
 
   var catalogo = document.getElementById('catalogo');
-  var dados = document.getElementById('dados-produtos');
-  if (!catalogo || !dados) return;
 
-  var produtos;
-  try {
-    produtos = JSON.parse(dados.textContent);
-  } catch (erro) {
-    catalogo.innerHTML = '<p class="vazio">Não foi possível carregar o catálogo. ' +
-      'Ligue para 19 3583-1743 e a gente passa a linha completa.</p>';
-    return;
-  }
+  if (catalogo) {
+    var itens = Array.prototype.slice.call(catalogo.querySelectorAll('.produto'));
+    var filtros = Array.prototype.slice.call(document.querySelectorAll('.filtro'));
+    var vazio = document.getElementById('catalogo-vazio');
+    var status = document.getElementById('catalogo-status');
 
-  var vazio = document.getElementById('catalogo-vazio');
-  var filtros = Array.prototype.slice.call(document.querySelectorAll('.filtro'));
+    var combina = function (item, filtro) {
+      if (filtro === 'todos') return true;
+      if (item.getAttribute('data-familia') === filtro) return true;
+      return (item.getAttribute('data-tags') || '').split(' ').indexOf(filtro) !== -1;
+    };
 
-  function combina(produto, filtro) {
-    if (filtro === 'todos') return true;
-    if (filtro === 'caixa' || filtro === 'sacola') return produto.cat === filtro;
-    return produto.tags.indexOf(filtro) !== -1;
-  }
+    var conta = function (filtro) {
+      return itens.filter(function (it) { return combina(it, filtro); }).length;
+    };
 
-  function assuntoDe(produto) {
-    return 'https://wa.me/551935831743?text=' +
-      encodeURIComponent('Olá! Gostaria de um orçamento do ' + produto.nome + '.');
-  }
-
-  function desenhar(filtro) {
-    var visiveis = produtos.filter(function (produto) { return combina(produto, filtro); });
-
-    catalogo.innerHTML = visiveis.map(function (produto) {
-      var rotulo = produto.cat === 'sacola' ? 'Sacolas' : 'Caixa flexível';
-      var classe = produto.cat === 'sacola' ? 'produto-tag produto-tag--sacola' : 'produto-tag';
-
-      return '<article class="produto">' +
-        '<span class="' + classe + '">' + rotulo + '</span>' +
-        '<h3>' + produto.nome + '</h3>' +
-        '<p>' + produto.desc + '</p>' +
-        '<a href="' + assuntoDe(produto) + '" target="_blank" rel="noopener">Pedir orçamento deste modelo →</a>' +
-        '</article>';
-    }).join('');
-
-    if (vazio) vazio.hidden = visiveis.length > 0;
-  }
-
-  filtros.forEach(function (botao) {
-    botao.addEventListener('click', function () {
-      filtros.forEach(function (outro) {
-        outro.setAttribute('aria-pressed', String(outro === botao));
+    function aplicar(filtro, anunciar) {
+      var visiveis = 0;
+      itens.forEach(function (item) {
+        var mostra = combina(item, filtro);
+        item.hidden = !mostra;
+        if (mostra) visiveis++;
       });
-      desenhar(botao.getAttribute('data-filtro'));
+
+      if (vazio) vazio.hidden = visiveis > 0;
+
+      if (anunciar) {
+        var botao = document.querySelector('.filtro[data-filtro="' + filtro + '"]');
+        var rotulo = botao ? botao.textContent.replace(/\(\d+\)/, '').trim() : filtro;
+        texto(status, visiveis + (visiveis === 1 ? ' modelo' : ' modelos') + ' em ' + rotulo + '.');
+      }
+    }
+
+    filtros.forEach(function (botao) {
+      var chave = botao.getAttribute('data-filtro');
+      var alvo = botao.querySelector('[data-contagem]');
+      if (alvo) texto(alvo, '(' + conta(chave) + ')');
+
+      botao.addEventListener('click', function () {
+        filtros.forEach(function (outro) {
+          outro.setAttribute('aria-pressed', String(outro === botao));
+        });
+        aplicar(chave, true);
+      });
     });
-  });
 
-  /* Contagens nos botões principais */
-  var contagens = {
-    todos: produtos.length,
-    caixa: produtos.filter(function (p) { return p.cat === 'caixa'; }).length,
-    sacola: produtos.filter(function (p) { return p.cat === 'sacola'; }).length
-  };
+    /* Âncoras vindas da home: /produtos#caixas, #sacolas, #transporte */
+    var ancora = window.location.hash.replace('#', '');
+    var inicial = filtros.some(function (b) { return b.getAttribute('data-filtro') === ancora; })
+      ? ancora : 'todos';
 
-  Object.keys(contagens).forEach(function (chave) {
-    var alvo = document.querySelector('[data-contagem="' + chave + '"]');
-    if (alvo) alvo.textContent = '(' + contagens[chave] + ')';
-  });
+    filtros.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-filtro') === inicial));
+    });
 
-  /* Âncoras vindas da home: produtos.html#caixas / #sacolas */
-  var ancora = window.location.hash.replace('#', '');
-  var inicial = (ancora === 'caixas') ? 'caixa' : (ancora === 'sacolas') ? 'sacola' : 'todos';
+    /* No carregamento não se anuncia: despejar 29 produtos num leitor de tela
+       sem ninguém ter pedido é o pior comportamento possível ao abrir a página. */
+    aplicar(inicial, false);
+  }
 
-  filtros.forEach(function (botao) {
-    botao.setAttribute('aria-pressed', String(botao.getAttribute('data-filtro') === inicial));
-  });
+  /* ---------- Filtro de representantes por estado ---------- */
 
-  desenhar(inicial);
+  var seletorUf = document.getElementById('uf');
+  var painelReps = document.getElementById('representantes');
+
+  if (seletorUf && painelReps) {
+    var blocos = Array.prototype.slice.call(painelReps.querySelectorAll('.uf'));
+    var statusUf = document.getElementById('uf-status');
+
+    function filtrarUf(sigla, anunciar) {
+      var visiveis = 0, nome = 'todos os estados';
+      blocos.forEach(function (bloco) {
+        var mostra = sigla === 'todos' || bloco.getAttribute('data-uf') === sigla;
+        bloco.hidden = !mostra;
+        if (mostra) visiveis += bloco.querySelectorAll('.rep').length;
+      });
+
+      if (sigla !== 'todos') {
+        var opt = seletorUf.querySelector('option[value="' + sigla + '"]');
+        if (opt) nome = opt.textContent;
+      }
+
+      if (anunciar) {
+        texto(statusUf, visiveis + (visiveis === 1 ? ' representante' : ' representantes') + ' em ' + nome + '.');
+      }
+    }
+
+    seletorUf.addEventListener('change', function () { filtrarUf(seletorUf.value, true); });
+
+    /* Chegou por /representantes#SP: já abre no estado certo. */
+    var uf = window.location.hash.replace('#', '').toUpperCase();
+    if (uf && seletorUf.querySelector('option[value="' + uf + '"]')) {
+      seletorUf.value = uf;
+      filtrarUf(uf, false);
+    }
+  }
 })();

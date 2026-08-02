@@ -1,0 +1,81 @@
+<!--{
+  "rota": "/produtos",
+  "titulo": "Produtos — caixas flexíveis, sacolas de papel e caixas para transporte | Zagarollo",
+  "descricao": "Catálogo completo da Zagarollo: 22 kits de caixa flexível, 5 linhas de sacola e saco de papel kraft e 2 kits de caixa para transporte, com as medidas de cada referência.",
+  "nav": "PRODUTOS",
+  "jsonld": "catalogo"
+}-->
+
+<section class="capa capa--interna">
+  <div class="container">
+    <div>
+      <span class="capa-selo">29 modelos · mais de 190 medidas</span>
+      <h1>Caixas flexíveis e sacolas de papel: <em>a linha inteira.</em></h1>
+      <p>
+        Cada kit sai em até sete medidas, e todas estão aqui — largura, profundidade e
+        altura, com o número da referência que o comercial usa. Escolha o formato; a
+        personalização a gente conversa depois.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <span class="selo revela">Catálogo</span>
+    <h2 class="secao-titulo revela">Encontre o formato certo.</h2>
+
+    <div class="filtros" role="group" aria-label="Filtrar produtos por categoria">
+      <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Tudo <span data-contagem="todos"></span></button>
+      <button class="filtro" type="button" data-filtro="caixas" aria-pressed="false">Caixas flexíveis <span data-contagem="caixas"></span></button>
+      <button class="filtro" type="button" data-filtro="sacolas" aria-pressed="false">Sacolas e sacos <span data-contagem="sacolas"></span></button>
+      <button class="filtro" type="button" data-filtro="transporte" aria-pressed="false">Transporte <span data-contagem="transporte"></span></button>
+      <button class="filtro" type="button" data-filtro="visor" aria-pressed="false">Com visor <span data-contagem="visor"></span></button>
+      <button class="filtro" type="button" data-filtro="festa" aria-pressed="false">Festa <span data-contagem="festa"></span></button>
+    </div>
+
+    <p class="sr-so" role="status" id="catalogo-status"></p>
+
+    <div class="catalogo" id="catalogo">{{CATALOGO}}</div>
+    <p class="vazio" id="catalogo-vazio" hidden>Nenhum modelo nessa categoria.</p>
+  </div>
+</section>
+
+<section class="secao secao--cinza">
+  <div class="container">
+    <span class="selo revela">Como ler o catálogo</span>
+    <h2 class="secao-titulo revela">O número da referência é o que a fábrica entende.</h2>
+    <p class="secao-intro revela">
+      Cada medida tem um número — nº 26, nº 113, nº 181. É por ele que o pedido anda
+      aqui dentro. Ao pedir orçamento, mande o kit e o número: some uma volta inteira de
+      conversa. As medidas estão em largura × profundidade × altura, em centímetros.
+    </p>
+
+    <div class="acabamentos">
+      <div class="acabamento revela">
+        <strong>Caixas flexíveis</strong>
+        <span>22 kits, de 2,5 × 2,5 × 1 cm até 60 × 26 × 6 cm. Montam por encaixe e chegam planas.</span>
+      </div>
+      <div class="acabamento revela">
+        <strong>Sacolas e sacos</strong>
+        <span>5 linhas, de 21,5 a 45 cm de altura. Alça torcida de papel; o saco vai sem alça, gramatura 80 g.</span>
+      </div>
+      <div class="acabamento revela">
+        <strong>Caixas para transporte</strong>
+        <span>2 kits: pizza, bolo e salgado (redondas e quadradas) e a caixa tipo correio, para despacho.</span>
+      </div>
+      <div class="acabamento revela">
+        <strong>Personalização</strong>
+        <span>Seis famílias de acabamento nas caixas, onze cores nas sacolas. <a href="/personalizacao">Ver as opções</a>.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chamada">
+  <div class="container">
+    <h2>Achou o modelo? Peça o preço.</h2>
+    <p>Diga o kit, o número da medida e a quantidade. Respondemos com preço, prazo e mínimo de produção.</p>
+    <a class="botao botao--claro" href="/contato">Pedir orçamento</a>
+  </div>
+</section>

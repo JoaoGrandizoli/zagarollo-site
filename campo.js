@@ -17,6 +17,8 @@
   if (!tela || !tela.getContext) return;
 
   var ctx = tela.getContext('2d');
+  if (!ctx) return;
+
   var reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- Desenho das quatro formas, em coordenadas 0..1 ----------
@@ -175,7 +177,9 @@
   var progresso = 0;
   var rodando = false;
   var naTela = true;
-  var visivelNaAba = true;
+  /* Carregar numa aba de fundo (cmd-clique) não pode contar como visível:
+     o requestIdleCallback dispara mesmo assim e o ciclo começaria a correr. */
+  var visivelNaAba = !document.hidden;
   var raf = 0;
   var inicio = 0;
 
@@ -303,7 +307,9 @@
     var t = (agora - inicio) / 1000;
     ctx.clearRect(0, 0, L, A);
 
-    if (!pontos.length) { raf = requestAnimationFrame(quadro); return; }
+    /* Sem pontos não há o que desenhar. Quem religa o loop é o ResizeObserver,
+       quando o canvas ganha altura — girar a 60fps aqui seria desperdício. */
+    if (!pontos.length) { rodando = false; return; }
 
     /* Onde estamos no roteiro. */
     var c = reduzido ? 0 : t % CICLO;
@@ -414,13 +420,15 @@
                 var d2 = ux * ux + uy * uy;
                 if (d2 > LIGA * LIGA) continue;
 
-                var vinco = pa.bordaAtual && pb.bordaAtual;
+                /* Nome diferente da função vinco(): um `var` aqui a sombrearia
+                   dentro de quadro() inteiro, por içamento. */
+                var ehDobra = pa.bordaAtual && pb.bordaAtual;
                 var al = Math.min(1, Math.pow(1 - Math.sqrt(d2) / LIGA, 1.4) *
-                                     (vinco ? 1.05 : 0.26) * esmaece);
+                                     (ehDobra ? 1.05 : 0.26) * esmaece);
                 if (al < 0.012) continue;
 
                 var faixa = Math.min(FAIXAS - 1, Math.floor(al * FAIXAS));
-                var idx = (vinco ? FAIXAS : 0) + faixa;
+                var idx = (ehDobra ? FAIXAS : 0) + faixa;
                 var caminho = baldes[idx] || (baldes[idx] = new Path2D());
                 caminho.moveTo(pa.x, pa.y);
                 caminho.lineTo(pb.x, pb.y);
@@ -459,30 +467,68 @@
     ctx.fillStyle = 'rgba(255,255,255,' + (0.95 * esmaece).toFixed(3) + ')';
     ctx.fill(pVinco);
 
+    /* Sob "reduzir movimento" o quadro é sempre idêntico: nada morfa, nada
+       balança, nada responde a scroll ou ponteiro. Desenha uma vez e para,
+       em vez de queimar bateria redesenhando a mesma imagem 60x por segundo. */
+    if (reduzido) { rodando = false; return; }
+
     raf = requestAnimationFrame(quadro);
   }
 
   /* ---------- Ligações com a página ---------- */
 
   var redimensiona;
+  function remonta() {
+    monta();
+    if (!rodando) { rodando = true; raf = requestAnimationFrame(quadro); }
+  }
+
   window.addEventListener('resize', function () {
     clearTimeout(redimensiona);
-    redimensiona = setTimeout(monta, 180);
+    redimensiona = setTimeout(remonta, 180);
   }, { passive: true });
 
-  window.addEventListener('pointermove', function (e) {
-    var r = tela.getBoundingClientRect();
-    ponteiro.x = e.clientX - r.left;
-    ponteiro.y = e.clientY - r.top;
-  }, { passive: true });
+  /* Se o canvas nasceu sem altura (ancestral oculto, navegador sem
+     aspect-ratio), a amostragem devolve zero pontos e sem isto o campo ficaria
+     em branco para sempre — o resize da janela nunca chegaria a acontecer. */
+  if ('ResizeObserver' in window) {
+    var jaTinha = false;
+    new ResizeObserver(function (entradas) {
+      var alto = entradas[0].contentRect.height > 8;
+      if (alto && !jaTinha) { jaTinha = true; if (pontos.length === 0) remonta(); }
+      if (!alto) jaTinha = false;
+    }).observe(tela);
+  }
 
-  window.addEventListener('pointerleave', function () {
-    ponteiro.x = -9999; ponteiro.y = -9999;
-  }, { passive: true });
+  if (!reduzido) {
+    /* O retângulo do canvas só muda em resize e scroll. Medi-lo a cada evento
+       de ponteiro força um reflow síncrono centenas de vezes por segundo. */
+    var caixaTela = null;
+    var invalida = function () { caixaTela = null; };
 
-  window.addEventListener('scroll', function () {
-    progresso = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.85)));
-  }, { passive: true });
+    window.addEventListener('pointermove', function (e) {
+      if (!caixaTela) caixaTela = tela.getBoundingClientRect();
+      ponteiro.x = e.clientX - caixaTela.left;
+      ponteiro.y = e.clientY - caixaTela.top;
+    }, { passive: true });
+
+    /* pointerleave não borbulha, então um listener em `window` nunca é
+       chamado. pointerout borbulha; relatedTarget nulo = saiu da janela. */
+    var solta = function (e) {
+      if (e && e.type === 'pointerout' && e.relatedTarget) return;
+      ponteiro.x = -9999; ponteiro.y = -9999;
+    };
+    window.addEventListener('pointerout', solta, { passive: true });
+    window.addEventListener('pointercancel', solta, { passive: true });
+    window.addEventListener('pointerup', solta, { passive: true });
+
+    window.addEventListener('scroll', function () {
+      invalida();
+      progresso = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.85)));
+    }, { passive: true });
+
+    window.addEventListener('resize', invalida, { passive: true });
+  }
 
   /* O loop só roda quando a capa está na tela E a aba está à frente. Rolar para
      baixo ou trocar de aba mata o rAF — o ciclo congela onde parou e retoma dali,

@@ -1,0 +1,83 @@
+<!--{
+  "rota": "/representantes",
+  "titulo": "Representantes — 61 representantes em 27 estados | Zagarollo Embalagens",
+  "descricao": "Encontre o representante Zagarollo da sua região. São 61 representantes cobrindo 27 estados, com telefone, e-mail e as cidades que cada um atende.",
+  "nav": "REPRESENTANTES"
+}-->
+
+<section class="capa capa--interna">
+  <div class="container">
+    <div>
+      <span class="capa-selo">61 representantes · 27 estados</span>
+      <h1>Tem alguém <em>perto de você.</em></h1>
+      <p>
+        A Zagarollo atende o país inteiro através de representantes que conhecem a
+        própria praça. Escolha o seu estado e fale direto com quem cobre a sua cidade —
+        ou ligue para a fábrica, que a gente encaminha.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <div class="uf-busca">
+      <label for="uf">Selecione o seu estado</label>
+      <select id="uf">
+        <option value="todos">Todos os estados</option>
+        {{OPCOES_UF}}
+      </select>
+    </div>
+
+    <p class="sr-so" role="status" id="uf-status"></p>
+
+    <div id="representantes">{{REPRESENTANTES}}</div>
+  </div>
+</section>
+
+<section class="secao secao--azul">
+  <div class="container orcamento">
+    <div>
+      <span class="selo revela">Não achou a sua cidade?</span>
+      <h2 class="secao-titulo revela">Fale direto com a fábrica.</h2>
+      <p class="secao-intro revela">
+        Algumas regiões são atendidas direto por Descalvado. Diga onde você está e o que
+        precisa embalar, e a gente indica quem cuida do seu pedido.
+      </p>
+
+      <div class="contatos">
+        <div class="contato">
+          <div class="contato-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          </div>
+          <div>
+            <strong>Telefones da fábrica</strong>
+            <a href="tel:+551935831743">19 3583-1743</a> ·
+            <a href="tel:+551935832499">19 3583-2499</a> ·
+            <a href="tel:+551935834797">19 3583-4797</a>
+          </div>
+        </div>
+
+        <div class="contato">
+          <div class="contato-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          </div>
+          <div>
+            <strong>Comercial</strong>
+            <a href="mailto:telemarketing@zagarollo.com.br">telemarketing@zagarollo.com.br</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caixa-destaque revela">
+      <h3>Quer representar a Zagarollo?</h3>
+      <p>
+        A rede cresce por indicação e por gente que já conhece o varejo da própria
+        região. Se você trabalha com representação comercial e quer levar a linha, fale
+        com o comercial contando a sua praça e o que você já representa.
+      </p>
+      <a class="botao botao--principal" href="/contato?assunto=representacao">Quero representar</a>
+    </div>
+  </div>
+</section>

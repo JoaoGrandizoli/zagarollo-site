@@ -1,0 +1,144 @@
+<!--{
+  "rota": "/contato",
+  "titulo": "Contato e orçamento — Zagarollo Embalagens, Descalvado-SP",
+  "descricao": "Peça orçamento de caixas flexíveis e sacolas de papel. Telefones, e-mail e endereço da fábrica da Zagarollo em Descalvado-SP.",
+  "nav": "CONTATO",
+  "jsonld": "local"
+}-->
+
+<section class="capa capa--interna">
+  <div class="container">
+    <div>
+      <span class="capa-selo">Orçamento</span>
+      <h1>Conte o que você <em>precisa embalar.</em></h1>
+      <p>
+        Diga o modelo, o número da medida e a quantidade. A gente responde com preço,
+        prazo, mínimo de produção e as opções de personalização que cabem no seu volume.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container orcamento">
+    <div>
+      <span class="selo revela">Onde estamos</span>
+      <h2 class="secao-titulo revela">A fábrica fica em Descalvado.</h2>
+
+      <div class="contatos">
+        <div class="contato">
+          <div class="contato-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          </div>
+          <div>
+            <strong>Telefones</strong>
+            <a href="tel:+551935831743">19 3583-1743</a> ·
+            <a href="tel:+551935832499">19 3583-2499</a> ·
+            <a href="tel:+551935834797">19 3583-4797</a>
+          </div>
+        </div>
+
+        <div class="contato">
+          <div class="contato-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          </div>
+          <div>
+            <strong>E-mail</strong>
+            <a href="mailto:telemarketing@zagarollo.com.br">telemarketing@zagarollo.com.br</a>
+          </div>
+        </div>
+
+        <div class="contato">
+          <div class="contato-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <strong>Endereço</strong>
+            <span>Rua Cel. Arthur Whitacker, 488 — Centro<br>Descalvado-SP — CEP 13690-000</span><br>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Zagarollo+Embalagens+Rua+Cel.+Arthur+Whitacker+488+Descalvado+SP"
+               target="_blank" rel="noopener">Ver no mapa (abre em nova aba)</a>
+          </div>
+        </div>
+
+        <div class="contato">
+          <div class="contato-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div>
+            <strong>Representante da sua região</strong>
+            <a href="/representantes">São 61 representantes em 27 estados</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="formulario revela" id="form-orcamento" aria-labelledby="titulo-form">
+      <h2 class="formulario-titulo" id="titulo-form">Pedido de orçamento</h2>
+
+      <div class="dupla">
+        <div class="campo">
+          <label for="nome">Nome <span class="obrigatorio" aria-hidden="true">*</span></label>
+          <input id="nome" name="nome" type="text" required autocomplete="name">
+        </div>
+        <div class="campo">
+          <label for="empresa">Empresa</label>
+          <input id="empresa" name="empresa" type="text" autocomplete="organization">
+        </div>
+      </div>
+
+      <div class="dupla">
+        <div class="campo">
+          <label for="email">E-mail <span class="obrigatorio" aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="campo">
+          <label for="telefone">Telefone</label>
+          <input id="telefone" name="telefone" type="tel" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="dupla">
+        <div class="campo">
+          <label for="cidade">Cidade e estado</label>
+          <input id="cidade" name="cidade" type="text" autocomplete="address-level2" placeholder="ex.: Campinas-SP">
+        </div>
+        <div class="campo">
+          <label for="quantidade">Quantidade estimada</label>
+          <input id="quantidade" name="quantidade" type="text" placeholder="ex.: 5.000 unidades">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="produto">O que você procura</label>
+        <select id="produto" name="produto">
+          <option value="">— selecione —</option>
+          <option>Caixas flexíveis</option>
+          <option>Sacolas e sacos de papel</option>
+          <option>Caixas para transporte (pizza, bolo, correio)</option>
+          <option>Personalização com a minha marca</option>
+          <option>Quero ser representante</option>
+          <option>Ainda não sei / quero ajuda</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="mensagem">Para que serve a embalagem?</label>
+        <textarea id="mensagem" name="mensagem" maxlength="900"
+                  placeholder="Ex.: sacola kraft com a marca da loja, para levar peças de roupa. Se já sabe o modelo, mande o kit e o número da medida."></textarea>
+        <span class="campo-dica">Se já escolheu no catálogo, mande o kit e o número da referência.</span>
+      </div>
+
+      <p class="formulario-nota" id="nota-envio">
+        O botão abre o seu programa de e-mail com a mensagem já preenchida para
+        telemarketing@zagarollo.com.br — nada é enviado por este site. Se nada abrir,
+        escreva direto para esse endereço ou ligue <a href="tel:+551935831743">19 3583-1743</a>.
+      </p>
+
+      <button class="botao botao--principal" type="submit" aria-describedby="nota-envio">
+        Abrir e-mail com o pedido preenchido
+      </button>
+
+      <p class="sr-so" role="status" id="form-status"></p>
+    </form>
+  </div>
+</section>
