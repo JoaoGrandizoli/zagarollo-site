@@ -6,6 +6,10 @@
   --azul-escuro: #23386b;
   --azul-claro: #eef2fa;
   --verde: #00874a;
+  /* O verde da marca só alcança 4,21:1 sobre fundos claros. Onde ele é
+     TEXTO, entra a versão escurecida (5,7:1); como fundo de botão com
+     texto branco por cima, o original continua valendo. */
+  --verde-texto: #00703e;
   --verde-claro: #8fd0ae;
   --verde-fundo: #eef7f2;
   --kraft: #b98a5a;
@@ -71,7 +75,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--verde);
+  color: var(--verde-texto);
   margin-bottom: 14px;
 }
 
@@ -395,7 +399,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   height: 52px;
   border-radius: 14px;
   background: var(--verde-fundo);
-  color: var(--verde);
+  color: var(--verde-texto);
   display: grid;
   place-items: center;
   margin-bottom: 20px;
@@ -525,7 +529,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   color: var(--azul);
 }
 
-.produto-tag--sacola { background: var(--verde-fundo); color: var(--verde); }
+.produto-tag--sacola { background: var(--verde-fundo); color: var(--verde-texto); }
 
 .produto h3 { font-size: 1.08rem; }
 
@@ -535,7 +539,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   font-weight: 700;
   font-size: .9rem;
   text-decoration: none;
-  color: var(--verde);
+  color: var(--verde-texto);
 }
 
 .produto a:hover { text-decoration: underline; }
