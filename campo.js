@@ -280,7 +280,7 @@
     /* A planificação define quantos pontos existem; as outras formas são
        reamostradas para essa mesma contagem. */
     var n = conjuntos[0].length;
-    if (!n) { pontos = []; return; }
+    if (!n || conjuntos.some(function (c) { return !c.length; })) { pontos = []; return; }
 
     pontos = [];
     for (var i = 0; i < n; i++) {
@@ -571,6 +571,12 @@
     inicio = performance.now();
     avalia();
   }
+
+  window.__campo = function () {
+    return { pontos: pontos.length, rodando: rodando, naTela: naTela,
+             visivelNaAba: visivelNaAba, L: L, A: A, reduzido: reduzido,
+             progresso: progresso };
+  };
 
   if ('requestIdleCallback' in window) {
     requestIdleCallback(comeca, { timeout: 1500 });
