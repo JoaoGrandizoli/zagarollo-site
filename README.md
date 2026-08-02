@@ -41,6 +41,45 @@ material da própria Zagarollo. Uma versão anterior deste site trazia "100% pap
 reciclável" e "papel próprio para alimento" — as duas inventadas, a segunda é
 afirmação regulatória. Na dúvida, escreva a pergunta em vez da afirmação.
 
+## A coreografia da página inicial
+
+Só a **home** carrega `cena.js` e `jogo.js` — as outras cinco páginas não pagam por
+isso. O sinalizador está no cabeçalho JSON de `paginas/inicio.html` (`"cena": true`,
+`"jogo": true`) e o `build.mjs` injeta as tags correspondentes.
+
+`cena.js` é um único laço de `requestAnimationFrame` que lê a rolagem e escreve
+propriedades CSS (`--p`, `--saida`, `--lido`). **Quem anima é o CSS**; o JavaScript só
+publica o número. Dentro do laço não se lê layout de nada que mude de tamanho — a
+largura da faixa horizontal é medida fora dele, no `load` e no `resize`.
+
+O que ele dirige:
+
+| Efeito | Como |
+| --- | --- |
+| Barra de progresso de leitura | `--lido` → `scaleX` |
+| A manchete afunda e apaga ao sair | `--saida` no `.capa` |
+| Faixa horizontal do catálogo | cena fixada de 320vh; `--p` → `translateX` da fita |
+| Manifesto linha a linha | `data-etapa` no elemento; o CSS revela por `:nth-child` |
+| Tipografia cinética | cada letra vira `<span>` com `--i`, atraso escalonado |
+| Contadores e botões magnéticos | `IntersectionObserver` e `pointermove` |
+
+Sob `prefers-reduced-motion` o laço **nem começa**: as cenas fixadas viram seções
+normais empilhadas e tudo fica legível e estático.
+
+## O jogo
+
+`jogo.js` — "Corre, Sacola": um corredor lateral curto no fim da home. Você é uma
+sacola de papel, recolhe sacolinhas verdes e desvia de **gota d'água e tesoura**, que
+são o que de fato estraga papel.
+
+Duas decisões que importam para o desempenho: **nada é imagem** (tudo é desenhado com
+formas no canvas, zero byte de asset) e **nada roda até o clique em Jogar** — o
+carregamento da página não paga pelo jogo. Ele pausa sozinho ao sair da tela, ao perder
+o foco e ao trocar de aba. O recorde fica em `localStorage`.
+
+Operável por teclado: o canvas é focável e espaço ou seta para cima pulam. A barra de
+espaço só é capturada quando o jogo tem o foco — senão quebraria a rolagem da página.
+
 ## A animação da capa
 
 O visual da capa não é uma foto: é uma malha de pontos ligados por linhas que **morfa
@@ -94,9 +133,10 @@ python3 -c "import hashlib,base64; s=\"document.documentElement.classList.add('j
 
 ## Desempenho
 
-Lighthouse em emulação de celular com rede 4G lenta, nas cinco páginas públicas:
-**100 em desempenho, 100 em acessibilidade e 100 em boas práticas**. LCP entre
-0,9 s e 1,1 s, bloqueio da thread principal em 0 ms, nenhum deslocamento de layout.
+Lighthouse em emulação de celular com rede 4G lenta: **100 em acessibilidade e 100 em
+boas práticas em todas as páginas**; desempenho 100 nas internas e **99 na home**, que
+carrega as 29 miniaturas da faixa de catálogo. LCP entre 0,9 s e 1,0 s, bloqueio da
+thread principal em 0 ms, nenhum deslocamento de layout.
 
 O SEO fica em 69 **de propósito**: a única auditoria que falha é `is-crawlable`,
 porque o `robots.txt` bloqueia a indexação enquanto o site não está no domínio
