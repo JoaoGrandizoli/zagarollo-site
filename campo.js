@@ -301,15 +301,15 @@
 
   /* ---------- Quadro ---------- */
 
-  function quadro(agora) {
-    if (!rodando) return;
+  /* `unico` desenha um quadro solto sem entrar no laço: é o que garante que o
+     canvas nunca fique em branco quando a página abre numa aba de fundo. */
+  function quadro(agora, unico) {
+    if (!unico && !rodando) return;
 
     var t = (agora - inicio) / 1000;
     ctx.clearRect(0, 0, L, A);
 
-    /* Sem pontos não há o que desenhar. Quem religa o loop é o ResizeObserver,
-       quando o canvas ganha altura — girar a 60fps aqui seria desperdício. */
-    if (!pontos.length) { rodando = false; return; }
+    if (!pontos.length) { if (!unico) rodando = false; return; }
 
     /* Onde estamos no roteiro. */
     var c = reduzido ? 0 : t % CICLO;
@@ -470,6 +470,10 @@
     /* Sob "reduzir movimento" o quadro é sempre idêntico: nada morfa, nada
        balança, nada responde a scroll ou ponteiro. Desenha uma vez e para,
        em vez de queimar bateria redesenhando a mesma imagem 60x por segundo. */
+    if (unico) return;
+
+    /* Sob "reduzir movimento" o quadro é sempre idêntico: desenha uma vez e
+       para, em vez de queimar bateria redesenhando a mesma imagem. */
     if (reduzido) { rodando = false; return; }
 
     raf = requestAnimationFrame(quadro);
@@ -480,7 +484,8 @@
   var redimensiona;
   function remonta() {
     monta();
-    if (!rodando) { rodando = true; raf = requestAnimationFrame(quadro); }
+    avalia();
+    if (!rodando) quadro(performance.now(), true);
   }
 
   window.addEventListener('resize', function () {
@@ -492,11 +497,8 @@
      aspect-ratio), a amostragem devolve zero pontos e sem isto o campo ficaria
      em branco para sempre — o resize da janela nunca chegaria a acontecer. */
   if ('ResizeObserver' in window) {
-    var jaTinha = false;
     new ResizeObserver(function (entradas) {
-      var alto = entradas[0].contentRect.height > 8;
-      if (alto && !jaTinha) { jaTinha = true; if (pontos.length === 0) remonta(); }
-      if (!alto) jaTinha = false;
+      if (entradas[0].contentRect.height > 8 && pontos.length === 0) remonta();
     }).observe(tela);
   }
 
@@ -570,13 +572,10 @@
     monta();
     inicio = performance.now();
     avalia();
+    /* Aba de fundo: o laço não roda, mas a figura tem de estar lá quando
+       a pessoa voltar para a aba. */
+    if (!rodando) quadro(performance.now(), true);
   }
-
-  window.__campo = function () {
-    return { pontos: pontos.length, rodando: rodando, naTela: naTela,
-             visivelNaAba: visivelNaAba, L: L, A: A, reduzido: reduzido,
-             progresso: progresso };
-  };
 
   if ('requestIdleCallback' in window) {
     requestIdleCallback(comeca, { timeout: 1500 });
