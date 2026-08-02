@@ -21,25 +21,25 @@
 
   /* ---------- Desenho das quatro formas, em coordenadas 0..1 ---------- */
 
-  function retangulo(c, L, T, R, B, e, a) {
+  function retangulo(c, L, T, R, B, e, ax, ay) {
     c.fillStyle = '#f00';
-    c.fillRect(L * e + a, T * e + a, (R - L) * e, (B - T) * e);
+    c.fillRect(L * e + ax, T * e + ay, (R - L) * e, (B - T) * e);
   }
 
   /* A folha plana, vincada: quadrado central e quatro abas. */
-  function planificacao(c, e, a) {
-    retangulo(c, 0.36, 0.36, 0.64, 0.64, e, a);
-    retangulo(c, 0.12, 0.38, 0.36, 0.62, e, a);
-    retangulo(c, 0.64, 0.38, 0.88, 0.62, e, a);
-    retangulo(c, 0.38, 0.12, 0.62, 0.36, e, a);
-    retangulo(c, 0.38, 0.64, 0.62, 0.88, e, a);
-    retangulo(c, 0.44, 0.05, 0.56, 0.12, e, a);
-    retangulo(c, 0.44, 0.88, 0.56, 0.95, e, a);
+  function planificacao(c, e, ax, ay) {
+    retangulo(c, 0.36, 0.36, 0.64, 0.64, e, ax, ay);
+    retangulo(c, 0.12, 0.38, 0.36, 0.62, e, ax, ay);
+    retangulo(c, 0.64, 0.38, 0.88, 0.62, e, ax, ay);
+    retangulo(c, 0.38, 0.12, 0.62, 0.36, e, ax, ay);
+    retangulo(c, 0.38, 0.64, 0.62, 0.88, e, ax, ay);
+    retangulo(c, 0.44, 0.05, 0.56, 0.12, e, ax, ay);
+    retangulo(c, 0.44, 0.88, 0.56, 0.95, e, ax, ay);
   }
 
   /* A mesma folha, montada: caixa em perspectiva isométrica. */
-  function caixa(c, e, a) {
-    var P = function (x, y) { return [x * e + a, y * e + a]; };
+  function caixa(c, e, ax, ay) {
+    var P = function (x, y) { return [x * e + ax, y * e + ay]; };
 
     var faces = [
       [P(0.50, 0.20), P(0.84, 0.38), P(0.50, 0.56), P(0.16, 0.38)],
@@ -58,8 +58,8 @@
   }
 
   /* A sacola: corpo trapezoidal, banda da dobra e alça torcida. */
-  function sacola(c, e, a) {
-    var P = function (x, y) { return [x * e + a, y * e + a]; };
+  function sacola(c, e, ax, ay) {
+    var P = function (x, y) { return [x * e + ax, y * e + ay]; };
     var corpo = [P(0.25, 0.33), P(0.75, 0.33), P(0.71, 0.88), P(0.29, 0.88)];
 
     c.fillStyle = '#f00';
@@ -73,29 +73,36 @@
     c.strokeStyle = '#f00';
     c.lineWidth = Math.max(3, e * 0.028);
     c.beginPath();
-    c.moveTo(0.38 * e + a, 0.33 * e + a);
-    c.bezierCurveTo(0.38 * e + a, 0.13 * e + a, 0.62 * e + a, 0.13 * e + a, 0.62 * e + a, 0.33 * e + a);
+    c.moveTo(0.38 * e + ax, 0.33 * e + ay);
+    c.bezierCurveTo(0.38 * e + ax, 0.13 * e + ay, 0.62 * e + ax, 0.13 * e + ay, 0.62 * e + ax, 0.33 * e + ay);
     c.stroke();
   }
 
   /* O coração. Aparece por dois segundos e some. */
-  function coracao(c, e, a) {
-    var X = function (v) { return v * e + a; };
+  function coracao(c, e, ax, ay) {
+    var X = function (v) { return v * e + ax; };
+    var Y = function (v) { return v * e + ay; };
 
     c.fillStyle = '#f00';
     c.beginPath();
-    c.moveTo(X(0.50), X(0.82));
-    c.bezierCurveTo(X(0.50), X(0.82), X(0.11), X(0.56), X(0.11), X(0.36));
-    c.bezierCurveTo(X(0.11), X(0.21), X(0.24), X(0.15), X(0.33), X(0.15));
-    c.bezierCurveTo(X(0.42), X(0.15), X(0.48), X(0.22), X(0.50), X(0.27));
-    c.bezierCurveTo(X(0.52), X(0.22), X(0.58), X(0.15), X(0.67), X(0.15));
-    c.bezierCurveTo(X(0.76), X(0.15), X(0.89), X(0.21), X(0.89), X(0.36));
-    c.bezierCurveTo(X(0.89), X(0.56), X(0.50), X(0.82), X(0.50), X(0.82));
+    c.moveTo(X(0.50), Y(0.82));
+    c.bezierCurveTo(X(0.50), Y(0.82), X(0.11), Y(0.56), X(0.11), Y(0.36));
+    c.bezierCurveTo(X(0.11), Y(0.21), X(0.24), Y(0.15), X(0.33), Y(0.15));
+    c.bezierCurveTo(X(0.42), Y(0.15), X(0.48), Y(0.22), X(0.50), Y(0.27));
+    c.bezierCurveTo(X(0.52), Y(0.22), X(0.58), Y(0.15), X(0.67), Y(0.15));
+    c.bezierCurveTo(X(0.76), Y(0.15), X(0.89), Y(0.21), X(0.89), Y(0.36));
+    c.bezierCurveTo(X(0.89), Y(0.56), X(0.50), Y(0.82), X(0.50), Y(0.82));
     c.closePath();
     c.fill();
   }
 
   var FORMAS = [planificacao, caixa, sacola, coracao];
+
+  /* A legenda nomeia a forma enquanto ela está parada. O coração não recebe
+     nome nenhum — nomear a piada é o que a estragaria. */
+  var NOMES = ['a folha plana', 'a caixa montada', 'a sacola', ''];
+  var legenda = document.getElementById('campo-legenda');
+  var nomeAtual = null;
 
   /* ---------- Roteiro do ciclo ----------
      Cada trecho diz de qual forma para qual, e quando. O coração é o mais
@@ -148,8 +155,10 @@
     var oc = fora.getContext('2d', { willReadFrequently: true });
     if (!oc) return [];
 
-    var lado = Math.min(L, A) * 0.92;
-    desenha(oc, lado, (Math.min(L, A) - lado) / 2 + (L - Math.min(L, A)) / 2);
+    /* As formas são desenhadas num quadrado centrado, para não deformarem
+       quando o canvas não é quadrado. */
+    var lado = Math.min(L, A) * 0.94;
+    desenha(oc, lado, (L - lado) / 2, (A - lado) / 2);
 
     var img = oc.getImageData(0, 0, fora.width, fora.height).data;
 
@@ -246,6 +255,15 @@
         de = tr.de; para = tr.para;
         k = tr.de === tr.para ? 0 : suave(tr.ini, tr.fim, c);
         break;
+      }
+    }
+
+    if (legenda) {
+      var nome = de === para ? NOMES[de] : '';
+      if (nome !== nomeAtual) {
+        nomeAtual = nome;
+        legenda.textContent = nome;
+        legenda.setAttribute('data-visivel', nome ? 'true' : 'false');
       }
     }
 
