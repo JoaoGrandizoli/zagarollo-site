@@ -39,6 +39,8 @@ const ENTRADAS = [
   { arquivo: 'estilo.css', loader: 'css' },
   { arquivo: 'script.js', loader: 'js' },
   { arquivo: 'campo.js', loader: 'js' },
+  { arquivo: 'cena.js', loader: 'js' },
+  { arquivo: 'jogo.js', loader: 'js' },
 ];
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -132,6 +134,18 @@ function blocosRepresentantes() {
     </section>`).join('');
 }
 
+/* Faixa horizontal da home: uma fita com as fichas reais passando. Miniaturas
+   de 320px — a faixa é decorativa, o catálogo de verdade está em /produtos. */
+function faixaCatalogo() {
+  const comFoto = produtos.produtos.filter((p) => !p.semFoto);
+  return comFoto.map((p) => `
+      <figure class="faixa-item">
+        <img loading="lazy" decoding="async" src="imagens/produtos/${p.slug}-320.webp"
+             alt="" width="320" height="174">
+        <figcaption>${esc(p.nome)}</figcaption>
+      </figure>`).join('');
+}
+
 const opcoesUf = () => estados
   .map((e) => `<option value="${e.sigla}">${esc(e.uf)}</option>`).join('\n        ');
 
@@ -214,6 +228,7 @@ for (const arq of fragmentos) {
   corpo = corpo
     .replace('{{CATALOGO}}', () => produtos.produtos.map(cartaoProduto).join(''))
     .replace('{{FAMILIAS}}', cartoesFamilia)
+    .replace('{{FAIXA}}', faixaCatalogo)
     .replace('{{REPRESENTANTES}}', blocosRepresentantes)
     .replace('{{OPCOES_UF}}', opcoesUf)
     .replace('{{ACABAMENTOS}}', blocosAcabamento)
@@ -233,7 +248,11 @@ for (const arq of fragmentos) {
     .replace(/\{\{WHATSAPP\}\}/g, WHATSAPP)
     .replace('{{CABECA}}', cabeca.join('\n'))
     .replace('{{CONTEUDO}}', () => corpo)
-    .replace('{{RODAPE_SCRIPTS}}', meta.campo ? '<script src="campo.js" defer></script>' : '')
+    .replace('{{RODAPE_SCRIPTS}}', () => [
+      meta.cena && '<script src="cena.js" defer></script>',
+      meta.campo && '<script src="campo.js" defer></script>',
+      meta.jogo && '<script src="jogo.js" defer></script>',
+    ].filter(Boolean).join('\n'))
     + '\n</body>\n</html>\n';
 
   for (const chave of ['INICIO', 'PRODUTOS', 'PERSONALIZACAO', 'REPRESENTANTES', 'EMPRESA', 'CONTATO']) {

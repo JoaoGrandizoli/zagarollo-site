@@ -4,12 +4,16 @@
   "descricao": "Fábrica de caixas flexíveis e sacolas de papel kraft em Descalvado-SP. 29 modelos de linha, personalização e representantes em 27 estados desde 2002.",
   "nav": "INICIO",
   "campo": true,
+  "cena": true,
+  "jogo": true,
   "jsonld": "organizacao"
 }-->
 
+<div class="progresso" id="progresso" aria-hidden="true"><span></span></div>
+
 <section class="capa">
   <div class="container">
-    <div>
+    <div class="capa-texto">
       <span class="capa-selo">Fábrica em Descalvado-SP · desde 2002</span>
       <h1>O que importa <em>vai dentro.</em></h1>
       <p>
@@ -19,8 +23,8 @@
         proteger o que vai dentro delas.
       </p>
       <div class="capa-acoes">
-        <a class="botao botao--principal" href="/contato">Pedir um orçamento</a>
-        <a class="botao botao--claro" href="/produtos">Ver os 29 modelos</a>
+        <a class="botao botao--principal" data-imã href="/contato">Pedir um orçamento</a>
+        <a class="botao botao--claro" data-imã href="/produtos">Ver os 29 modelos</a>
       </div>
     </div>
 
@@ -29,14 +33,16 @@
       <p class="capa-legenda" id="campo-legenda" aria-hidden="true"></p>
     </div>
   </div>
+
+  <span class="capa-role" aria-hidden="true">role</span>
 </section>
 
 <section class="numeros">
   <div class="container">
     <div class="numero revela"><strong>2002</strong><span>ano de fundação</span></div>
-    <div class="numero revela"><strong>29</strong><span>modelos de linha</span></div>
-    <div class="numero revela"><strong>27</strong><span>estados com representante</span></div>
-    <div class="numero revela"><strong>61</strong><span>representantes no país</span></div>
+    <div class="numero revela"><strong data-conta="29">29</strong><span>modelos de linha</span></div>
+    <div class="numero revela"><strong data-conta="27">27</strong><span>estados com representante</span></div>
+    <div class="numero revela"><strong data-conta="61">61</strong><span>representantes no país</span></div>
   </div>
 </section>
 
@@ -97,6 +103,20 @@
   </div>
 </section>
 
+<section class="cena cena--faixa" data-cena>
+  <div class="cena-fixa">
+    <div class="container faixa-cabeca">
+      <span class="selo selo--claro">O catálogo inteiro</span>
+      <h2 class="faixa-titulo" data-letras>Vinte e nove modelos.</h2>
+      <p>Cento e noventa e duas medidas, todas publicadas. Isto aqui é só a linha passando.</p>
+    </div>
+
+    <div class="faixa-trilha" data-trilha>{{FAIXA}}</div>
+
+    <a class="botao botao--principal faixa-cta" data-imã href="/produtos">Abrir o catálogo</a>
+  </div>
+</section>
+
 <section class="secao secao--cinza">
   <div class="container">
     <span class="selo revela">Três famílias, 29 modelos</span>
@@ -151,24 +171,51 @@
   </div>
 </section>
 
-<section class="manifesto">
+<section class="cena cena--manifesto" data-cena data-etapas="5">
+  <div class="cena-fixa">
+    <div class="container">
+      <span class="selo selo--claro">O que vai dentro</span>
+      <h2 class="manifesto-titulo">A gente nunca vendeu uma caixa.</h2>
+
+      <ul class="manifesto-lista">
+        <li>Vendeu a caixa do anel que alguém passou meses juntando dinheiro para comprar.</li>
+        <li>A do bolo que precisava chegar inteiro na festa.</li>
+        <li>A sacolinha que a criança levou para casa e não deixou ninguém jogar fora.</li>
+        <li>A caixa que está no fundo do armário há vinte anos porque tem carta dentro.</li>
+        <li class="manifesto-fecho">
+          Papel, cola e corte: é disso que a caixa é feita. Não é para isso que ela serve.
+          A nossa parte é a embalagem estar à altura do que vai dentro.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="secao secao--jogo" id="jogo-secao">
   <div class="container">
-    <span class="selo selo--claro revela">O que vai dentro</span>
-    <h2 class="manifesto-titulo revela">A gente nunca vendeu uma caixa.</h2>
-
-    <ul class="manifesto-lista">
-      <li class="revela">Vendeu a caixa do anel que alguém passou meses juntando dinheiro para comprar.</li>
-      <li class="revela">A do bolo que precisava chegar inteiro na festa.</li>
-      <li class="revela">A sacolinha que a criança levou para casa e não deixou ninguém jogar fora.</li>
-      <li class="revela">A caixa que está no fundo do armário há vinte anos porque tem carta dentro.</li>
-    </ul>
-
-    <p class="manifesto-fecho revela">
-      Papel, cola e corte: é disso que a caixa é feita. Não é para isso que ela serve.
-      Faz vinte e poucos anos que a gente embala coisa importante para alguém — e quase
-      nunca fica sabendo o quê. Tudo bem. A nossa parte é a embalagem estar à altura do
-      que vai dentro.
+    <span class="selo revela">Enquanto você decide</span>
+    <h2 class="secao-titulo revela">Corre, sacola.</h2>
+    <p class="secao-intro revela">
+      Você é uma sacola de papel. Recolha as sacolinhas verdes e desvie do que estraga
+      papel: gota d'água e tesoura. Espaço ou seta para cima para pular — dá para pular
+      duas vezes no ar.
     </p>
+
+    <div class="jogo-caixa revela">
+      <canvas id="jogo" width="900" height="300" tabindex="0"
+              aria-label="Jogo: uma sacola de papel corre, recolhe sacolinhas e desvia de obstáculos. Use espaço ou seta para cima para pular."></canvas>
+
+      <div class="jogo-barra">
+        <button class="botao botao--principal" type="button" id="jogo-botao">Jogar</button>
+        <p class="jogo-marcador">
+          Pontos <strong id="jogo-placar">0</strong>
+          <span aria-hidden="true">·</span>
+          Recorde <strong id="jogo-recorde">0</strong>
+        </p>
+      </div>
+
+      <p class="sr-so" role="status" id="jogo-aviso"></p>
+    </div>
   </div>
 </section>
 
@@ -176,6 +223,6 @@
   <div class="container">
     <h2>Diga o que você embala. A gente diz em qual modelo cabe.</h2>
     <p>Preço, prazo e mínimo de produção vão na resposta.</p>
-    <a class="botao botao--claro" href="/contato">Pedir orçamento</a>
+    <a class="botao botao--claro" data-imã href="/contato">Pedir orçamento</a>
   </div>
 </section>
