@@ -301,6 +301,49 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 
 .capa-legenda[data-visivel="true"] { opacity: 1; }
 
+/* ---------- O campo em 3D ----------
+   `campo3d.js` cria estes invólucros quando assume a capa e o manifesto. O canvas
+   desenha sobre preto e entra na página somando luz: o preto some e o azul do
+   fundo aparece por baixo. A mistura fica no invólucro, junto com a opacidade —
+   num filho, qualquer ancestral que crie contexto de empilhamento a anularia. */
+
+.campo3d {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+
+.campo3d canvas { display: block; width: 100%; height: 100%; }
+
+[data-campo="3d"] .campo3d { opacity: 1; }
+
+/* O campo 2D sai de cena; a legenda dele continua, agora nomeando as formas em 3D. */
+#campo { transition: opacity .8s ease; }
+.capa[data-campo="3d"] #campo { opacity: 0; }
+
+/* No manifesto o palco fixo é um contexto de empilhamento próprio: a luz precisa
+   de um fundo DENTRO dele para se somar. */
+.cena--manifesto .cena-fixa { background: var(--azul-escuro); }
+
+.campo3d--manifesto { inset: 0 0 0 auto; width: 54%; }
+
+@media (min-width: 901px) {
+  .cena--manifesto[data-campo="3d"] .container { max-width: var(--largura); }
+  .cena--manifesto[data-campo="3d"] .manifesto-titulo,
+  .cena--manifesto[data-campo="3d"] .manifesto-lista { max-width: 500px; }
+}
+
+@media (max-width: 900px) {
+  .campo3d--manifesto { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .campo3d { display: none; }
+}
+
 /* ---------- Manifesto ---------- */
 
 .manifesto {
