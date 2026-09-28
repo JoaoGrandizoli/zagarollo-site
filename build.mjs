@@ -41,6 +41,10 @@ const ENTRADAS = [
   { arquivo: 'campo.js', loader: 'js' },
   { arquivo: 'cena.js', loader: 'js' },
   { arquivo: 'jogo.js', loader: 'js' },
+  /* O campo 3D importa a three.js: é o único arquivo empacotado. Não entra em
+     nenhuma tag <script> — `campo.js` o pede depois da página pronta, pelo
+     endereço que o build carimba no atributo data-src. */
+  { arquivo: 'campo3d.js', loader: 'js', pacote: true },
 ];
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -198,9 +202,16 @@ await cp(path.join(RAIZ, 'imagens'), path.join(DIST, 'imagens'), { recursive: tr
 await cp(path.join(RAIZ, 'staticwebapp.config.json'), path.join(DIST, 'staticwebapp.config.json'));
 
 const renomeados = new Map();
-for (const { arquivo, loader } of ENTRADAS) {
+for (const { arquivo, loader, pacote } of ENTRADAS) {
   const origem = await readFile(path.join(RAIZ, arquivo), 'utf8');
-  const saida = await build({
+  const saida = await build(pacote ? {
+    entryPoints: [path.join(RAIZ, arquivo)],
+    bundle: true, format: 'iife', minify: true, write: false,
+    /* A licença da biblioteca (MIT) pede que o aviso acompanhe a cópia. */
+    legalComments: 'eof',
+    /* Só roda onde há WebGL2, então não precisa descer além disto. */
+    target: ['es2020'],
+  } : {
     stdin: { contents: origem, loader, sourcefile: arquivo },
     minify: true, write: false, legalComments: 'none',
     target: loader === 'css' ? ['chrome90', 'safari15', 'firefox90'] : ['es2018'],
@@ -262,7 +273,7 @@ for (const arq of fragmentos) {
   for (const [antigo, novo] of renomeados) {
     /* Só dentro de src/href: um replace de substring solto corromperia
        qualquer outro arquivo cujo nome termine igual (ex.: sub-campo.js). */
-    html = html.replace(new RegExp(`((?:src|href)=")${antigo.replace(/\./g, '\\.')}(")`, 'g'), `$1${novo}$2`);
+    html = html.replace(new RegExp(`((?:src|href|data-src)=")${antigo.replace(/\./g, '\\.')}(")`, 'g'), `$1${novo}$2`);
   }
 
   const nome = meta.rota === '/' ? 'index.html'
@@ -309,7 +320,7 @@ const quebrados = [];
 for (const { arquivo } of rotas) {
   const html = await readFile(path.join(DIST, arquivo), 'utf8');
   const referencias = [];
-  for (const m of html.matchAll(/(?:href|src)="([^"]+)"/g)) referencias.push(m[1]);
+  for (const m of html.matchAll(/(?:href|src|data-src)="([^"]+)"/g)) referencias.push(m[1]);
   /* srcset traz "arquivo 480w, arquivo 900w" — cada item precisa ser conferido. */
   for (const m of html.matchAll(/srcset="([^"]+)"/g)) {
     for (const parte of m[1].split(',')) referencias.push(parte.trim().split(/\s+/)[0]);

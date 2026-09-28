@@ -182,6 +182,8 @@
   var visivelNaAba = !document.hidden;
   var raf = 0;
   var inicio = 0;
+  /* Quando o campo 3D assume a capa, este aqui para de desenhar. */
+  var tresD = false;
 
   /* Traços agrupados por faixa de opacidade. */
   var FAIXAS = 6;
@@ -539,7 +541,7 @@
   var decorrido = 0;
 
   function avalia() {
-    var deveRodar = naTela && visivelNaAba;
+    var deveRodar = naTela && visivelNaAba && !tresD;
     if (deveRodar === rodando) return;
 
     rodando = deveRodar;
@@ -581,5 +583,49 @@
     requestIdleCallback(comeca, { timeout: 1500 });
   } else {
     setTimeout(comeca, 260);
+  }
+
+  /* ---------- O campo em 3D ----------
+     O mesmo argumento, com volume (`campo3d.js`). É pesado demais para o
+     carregamento: só é pedido depois da página pronta, e só em aparelho que
+     dá conta. Até ele chegar — e se não chegar — este campo 2D segue no ar.
+     No toque ele espera o primeiro gesto: quem só abriu a página no celular
+     não paga por um arquivo que talvez nem veja. */
+
+  window.__campo2dPara = function () { tresD = true; avalia(); };
+
+  var origem3d = tela.parentNode && tela.parentNode.getAttribute('data-src');
+
+  function daConta() {
+    if (reduzido || !origem3d || !window.WebGL2RenderingContext) return false;
+    if (navigator.connection && navigator.connection.saveData) return false;
+    if (navigator.deviceMemory !== undefined && navigator.deviceMemory < 4) return false;
+    return (navigator.hardwareConcurrency || 4) >= 4;
+  }
+
+  if (daConta()) {
+    var pedido = false;
+    var pede = function () {
+      if (pedido) return;
+      pedido = true;
+      var s = document.createElement('script');
+      s.src = origem3d;
+      s.async = true;
+      document.head.appendChild(s);
+    };
+    var ocioso = function () {
+      if ('requestIdleCallback' in window) requestIdleCallback(pede, { timeout: 3000 });
+      else setTimeout(pede, 1200);
+    };
+
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      ['touchstart', 'pointerdown', 'scroll'].forEach(function (ev) {
+        window.addEventListener(ev, ocioso, { once: true, passive: true });
+      });
+    } else if (document.readyState === 'complete') {
+      ocioso();
+    } else {
+      window.addEventListener('load', ocioso, { once: true });
+    }
   }
 })();
