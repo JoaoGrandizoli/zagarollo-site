@@ -736,13 +736,38 @@ const TRANSICOES = QUADROS.length - 1;
 const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa.c[0], q.caixa.c[1] + P * 0.5, q.caixa.c[2]] : [0, 1, 0]);
 
 /* ---------- a cena ---------- */
-(function () {
+(async function () {
   const capa = document.querySelector('.capa');
   const fixaCapa = capa && capa.querySelector('.capa-fixa');
   if (!capa || !fixaCapa) return;
   const manifesto = document.querySelector('.cena--manifesto');
   const fixaManifesto = manifesto && manifesto.querySelector('.cena-fixa');
   const larga = matchMedia('(min-width: 901px)');
+  // quanto custa subir, etapa por etapa (ms desde o começo) — só para verificação
+  const comeco = performance.now(), tempos = {};
+  const marca = (nome) => { tempos[nome] = Math.round(performance.now() - comeco); };
+  /* Subir custa mais de um segundo de conta num celular mediano. Feita de uma vez, a página
+     trava no meio da rolagem; em fatias de ~10 ms ela continua respondendo. */
+  let fatia = performance.now();
+  const cede = () => (window.scheduler && scheduler.yield ? scheduler.yield() : new Promise((ok) => {
+    const canal = new MessageChannel();
+    canal.port1.onmessage = () => { canal.port1.close(); ok(); };
+    canal.port2.postMessage(0);
+  }));
+  const folga = async () => {
+    if (performance.now() - fatia < 10) return;
+    await cede();
+    fatia = performance.now();
+  };
+  /* Os quadros são montados um a um: os que a tela pede, na hora; os outros, nas folgas. */
+  const aosPoucos = (n, monta) => {
+    const prontas = new Array(n);
+    return {
+      length: n,
+      forma: (k) => prontas[k] || (prontas[k] = monta(k)),
+      falta: () => prontas.findIndex((f) => !f),
+    };
+  };
 
   const css = getComputedStyle(document.documentElement);
   const token = (nome) => css.getPropertyValue(nome).trim();
@@ -781,12 +806,15 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
   function pontoDaNuvem(out) {
     for (;;) {
       const z = rndNuvem() * 2 - 1, a = rndNuvem() * 6.2831853, q = Math.sqrt(1 - z * z), r = Math.cbrt(rndNuvem());
+      // a borda rala reprova quase todo mundo: reprovar antes do ruído poupa a conta cara
+      const beira = Math.pow(1 - r * r, 0.8), sorte = rndNuvem();
+      if (sorte > 1.27 * beira) continue;
       const x = q * Math.cos(a) * r, y = q * Math.sin(a) * r, zz = z * r * 0.6;
       const rad = Math.hypot(x, y), th = Math.atan2(y, x) + rad * 2.9;
       const ax = Math.cos(th) * rad, ay = Math.sin(th) * rad;
       const fil = Math.max(crista(fbm(ax * 1.5 + 7.3, ay * 1.5 + 1.9, zz * 2.2 + 4.1), 5.2), 0.55 * crista(fbm(ax * 3.4 + 21, ay * 3.4 + 9, zz * 4.4 + 2), 6.5));
       const miolo = Math.exp(-rad * rad * 9);
-      if (rndNuvem() > (fil * 0.95 + miolo * 0.3 + 0.018) * Math.pow(1 - r * r, 0.8)) continue;
+      if (sorte > (fil * 0.95 + miolo * 0.3 + 0.018) * beira) continue;
       const cor = misturaCor(misturaCor(AZUL, BRANCO, suave(0.25, 0.6, fil)), VERDE, limita(miolo * 1.2 + fil * 0.3));
       out[0] = -0.85 + x * 1.95; out[1] = 0.98 + y * 1.6; out[2] = zz * 2.2;
       out[3] = 3 + Math.floor(rndNuvem() * 3); out[4] = cor[0]; out[5] = cor[1]; out[6] = cor[2]; out[7] = 0.28 + 0.72 * fil;
@@ -886,13 +914,15 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
   {
     const soma = ELENCO.reduce((s, o) => s + o.fracao, 0);
     let ini = 0;
-    ELENCO.forEach((o, k) => {
+    for (const [k, o] of ELENCO.entries()) {
       o.ini = ini;
       o.n = k === ELENCO.length - 1 ? N - ini : Math.round((o.fracao / soma) * N);
       ini += o.n;
       o.prepara(o.n, sorteio(700 + k * 53));
-    });
+      await folga();
+    }
   }
+  marca('elenco');
   const NPO = ELENCO[ELENCO.length - 1].n; // a poeira fica no fim: é o que o atributo `kind` marca
   const NF = N - NPO;
 
@@ -902,12 +932,15 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     const rnd = sorteio(31337);
     const o = [0, 0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < N; i++) {
+      if (i % 1000 === 0) await folga();
       const z = rnd() * 2 - 1, a = rnd() * 6.2831853, q = Math.sqrt(1 - z * z), r = 9 + rnd() * 9;
       longe.set([q * Math.cos(a) * r, 1.5 + Math.abs(q * Math.sin(a)) * r * 0.7 - 1, z * r], i * 3);
       pontoDaNuvem(o);
       nuvem.set(o, i * 8);
     }
   }
+
+  marca('nuvem');
 
   function gravaTexturas(pos, col) {
     const tPos = new THREE.DataTexture(pos, TW, TH, THREE.RGBAFormat, THREE.FloatType);
@@ -941,7 +974,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     }
     return gravaTexturas(pos, col);
   }
-  const HISTORIA = { formas: QUADROS.map((q, k) => montaQuadro(k)) };
+  const HISTORIA = { formas: aosPoucos(QUADROS.length, montaQuadro) };
 
   // ---- o manifesto: aqui os pontos são de todo mundo, e a forma inteira vira outra ----
   const poeiraM = ELENCO[ELENCO.length - 1];
@@ -1051,13 +1084,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
 
 
   const MANIFESTO = fixaManifesto && {
-    formas: [
-      montaForma(3001, formaAnel()),
-      montaForma(3101, formaBolo()),
-      montaForma(3201, formaSacolinha()),
-      montaForma(3301, formaCarta()),
-      montaForma(3401, formaDentro()),
-    ],
+    formas: aosPoucos(5, (k) => montaForma(3001 + k * 100, [formaAnel, formaBolo, formaSacolinha, formaCarta, formaDentro][k]())),
     poses: [
       { rx: 0.22, sc: 1.2, sway: 0.2, gain: 0.15 },
       { rx: 0.3, sc: 1.08, sway: 0.24, gain: 0.15 },
@@ -1083,8 +1110,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
   geo.setAttribute('kind', new THREE.BufferAttribute(kind, 1));
   geo.setAttribute('anim', new THREE.BufferAttribute(anim, 4));
   const U = {
-    tPosA: { value: HISTORIA.formas[0].tPos }, tPosB: { value: HISTORIA.formas[1].tPos },
-    tColA: { value: HISTORIA.formas[0].tCol }, tColB: { value: HISTORIA.formas[1].tCol },
+    tPosA: { value: null }, tPosB: { value: null }, tColA: { value: null }, tColB: { value: null },
     uMix: { value: 0 }, uTime: { value: 0 }, uIntro: { value: 0 }, uAnima: { value: 1 }, uDist: { value: 0 },
     uCoracao: { value: new THREE.Vector3() }, uBate: { value: 0 }, uFlow: { value: 0.004 },
     uGain: { value: 0.3 }, uFocus: { value: 14 }, uAperture: { value: 0.0042 }, uScale: { value: 1000 }, uSize: { value: 0.021 },
@@ -1357,8 +1383,9 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
       alvoCam.set(0, 0, 0);
     }
 
-    U.tPosA.value = dados.formas[k].tPos; U.tColA.value = dados.formas[k].tCol;
-    U.tPosB.value = dados.formas[k + 1].tPos; U.tColB.value = dados.formas[k + 1].tCol;
+    const fA = dados.formas.forma(k), fB = dados.formas.forma(k + 1);
+    U.tPosA.value = fA.tPos; U.tColA.value = fA.tCol;
+    U.tPosB.value = fB.tPos; U.tColB.value = fB.tCol;
     U.uMix.value = mix;
     U.uTime.value = time;
     const anda = limita((Math.abs(s - sAntes) / Math.max(dt, 1e-3)) * 1.6) * Math.sin(Math.PI * mix);
@@ -1463,6 +1490,17 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     introForcada = null;
   }
 
+  /* O resto dos quadros sai nas folgas do navegador, um por vez. */
+  const naFolga = (f) => ('requestIdleCallback' in window ? requestIdleCallback(f, { timeout: 600 }) : setTimeout(f, 80));
+  const adianta = () => {
+    for (const fila of [contaHistoria && HISTORIA.formas, MANIFESTO && larga.matches && MANIFESTO.formas]) {
+      const k = fila ? fila.falta() : -1;
+      if (k >= 0) { fila.forma(k); naFolga(adianta); return; }
+    }
+    marca('todos os quadros');
+  };
+  naFolga(adianta);
+
   /* Só para verificação. A aba da automação fica em segundo plano e congela o laço: estes
      ganchos forçam o estado e desenham na hora. */
   const desenha = (palco, v, n) => {
@@ -1473,7 +1511,9 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     introForcada = 1;
     for (let i = 0; i < n; i++) passo(1 / 30, ultimo + i * 33);
   };
+  marca('pronto');
   window.__campo3d = {
+    tempos,
     historia(v, n = 30) {
       const topo = capa.getBoundingClientRect().top + scrollY;
       scrollTo({ top: topo + (v / TRANSICOES) * (capa.offsetHeight - innerHeight), behavior: 'instant' });
@@ -1495,7 +1535,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     pontos: N, quadros: QUADROS.length, historia_ligada: contaHistoria, elenco: ELENCO.map((o) => [o.id, o.n]),
     // o que um objeto guarda num quadro: caixa que envolve os pontos e quanta luz eles têm
     resumo(k, id) {
-      const obj = ELENCO.find((o) => o.id === id), P = HISTORIA.formas[k].tPos.image.data, C = HISTORIA.formas[k].tCol.image.data;
+      const obj = ELENCO.find((o) => o.id === id), P = HISTORIA.formas.forma(k).tPos.image.data, C = HISTORIA.formas.forma(k).tCol.image.data;
       const min = [1e9, 1e9, 1e9], max = [-1e9, -1e9, -1e9];
       let luz = 0, voo = 0;
       for (let i = obj.ini; i < obj.ini + obj.n; i++) {

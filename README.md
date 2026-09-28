@@ -111,7 +111,9 @@ e o resto é o argumento, não dado. O caminhão não leva marca nem nome.
 
 **Como entra na página.** O campo 2D (`campo.js`) continua sendo o que carrega com a
 página. Depois que ela está pronta e o navegador fica ocioso, `campo.js` pede o arquivo
-do 3D — no toque, só depois do primeiro gesto. A história só toma a capa se a pessoa
+do 3D (155 kB no fio), no computador e no celular. O 3D sobe em fatias de ~10 ms e monta
+os quadros um a um, nas folgas do navegador: num celular mediano a conta passa de um
+segundo, e feita de uma vez travaria a rolagem. A história só toma a capa se a pessoa
 ainda estiver no topo da página, sem âncora no endereço e com pelo menos 480 px de
 altura de tela (celular deitado não tem espaço para cena e legenda); senão o 3D fica só
 com o manifesto. Se o 3D não carregar ou falhar, nada muda: o 2D segue no ar.
@@ -141,7 +143,8 @@ tela inteira.
 **Verificação.** `window.__campo3d.historia(quadro)` e
 `window.__campo3d.manifesto(posicao)` forçam um estado e desenham na hora — aba em
 segundo plano congela o laço. `solta()` devolve o controle à rolagem, `custo()` mede o
-tempo de um quadro, `resumo(quadro, objeto)` diz onde um objeto está.
+tempo de um quadro, `resumo(quadro, objeto)` diz onde um objeto está, `tempos` guarda
+quanto levou cada etapa da subida.
 
 ## O jogo
 

@@ -589,8 +589,8 @@
      O mesmo argumento, com volume (`campo3d.js`). É pesado demais para o
      carregamento: só é pedido depois da página pronta, e só em aparelho que
      dá conta. Até ele chegar — e se não chegar — este campo 2D segue no ar.
-     No toque ele espera o primeiro gesto: quem só abriu a página no celular
-     não paga por um arquivo que talvez nem veja. */
+     Vale também para o celular: a história começa no topo da página, então
+     esperar o primeiro gesto faria quase todo mundo passar por ela sem ver. */
 
   window.__campo2dPara = function () { tresD = true; avalia(); };
 
@@ -618,11 +618,7 @@
       else setTimeout(pede, 1200);
     };
 
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      ['touchstart', 'pointerdown', 'scroll'].forEach(function (ev) {
-        window.addEventListener(ev, ocioso, { once: true, passive: true });
-      });
-    } else if (document.readyState === 'complete') {
+    if (document.readyState === 'complete') {
       ocioso();
     } else {
       window.addEventListener('load', ocioso, { once: true });
