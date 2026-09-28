@@ -105,14 +105,16 @@ e o resto é o argumento, não dado. O caminhão não leva marca nem nome.
   no shader por um atributo fixo de cada ponto — não há textura nova por quadro.
 - *A câmera passa pelos quadros numa curva só* (Catmull-Rom) e a ação fica ao lado do
   texto por deslocamento de quadro (`setViewOffset`), sem distorcer a perspectiva.
-- *Tela em pé.* A câmera recua para a cena caber na largura; `pe` em cada quadro diz
-  quanto mais (o caminhão pede mais recuo, o fecho sobe para o texto caber embaixo).
+- *A câmera se ajusta ao formato da tela.* Quanto mais estreita, mais ela recua para a
+  cena caber na largura. Na tela em pé, `pe` em cada quadro afina: o caminhão pede mais
+  recuo, o fecho sobe para o texto caber embaixo.
 
 **Como entra na página.** O campo 2D (`campo.js`) continua sendo o que carrega com a
 página. Depois que ela está pronta e o navegador fica ocioso, `campo.js` pede o arquivo
 do 3D — no toque, só depois do primeiro gesto. A história só toma a capa se a pessoa
-ainda estiver no topo da página e sem âncora no endereço; senão o 3D fica só com o
-manifesto. Se o 3D não carregar ou falhar, nada muda: o 2D segue no ar.
+ainda estiver no topo da página, sem âncora no endereço e com pelo menos 480 px de
+altura de tela (celular deitado não tem espaço para cena e legenda); senão o 3D fica só
+com o manifesto. Se o 3D não carregar ou falhar, nada muda: o 2D segue no ar.
 
 Não pede o 3D quem tem `prefers-reduced-motion`, economia de dados, menos de 4 GB de
 memória, menos de 4 núcleos ou navegador sem WebGL2.

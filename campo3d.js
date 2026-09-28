@@ -683,7 +683,8 @@ function fontesCasa() {
 /* ---------- os quadros ----------
    Cada quadro herda o anterior e muda só o que muda. `null` tira o objeto de cena.
    cam = [de onde olha, para onde olha]. Ângulos em graus.
-   pe = só na tela em pé (celular): [quanto mais a câmera recua, quanto a cena sobe na tela]. */
+   pe = só na tela em pé (celular): [quanto mais a câmera recua, quanto a cena sobe na tela,
+   quanto a câmera anda para o lado]. */
 const QUADROS = [];
 function quadro(muda) {
   const q = { ...(QUADROS[QUADROS.length - 1] || {}), ...muda };
@@ -693,22 +694,22 @@ const { m: M, p: P } = CX;
 const NA_MAO = (x) => ({ c: [x, 0.97, 0.3], rx: 0, teta: 90 });
 
 quadro({ // 0 · só a poeira de que tudo é feito
-  nuvem: true, ganho: 0.42, anda: 0, pe: [1, 0], cam: [[-1.5, 1.05, 6.8], [-1.5, 0.95, 0]],
+  nuvem: true, ganho: 0.42, anda: 0, pe: [1, 0, 0.45], cam: [[-1.5, 1.05, 6.8], [-1.5, 0.95, 0]],
   caixa: null, coracao: null, caminhao: null, portas: null, rodas: null, farol: null, estrada: null,
   beira: null, relevo: null, lua: null, casa: null, recebe: null, entrega: null, poeira: {},
 });
-quadro({ nuvem: false, ganho: 0.17, caixa: { c: [-1.76, 1.0, 0], rx: 90, teta: 0, fi: 0 }, cam: [[-1.5, 1.0, 3.2], [-1.5, 1.0, 0]] }); // 1 · a folha
+quadro({ nuvem: false, ganho: 0.17, pe: [1, 0, 0], caixa: { c: [-1.76, 1.0, 0], rx: 90, teta: 0, fi: 0 }, cam: [[-1.5, 1.0, 3.2], [-1.5, 1.0, 0]] }); // 1 · a folha
 quadro({ caixa: { c: [-1.68, 0.72, 0], rx: 60, teta: 30, fi: 0 }, cam: [[-1.35, 1.05, 3.0], [-1.5, 0.78, 0]] }); // 2
 quadro({ caixa: { c: [-1.58, 0.4, 0], rx: 30, teta: 60, fi: 0 }, cam: [[-1.15, 1.1, 2.8], [-1.5, 0.52, 0]] }); // 3
 quadro({ caixa: { c: [-1.5, 0.03, 0], rx: 0, teta: 90, fi: 0 }, cam: [[-0.95, 1.0, 2.5], [-1.45, 0.3, 0]] }); // 4 · a caixa montada, aberta
 quadro({ caixa: { c: [-1.5, 0.03, 0], rx: 0, teta: 90, fi: 45 }, coracao: { esc: 0.075 }, cam: [[-0.85, 0.9, 2.4], [-1.45, 0.26, 0]] }); // 5 · o que importa entra
 quadro({ caixa: { c: [-1.5, 0.03, 0], rx: 0, teta: 90, fi: 90 }, cam: [[-0.8, 0.8, 2.5], [-1.45, 0.2, 0]] }); // 6 · fechada
-quadro({ caminhao: {}, rodas: {}, portas: 112, estrada: {}, pe: [1.4, 0], cam: [[-5.4, 2.9, 8.4], [1.0, 1.35, 0]] }); // 7 · o caminhão chega
+quadro({ caminhao: {}, rodas: {}, portas: 112, estrada: {}, pe: [1.4, 0, 0], cam: [[-5.4, 2.9, 8.4], [1.0, 1.35, 0]] }); // 7 · o caminhão chega
 quadro({ caixa: { c: [-0.7, 0.93, 0], rx: 0, teta: 90, fi: 90 }, cam: [[-5.0, 2.7, 8.0], [1.2, 1.35, 0]] }); // 8 · a caixa sobe
 quadro({ caixa: { c: [1.3, 0.93, 0], rx: 0, teta: 90, fi: 90 }, cam: [[-4.4, 2.5, 8.2], [1.6, 1.4, 0]] }); // 9 · e entra
 quadro({ portas: 56, cam: [[-3.2, 2.3, 9.0], [2.0, 1.45, 0]] }); // 10
-quadro({ portas: 0, pe: [1.25, 0], cam: [[-0.5, 2.0, 10.6], [2.5, 1.5, 0]] }); // 11 · portas fechadas
-quadro({ anda: 1, beira: {}, relevo: {}, lua: {}, farol: {}, pe: [1, 0], cam: [[3.0, 1.8, 13.2], [3.3, 1.55, 0]] }); // 12 · estrada, de lado
+quadro({ portas: 0, pe: [1.25, 0, 0], cam: [[-0.5, 2.0, 10.6], [2.5, 1.5, 0]] }); // 11 · portas fechadas
+quadro({ anda: 1, beira: {}, relevo: {}, lua: {}, farol: {}, pe: [1, 0, 0], cam: [[3.0, 1.8, 13.2], [3.3, 1.55, 0]] }); // 12 · estrada, de lado
 quadro({ cam: [[12.4, 1.3, 7.2], [3.6, 1.45, 0]] }); // 13 · de frente, com os faróis
 quadro({ cam: [[-6.8, 4.8, 9.4], [2.9, 1.2, 0]] }); // 14 · por trás e do alto
 quadro({ anda: 0, beira: null, farol: null, casa: {}, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'parado' }, cam: [[-2.4, 1.7, 8.2], [-2.3, 1.3, 0]] }); // 15 · chegou
@@ -719,8 +720,8 @@ quadro({ caixa: NA_MAO(-3.28), entrega: { x: -2.46, z: 0.3, vira: -1, pose: 'par
 quadro({ caminhao: null, rodas: null, portas: null, estrada: null, entrega: null, relevo: null, cam: [[-2.9, 1.45, 3.5], [-3.3, 1.2, 0.3]] }); // 20 · só ela e a caixa
 quadro({ caixa: { ...NA_MAO(-3.28), fi: 60 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'abre1' }, cam: [[-2.8, 1.5, 3.3], [-3.25, 1.25, 0.3]] }); // 21 · abre
 quadro({ caixa: { ...NA_MAO(-3.28), fi: 25 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'abre2' }, cam: [[-2.75, 1.55, 3.3], [-3.2, 1.3, 0.3]] }); // 22
-quadro({ caixa: { ...NA_MAO(-3.28), fi: -22 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'segura' }, coracao: { esc: 0.2, c: [-3.26, 1.52, 0.3], forma: 1 }, pe: [1.08, 0.1], cam: [[-2.8, 1.65, 3.6], [-3.2, 1.45, 0.3]] }); // 23 · e de dentro sai
-quadro({ caixa: { c: [-3.3, 0.93, 0.3], rx: 0, teta: 90, fi: -22 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'olha' }, coracao: { esc: 0.52, c: [-3.05, 2.2, 0.3], forma: 1 }, casa: null, lua: null, ganho: 0.2, pe: [1.2, 0.25], cam: [[-2.7, 1.85, 4.9], [-3.1, 1.7, 0.3]] }); // 24 · o que importava
+quadro({ caixa: { ...NA_MAO(-3.28), fi: -22 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'segura' }, coracao: { esc: 0.2, c: [-3.26, 1.52, 0.3], forma: 1 }, pe: [1.08, 0.1, 0], cam: [[-2.8, 1.65, 3.6], [-3.2, 1.45, 0.3]] }); // 23 · e de dentro sai
+quadro({ caixa: { c: [-3.3, 0.93, 0.3], rx: 0, teta: 90, fi: -22 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'olha' }, coracao: { esc: 0.52, c: [-3.05, 2.2, 0.3], forma: 1 }, casa: null, lua: null, ganho: 0.2, pe: [1.2, 0.25, 0], cam: [[-2.7, 1.85, 4.9], [-3.1, 1.7, 0.3]] }); // 24 · o que importava
 for (const q of QUADROS) {
   if (q.caixa && q.caixa.fi === undefined) q.caixa.fi = 90;
 }
@@ -787,7 +788,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
       const miolo = Math.exp(-rad * rad * 9);
       if (rndNuvem() > (fil * 0.95 + miolo * 0.3 + 0.018) * Math.pow(1 - r * r, 0.8)) continue;
       const cor = misturaCor(misturaCor(AZUL, BRANCO, suave(0.25, 0.6, fil)), VERDE, limita(miolo * 1.2 + fil * 0.3));
-      out[0] = -1.3 + x * 2.3; out[1] = 0.98 + y * 1.6; out[2] = zz * 2.2;
+      out[0] = -0.85 + x * 1.95; out[1] = 0.98 + y * 1.6; out[2] = zz * 2.2;
       out[3] = 3 + Math.floor(rndNuvem() * 3); out[4] = cor[0]; out[5] = cor[1]; out[6] = cor[2]; out[7] = 0.28 + 0.72 * fil;
       return;
     }
@@ -1231,7 +1232,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     /* Na história o texto fica à esquerda (embaixo, no celular): a ação se acomoda do outro
        lado, sem distorcer a perspectiva. */
     if (ativo === palcos.historia) {
-      if (aspecto > 1.05) camera.setViewOffset(w, h, -w * 0.15, -h * 0.03, w, h);
+      if (aspecto > 1.05) camera.setViewOffset(w, h, -w * (aspecto < 1.45 ? 0.19 : 0.15), -h * 0.03, w, h);
       else camera.setViewOffset(w, h, 0, h * 0.17, w, h);
     } else camera.clearViewOffset();
     camera.updateProjectionMatrix();
@@ -1318,9 +1319,14 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
       naCurva(vAlvo, k, mix, alvoCam);
       // tela em pé: a câmera recua para a cena caber na largura, e cada quadro diz quanto mais
       const emPe = aspecto < 0.8;
-      const recuo = emPe ? 1.85 * mistura(A.pe[0], B.pe[0], mix) : aspecto < 1.25 ? 1.35 : 1;
+      const base = limita(0.85 / aspecto, 1.35, 1.85);
+      const recuo = emPe ? base * mistura(A.pe[0], B.pe[0], mix) : limita(1.6 / aspecto, 1, 1.35);
       olho.sub(alvoCam).multiplyScalar(recuo).add(alvoCam);
-      if (emPe) { const sobe = mistura(A.pe[1], B.pe[1], mix); olho.y -= sobe; alvoCam.y -= sobe; }
+      if (emPe) {
+        // quanto mais estreita a tela, mais alta a legenda do fecho e mais a cena precisa subir
+        const sobe = mistura(A.pe[1], B.pe[1], mix) * (base - 1.35) * 2, lado = mistura(A.pe[2], B.pe[2], mix);
+        olho.y -= sobe; alvoCam.y -= sobe; olho.x += lado; alvoCam.x += lado;
+      }
       olho.x += mouseS.x * 0.3; olho.y += mouseS.y * 0.18;
       world.rotation.set(0, 0, 0);
       world.scale.setScalar(1);
@@ -1395,8 +1401,9 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
   }
 
   /* A história prende a capa à tela e alonga a página. Se a pessoa já desceu, ou chegou por
-     uma âncora, fica para a próxima visita: mudar a altura agora tiraria o chão dela. */
-  const contaHistoria = scrollY < innerHeight * 0.5 && !location.hash;
+     uma âncora, fica para a próxima visita: mudar a altura agora tiraria o chão dela.
+     Em tela baixa (celular deitado) cena e legenda não cabem juntas: a capa fica como está. */
+  const contaHistoria = scrollY < innerHeight * 0.5 && !location.hash && innerHeight >= 480;
   if (contaHistoria) {
     capa.style.setProperty('--quadros', String(TRANSICOES));
     capa.setAttribute('data-campo', 'historia');

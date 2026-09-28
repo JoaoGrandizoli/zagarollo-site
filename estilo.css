@@ -440,7 +440,8 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 
 .historia-pular {
   position: absolute;
-  right: 24px;
+  /* o canto é do botão do WhatsApp */
+  right: 100px;
   bottom: 26px;
   z-index: 2;
   pointer-events: auto;
