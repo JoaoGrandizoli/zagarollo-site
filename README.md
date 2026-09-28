@@ -68,43 +68,67 @@ normais empilhadas e tudo fica legível e estático.
 
 ## O campo em 3D
 
-`campo3d.js` é o mesmo argumento do campo de partículas da capa, com volume: uma nuvem
-de pontos de luz (170 mil no computador, 60 mil em tela menor) que assume as formas do
-site.
+`campo3d.js` conta, com pontos de luz, a ideia que o site inteiro defende: **a caixa é o
+caminho, o que importa vai dentro.** São 150 mil pontos no computador e 56 mil em tela
+estreita.
 
 | Onde | O que os pontos formam |
 | --- | --- |
-| Capa | A folha plana **dobra de verdade**, parede por parede, e vira a caixa montada; a caixa vira a sacola; a sacola, por dois segundos, um coração. Mesmo roteiro e mesmo ciclo de 21 s do campo 2D, mesmas legendas. |
-| Manifesto | Cada linha ganha a sua forma, à direita do texto: o anel na caixinha, o bolo, a sacolinha com o balão, a carta saindo da caixa e, no fecho, o coração sobre a caixa aberta. Quem conduz é a rolagem. |
+| Capa | Uma história em 25 quadros, conduzida pela rolagem: a poeira vira a folha plana, a folha **dobra de verdade** e vira caixa, algo entra nela, a tampa fecha, a caixa sobe no caminhão, o caminhão pega a estrada, chega a uma casa, a caixa passa de mão em mão, a pessoa abre e de dentro sai um coração. |
+| Manifesto | Cada linha ganha a sua forma, à direita do texto: o anel na caixinha, o bolo, a sacolinha com o balão, a carta saindo da caixa e, no fecho, o coração sobre a caixa aberta. |
 
-As formas ilustram frases que já estavam no site. Nenhum texto sobre a empresa foi
-escrito para elas.
+**A capa em modo história.** Quando o 3D sobe, a capa recebe `data-campo="historia"`,
+cresce para `24 × 38vh + 100svh` e o conteúdo fica preso à tela (`.capa-fixa`). A
+manchete some no primeiro quadro e seis legendas (`.historia-passo`, com `data-de` e
+`data-ate` em quadros) se revezam. O botão "Ver o caminho da caixa" (`data-ver`) rola a
+página sozinha em 34 s; qualquer gesto devolve o controle. "Pular a história" leva aos
+números. Sem o 3D nada disso existe: a capa é a de sempre, com o campo 2D.
+
+As legendas foram escritas para a história. Nenhuma afirma fato novo sobre a empresa:
+reaproveitam frases do manifesto ("Papel, cola e corte…", "o presente que alguém abre")
+e o resto é o argumento, não dado. O caminhão não leva marca nem nome.
+
+**Como a história é montada.**
+
+- *Elenco, não morfismo.* Cada ponto pertence a um objeto só (caixa, coração, caminhão,
+  portas, rodas, farol, estrada, beira, relevo, lua, casa, as duas pessoas, poeira) do
+  começo ao fim. Um quadro diz o estado de cada objeto; o que está fora de cena vira
+  poeira ao longe. Por isso a caixa que sai da folha é a mesma que chega na mão.
+- *Os quadros herdam.* Em `QUADROS`, cada `quadro({...})` copia o anterior e declara só
+  o que muda; `null` tira o objeto de cena. Rotações andam de 30° em 30° para o caminho
+  entre dois quadros ser um arco e não uma reta.
+- *A dobra sai do ângulo.* Cada ponto sabe em que face da planificação mora; a posição
+  vem do ângulo de dobra e do ângulo da tampa.
+- *O coração fica escondido.* Dentro da caixa ele é só um brilho; ganha forma quando a
+  tampa abre.
+- *O que se mexe sozinho* (estrada correndo, rodas girando, coração batendo) é resolvido
+  no shader por um atributo fixo de cada ponto — não há textura nova por quadro.
+- *A câmera passa pelos quadros numa curva só* (Catmull-Rom) e a ação fica ao lado do
+  texto por deslocamento de quadro (`setViewOffset`), sem distorcer a perspectiva.
+- *Tela em pé.* A câmera recua para a cena caber na largura; `pe` em cada quadro diz
+  quanto mais (o caminhão pede mais recuo, o fecho sobe para o texto caber embaixo).
 
 **Como entra na página.** O campo 2D (`campo.js`) continua sendo o que carrega com a
 página. Depois que ela está pronta e o navegador fica ocioso, `campo.js` pede o arquivo
-do 3D — no toque, só depois do primeiro gesto. Quando o 3D está de pé, a capa recebe
-`data-campo="3d"`, o 2D some em transição e para de desenhar. Se o 3D não carregar ou
-falhar, nada muda: o 2D segue no ar.
+do 3D — no toque, só depois do primeiro gesto. A história só toma a capa se a pessoa
+ainda estiver no topo da página e sem âncora no endereço; senão o 3D fica só com o
+manifesto. Se o 3D não carregar ou falhar, nada muda: o 2D segue no ar.
 
 Não pede o 3D quem tem `prefers-reduced-motion`, economia de dados, menos de 4 GB de
 memória, menos de 4 núcleos ou navegador sem WebGL2.
 
 **Decisões que valem explicação.**
 
-- *A dobra não é um morfismo.* Cada ponto sabe em que face da planificação mora; a
-  posição sai do ângulo de dobra (0°, 30°, 60°, 90°). Os quatro estados dividem os
-  mesmos pontos na mesma ordem — por isso a folha dobra em vez de derreter.
 - *Sem cor própria.* A luz sai das variáveis do `estilo.css` (`--branco`,
   `--verde-claro`, `--kraft`, `--azul-claro`). Vinco é branco e forte, miolo é verde e
   ralo: a mesma regra do campo 2D.
 - *O canvas desenha sobre preto e soma luz* (`mix-blend-mode: screen` no invólucro
   `.campo3d`). A mistura fica no invólucro, junto com a opacidade: num filho, qualquer
   ancestral que crie contexto de empilhamento a anularia e apareceria um retângulo
-  preto. No manifesto, o palco fixo ganhou fundo próprio pelo mesmo motivo.
-- *O campo só se desfaz depois de passar pelo meio da tela.* No celular ele fica abaixo
-  do texto; desfazê-lo pela rolagem da página o apagaria antes de alguém chegar nele.
+  preto. Os palcos fixos (`.capa-fixa`, `.cena-fixa` do manifesto) têm fundo próprio
+  pelo mesmo motivo.
 - *É o único arquivo empacotado.* Importa a three.js (MIT, aviso de licença mantido no
-  fim do arquivo) e sai com ~565 kB minificado. Não entra em nenhuma tag `<script>`: o
+  fim do arquivo) e sai com ~600 kB minificado. Não entra em nenhuma tag `<script>`: o
   build carimba o nome com hash no atributo `data-src` de `.capa-campo`.
 - *A política de segurança não mudou.* O arquivo é servido pelo próprio site
   (`script-src 'self'`), não usa `eval` e só mexe em estilo por JavaScript.
@@ -112,10 +136,10 @@ memória, menos de 4 núcleos ou navegador sem WebGL2.
 No manifesto o 3D só aparece acima de 900 px de largura; abaixo disso o texto ocupa a
 tela inteira.
 
-**Verificação.** `window.__campo3d.capa(forma, mistura)` e
-`window.__campo3d.manifesto(posicao)` forçam um estado e desenham na hora — a aba da
-automação fica em segundo plano e congela o laço. `window.__campo3d.custo()` mede o
-tempo de um quadro.
+**Verificação.** `window.__campo3d.historia(quadro)` e
+`window.__campo3d.manifesto(posicao)` forçam um estado e desenham na hora — aba em
+segundo plano congela o laço. `solta()` devolve o controle à rolagem, `custo()` mede o
+tempo de um quadro, `resumo(quadro, objeto)` diz onde um objeto está.
 
 ## O jogo
 

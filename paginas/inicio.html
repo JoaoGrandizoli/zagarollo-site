@@ -12,8 +12,9 @@
 <div class="progresso" id="progresso" aria-hidden="true"><span></span></div>
 
 <section class="capa">
+  <div class="capa-fixa">
   <div class="container">
-    <div class="capa-texto">
+    <div class="capa-texto" data-de="-1" data-ate="0.75">
       <span class="capa-selo">Fábrica em Descalvado-SP · desde 2002</span>
       <h1>O que importa <em>vai dentro.</em></h1>
       <p>
@@ -26,6 +27,9 @@
         <a class="botao botao--principal" data-imã href="/contato">Pedir um orçamento</a>
         <a class="botao botao--claro" data-imã href="/produtos">Ver os 29 modelos</a>
       </div>
+      <button class="capa-ver" type="button" data-ver>
+        <span aria-hidden="true">▶</span> Ver o caminho da caixa
+      </button>
     </div>
 
     <div class="capa-campo" data-src="campo3d.js">
@@ -34,10 +38,53 @@
     </div>
   </div>
 
+  <!-- A história da capa. Só aparece quando o campo 3D assume (ver campo3d.js);
+       sem ele, a capa é a de sempre e estas legendas ficam fora da página. -->
+  <div class="historia">
+    <div class="container">
+      <div class="historia-passo" data-de="0.95" data-ate="6.55">
+        <span class="selo selo--claro">Começa no papel</span>
+        <h2>Papel, cola e corte.</h2>
+        <p>É disso que a caixa é feita.</p>
+      </div>
+      <div class="historia-passo" data-de="6.9" data-ate="11.55">
+        <span class="selo selo--claro">Fechada</span>
+        <h2>Não é para isso que ela serve.</h2>
+        <p>Ela já está levando alguma coisa.</p>
+      </div>
+      <div class="historia-passo" data-de="11.9" data-ate="14.55">
+        <span class="selo selo--claro">Na estrada</span>
+        <h2>No caminho, é só uma caixa.</h2>
+        <p>Ninguém vê o que vai dentro.</p>
+      </div>
+      <div class="historia-passo" data-de="14.95" data-ate="19.55">
+        <span class="selo selo--claro">Na porta</span>
+        <h2>Até chegar na mão de alguém.</h2>
+      </div>
+      <div class="historia-passo" data-de="19.95" data-ate="22.55">
+        <span class="selo selo--claro">Aberta</span>
+        <h2>É o presente que alguém abre.</h2>
+      </div>
+      <div class="historia-passo historia-passo--fim" data-de="22.95" data-ate="99">
+        <span class="selo selo--claro">O que vai dentro</span>
+        <h2>A caixa é o caminho. <em>O que importa vai dentro.</em></h2>
+        <div class="capa-acoes">
+          <a class="botao botao--principal" data-imã href="/contato">Pedir um orçamento</a>
+          <a class="botao botao--claro" data-imã href="/produtos">Ver os 29 modelos</a>
+        </div>
+        <button class="capa-ver" type="button" data-ver data-volta>
+          <span aria-hidden="true">↺</span> Ver de novo
+        </button>
+      </div>
+    </div>
+    <a class="historia-pular" href="#numeros">Pular a história ↓</a>
+  </div>
+
   <span class="capa-role" aria-hidden="true">role</span>
+  </div>
 </section>
 
-<section class="numeros">
+<section class="numeros" id="numeros">
   <div class="container">
     <div class="numero revela"><strong>2002</strong><span>ano de fundação</span></div>
     <div class="numero revela"><strong data-conta="29">29</strong><span>modelos de linha</span></div>

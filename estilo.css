@@ -302,10 +302,11 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 .capa-legenda[data-visivel="true"] { opacity: 1; }
 
 /* ---------- O campo em 3D ----------
-   `campo3d.js` cria estes invólucros quando assume a capa e o manifesto. O canvas
-   desenha sobre preto e entra na página somando luz: o preto some e o azul do
-   fundo aparece por baixo. A mistura fica no invólucro, junto com a opacidade —
-   num filho, qualquer ancestral que crie contexto de empilhamento a anularia. */
+   `campo3d.js` cria os invólucros `.campo3d` quando assume a capa e o manifesto. O
+   canvas desenha sobre preto e entra na página somando luz: o preto some e o azul do
+   fundo aparece por baixo. A mistura fica no invólucro, junto com a opacidade — num
+   filho, qualquer ancestral que crie contexto de empilhamento a anularia. Pelo mesmo
+   motivo o palco fixo tem fundo próprio: a luz precisa de um fundo DENTRO dele. */
 
 .campo3d {
   position: absolute;
@@ -318,14 +319,8 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 
 .campo3d canvas { display: block; width: 100%; height: 100%; }
 
-[data-campo="3d"] .campo3d { opacity: 1; }
+[data-campo] .campo3d { opacity: 1; }
 
-/* O campo 2D sai de cena; a legenda dele continua, agora nomeando as formas em 3D. */
-#campo { transition: opacity .8s ease; }
-.capa[data-campo="3d"] #campo { opacity: 0; }
-
-/* No manifesto o palco fixo é um contexto de empilhamento próprio: a luz precisa
-   de um fundo DENTRO dele para se somar. */
 .cena--manifesto .cena-fixa { background: var(--azul-escuro); }
 
 .campo3d--manifesto { inset: 0 0 0 auto; width: 54%; }
@@ -336,8 +331,149 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
   .cena--manifesto[data-campo="3d"] .manifesto-lista { max-width: 500px; }
 }
 
+/* ---------- A história da capa ----------
+   Sem o campo 3D nada disto existe: a capa é a de sempre. Com ele, a capa vira um
+   palco preso à tela e a rolagem conduz a história — da folha de papel ao que sai de
+   dentro da caixa. */
+
+.historia,
+.capa-ver { display: none; }
+
+.capa[data-campo="historia"] {
+  height: calc(var(--quadros, 24) * 38vh + 100svh);
+  padding: 0;
+  /* clip, e não hidden: hidden faria da capa um contêiner de rolagem e soltaria o
+     palco fixo. */
+  overflow: clip;
+  background: var(--azul-escuro);
+}
+
+.capa[data-campo="historia"]::after,
+.capa[data-campo="historia"] .capa-campo { display: none; }
+
+.capa[data-campo="historia"] .capa-fixa {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-top: 78px;
+  background: linear-gradient(168deg, var(--azul-escuro) 0%, #1b2c55 100%);
+}
+
+.capa[data-campo="historia"] .container { grid-template-columns: minmax(0, 540px) 1fr; }
+
+/* A manchete some logo no começo da rolagem, para a primeira legenda entrar limpa.
+   Depois de apagada sai também do alcance do clique. */
+.js .capa[data-campo="historia"] .capa-texto {
+  transform: translate3d(0, calc((1 - var(--manchete, 1)) * -40px), 0);
+  opacity: var(--manchete, 1);
+}
+
+.capa[data-campo="historia"] .capa-texto[data-ativo="false"] { visibility: hidden; }
+
+.capa[data-campo="historia"] .capa-ver {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 6px 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .4);
+  color: var(--branco);
+  font: inherit;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transicao), color var(--transicao);
+}
+
+.capa[data-campo="historia"] .capa-ver:hover { color: var(--verde-claro); border-color: var(--verde-claro); }
+.capa[data-campo="historia"] .capa-ver span { color: var(--verde-claro); font-size: .8em; }
+
+.capa[data-campo="historia"] .historia {
+  display: block;
+  position: absolute;
+  inset: 78px 0 0 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Um véu do próprio azul entre a cena e o texto: a luz pode passar por trás da
+   legenda sem disputar com ela. É o ::after do palco — pintado depois do campo e
+   antes do texto, que tem z-index. */
+.capa[data-campo="historia"] .capa-fixa::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 50% 66% at 0% 54%, rgba(27, 44, 85, .9), rgba(27, 44, 85, .5) 48%, transparent 76%);
+}
+
+.historia .container { position: relative; height: 100%; }
+
+.historia-passo {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  width: min(440px, calc(100% - 48px));
+  transform: translateY(-50%);
+  color: var(--branco);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .5s ease, visibility 0s linear .5s;
+}
+
+.historia-passo[data-ativo="true"] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.historia-passo h2 { font-size: clamp(1.9rem, 3.6vw, 3rem); font-weight: 700; }
+.historia-passo h2 em { font-style: normal; color: var(--verde-claro); }
+.historia-passo p { margin: 16px 0 0; font-size: 1.15rem; color: rgba(255, 255, 255, .86); }
+.historia-passo .capa-acoes { margin-top: 30px; }
+
+.historia-pular {
+  position: absolute;
+  right: 24px;
+  bottom: 26px;
+  z-index: 2;
+  pointer-events: auto;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .66);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.historia-pular:hover { color: var(--branco); }
+
+/* Enquanto a página rola sozinha, a dica de rolar não faz sentido. */
+/* visibility, e não opacity: a dica de rolar tem uma animação que mexe na opacidade. */
+.capa[data-rodando] .capa-role,
+.capa[data-fim] .capa-role,
+.capa[data-fim] .historia-pular { visibility: hidden; }
+
 @media (max-width: 900px) {
   .campo3d--manifesto { display: none; }
+
+  .capa[data-campo="historia"] .capa-fixa { align-items: flex-end; padding-bottom: 64px; }
+  .capa[data-campo="historia"] .capa-fixa::after {
+    background: linear-gradient(180deg, transparent 38%, rgba(27, 44, 85, .8) 60%, rgba(27, 44, 85, .94) 100%);
+  }
+  .capa[data-campo="historia"] .capa-texto p { display: none; }
+  .historia-passo { top: auto; bottom: 70px; transform: none; }
+  .historia-passo p { font-size: 1rem; margin-top: 10px; }
+  /* no canto direito mora o botão do WhatsApp */
+  .historia-pular { left: 24px; right: auto; bottom: 18px; }
+  .capa[data-campo="historia"] .capa-role { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
