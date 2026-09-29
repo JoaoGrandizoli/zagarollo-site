@@ -182,6 +182,8 @@
   var visivelNaAba = !document.hidden;
   var raf = 0;
   var inicio = 0;
+  /* Quando o campo 3D assume a capa, este aqui para de desenhar. */
+  var tresD = false;
 
   /* Traços agrupados por faixa de opacidade. */
   var FAIXAS = 6;
@@ -539,7 +541,7 @@
   var decorrido = 0;
 
   function avalia() {
-    var deveRodar = naTela && visivelNaAba;
+    var deveRodar = naTela && visivelNaAba && !tresD;
     if (deveRodar === rodando) return;
 
     rodando = deveRodar;
@@ -581,5 +583,63 @@
     requestIdleCallback(comeca, { timeout: 1500 });
   } else {
     setTimeout(comeca, 260);
+  }
+
+  /* ---------- O campo em 3D ----------
+     O mesmo argumento, com volume (`campo3d.js`). É pesado demais para o
+     carregamento: só é pedido depois da página pronta, e só em aparelho que
+     dá conta. Até ele chegar — e se não chegar — este campo 2D segue no ar.
+     Vale também para o celular: a história começa no topo da página, então
+     esperar o primeiro gesto faria quase todo mundo passar por ela sem ver. */
+
+  window.__campo2dPara = function () { tresD = true; avalia(); };
+
+  var origem3d = tela.parentNode && tela.parentNode.getAttribute('data-src');
+
+  /* Sem placa de vídeo o navegador desenha o WebGL no processador: um quadro da cena 3D
+     leva dezenas de milissegundos e a página inteira engasga. Aí o 2D é o certo. */
+  function semPlaca() {
+    try {
+      var gl = document.createElement('canvas').getContext('webgl2');
+      if (!gl) return true;
+      var ext = gl.getExtension('WEBGL_debug_renderer_info');
+      var nome = String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || '');
+      var perde = gl.getExtension('WEBGL_lose_context');
+      if (perde) perde.loseContext();
+      return /swiftshader|llvmpipe|software|basic render/i.test(nome);
+    } catch (e) {
+      return true;
+    }
+  }
+
+  function daConta() {
+    if (reduzido || !origem3d || !window.WebGL2RenderingContext) return false;
+    if (navigator.connection && navigator.connection.saveData) return false;
+    if (navigator.deviceMemory !== undefined && navigator.deviceMemory < 4) return false;
+    return (navigator.hardwareConcurrency || 4) >= 4;
+  }
+
+  if (daConta()) {
+    var pedido = false;
+    var pede = function () {
+      if (pedido) return;
+      pedido = true;
+      // a consulta à placa cria um contexto WebGL: fica para a hora ociosa, fora da carga
+      if (semPlaca()) return;
+      var s = document.createElement('script');
+      s.src = origem3d;
+      s.async = true;
+      document.head.appendChild(s);
+    };
+    var ocioso = function () {
+      if ('requestIdleCallback' in window) requestIdleCallback(pede, { timeout: 3000 });
+      else setTimeout(pede, 1200);
+    };
+
+    if (document.readyState === 'complete') {
+      ocioso();
+    } else {
+      window.addEventListener('load', ocioso, { once: true });
+    }
   }
 })();
