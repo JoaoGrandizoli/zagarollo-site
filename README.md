@@ -74,14 +74,14 @@ estreita.
 
 | Onde | O que os pontos formam |
 | --- | --- |
-| Capa | Uma história em 25 quadros, conduzida pela rolagem: a poeira vira a folha plana, a folha **dobra de verdade** e vira caixa, algo entra nela, a tampa fecha, a caixa sobe no caminhão, o caminhão pega a estrada, chega a uma casa, a caixa passa de mão em mão, a pessoa abre e de dentro sai um coração. |
+| Capa | Uma história em 27 quadros, conduzida pela rolagem: a poeira vira a folha plana, a folha **dobra de verdade** e vira caixa, algo entra nela, a tampa fecha, a caixa sobe no caminhão, o caminhão pega a estrada, chega a uma casa, o entregador tira a caixa do baú e leva até a porta, a caixa passa de mão em mão, a pessoa abre e de dentro sai um coração. |
 | Manifesto | Cada linha ganha a sua forma, à direita do texto: o anel na caixinha, o bolo, a sacolinha com o balão, a carta saindo da caixa e, no fecho, o coração sobre a caixa aberta. |
 
 **A capa em modo história.** Quando o 3D sobe, a capa recebe `data-campo="historia"`,
-cresce para `24 × 38vh + 100svh` e o conteúdo fica preso à tela (`.capa-fixa`). A
+cresce para `26 × 35vh + 100svh` e o conteúdo fica preso à tela (`.capa-fixa`). A
 manchete some no primeiro quadro e seis legendas (`.historia-passo`, com `data-de` e
 `data-ate` em quadros) se revezam. O botão "Ver o caminho da caixa" (`data-ver`) rola a
-página sozinha em 34 s; qualquer gesto devolve o controle. "Pular a história" leva aos
+página sozinha em 37 s; qualquer gesto devolve o controle. "Pular a história" leva aos
 números. Sem o 3D nada disso existe: a capa é a de sempre, com o campo 2D.
 
 As legendas foram escritas para a história. Nenhuma afirma fato novo sobre a empresa:
@@ -99,6 +99,13 @@ e o resto é o argumento, não dado. O caminhão não leva marca nem nome.
   entre dois quadros ser um arco e não uma reta.
 - *A dobra sai do ângulo.* Cada ponto sabe em que face da planificação mora; a posição
   vem do ângulo de dobra e do ângulo da tampa.
+- *A caixa nunca anda sozinha.* Ou está no assoalho do baú, ou na mão de alguém: o centro
+  dela é sempre o ponto entre as mãos de quem a leva. Na entrega o caminhão fica em cena,
+  o entregador tira a caixa do baú, vira-se e anda até a porta.
+- *As pessoas são desenho, não boneco.* A câmera as vê de lado; seis em cada dez pontos
+  moram no contorno, o miolo é ralo e o braço e a perna do lado de lá ficam mais apagados.
+  Para virar, gira-se o esqueleto (`gira`, em graus) e só depois se veste a figura, no
+  espaço de quem olha — o contorno continua contorno em qualquer ângulo.
 - *O coração fica escondido.* Dentro da caixa ele é só um brilho; ganha forma quando a
   tampa abre.
 - *O que se mexe sozinho* (estrada correndo, rodas girando, coração batendo) é resolvido

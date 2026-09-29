@@ -423,19 +423,51 @@ const POSES = {
   abre2: { maoE: [0.42, 0.97, 0.24], maoD: [0.45, 1.57, -0.08], cotE: [0.1, 1.05, 0.29], cotD: [0.2, 1.33, -0.3], cab: [0.04, 1.58, 0] },
   olha: { maoE: [0.4, 0.93, 0.24], maoD: [0.4, 0.93, -0.24], cotE: [0.09, 1.03, 0.29], cotD: [0.09, 1.03, -0.29], cab: [0.0, 1.6, 0] },
 };
+// um passo, com a caixa na mão: a perna de cá à frente, a de lá ficando para trás
+POSES.passo = {
+  ...POSES.segura,
+  joelhoE: [0.17, 0.5, 0.1], peE: [0.24, 0.06, 0.1], pontaE: [0.44, 0.04, 0.1],
+  joelhoD: [-0.05, 0.47, -0.1], peD: [-0.27, 0.09, -0.1], pontaD: [-0.1, 0.03, -0.1],
+};
+/* Os ossos afunilam: [de, para, raio no começo, raio no fim]. */
 const OSSOS = [
-  ['ombroE', 'cotE', 0.062], ['cotE', 'maoE', 0.052], ['ombroD', 'cotD', 0.062], ['cotD', 'maoD', 0.052],
-  ['ancaE', 'joelhoE', 0.095], ['joelhoE', 'peE', 0.07], ['ancaD', 'joelhoD', 0.095], ['joelhoD', 'peD', 0.07],
-  ['peE', 'pontaE', 0.055], ['peD', 'pontaD', 0.055],
+  ['ombroE', 'cotE', 0.05, 0.04], ['cotE', 'maoE', 0.04, 0.03], ['ombroD', 'cotD', 0.05, 0.04], ['cotD', 'maoD', 0.04, 0.03],
+  ['ancaE', 'joelhoE', 0.082, 0.058], ['joelhoE', 'peE', 0.056, 0.038], ['ancaD', 'joelhoD', 0.082, 0.058], ['joelhoD', 'peD', 0.056, 0.038],
+  ['peE', 'pontaE', 0.04, 0.026], ['peD', 'pontaD', 0.04, 0.026],
+  ['pescoco', 'nuca', 0.046, 0.04],
 ];
-function amostrasDaPessoa(n, rnd) {
+/* As juntas de uma pose, já giradas em torno do eixo de pé: a 0° a pessoa olha para +x, a
+   90° para a câmera, a 180° para −x. Gira-se o esqueleto e só depois se veste a figura, no
+   espaço de quem olha: assim o contorno continua contorno em qualquer ângulo. */
+const JUNTAS = {};
+function juntas(pose, graus) {
+  const chave = pose + '|' + graus;
+  if (!JUNTAS[chave]) {
+    const J = { ...CORPO, ...POSES[pose] };
+    J.nuca = [J.cab[0] * 0.6, J.cab[1] - 0.085, 0];
+    const cs = Math.cos(graus * G), sn = Math.sin(graus * G), R = { cs, sn };
+    for (const k in J) R[k] = [J[k][0] * cs - J[k][2] * sn, J[k][1], J[k][0] * sn + J[k][2] * cs];
+    JUNTAS[chave] = R;
+  }
+  return JUNTAS[chave];
+}
+/* A câmera vê as pessoas de lado. Seis em cada dez pontos moram no contorno — o que ela lê
+   como linha, no mesmo traço do caminhão e da caixa; o resto é um miolo ralo. */
+function amostrasDaPessoa(n, rnd, bone) {
+  const naBorda = () => (rnd() < 0.62 ? (rnd() < 0.5 ? 0 : Math.PI) + gauss(rnd) * 0.09 : rnd() * 6.2831853);
+  const noMeio = () => (rnd() < 0.62 ? limita(gauss(rnd) * 0.07, -1, 1) : rnd() * 2 - 1);
   const tipos = [
-    [0.27, () => ({ parte: 'tronco', t: rnd(), a: rnd() * 6.2831853 })],
-    [0.13, () => ({ parte: 'cabeca', z: rnd() * 2 - 1, a: rnd() * 6.2831853 })],
-    [0.035, () => ({ parte: 'mao', lado: rnd() < 0.5 ? 'E' : 'D', z: rnd() * 2 - 1, a: rnd() * 6.2831853 })],
+    [0.2, () => ({ parte: 'tronco', t: rnd(), a: naBorda() })],
+    [0.1, () => ({ parte: 'cabeca', z: noMeio(), a: rnd() * 6.2831853 })],
+    [0.014, () => ({ parte: 'mao', lado: 'E', z: noMeio(), a: rnd() * 6.2831853 })],
+    [0.014, () => ({ parte: 'mao', lado: 'D', z: noMeio(), a: rnd() * 6.2831853 })],
   ];
-  const pesos = [0.075, 0.065, 0.075, 0.065, 0.1, 0.085, 0.1, 0.085, 0.02, 0.02];
-  OSSOS.forEach((o, i) => tipos.push([pesos[i], () => ({ parte: 'osso', i, t: rnd(), a: rnd() * 6.2831853 })]));
+  const pesos = [0.06, 0.055, 0.06, 0.055, 0.09, 0.085, 0.09, 0.085, 0.022, 0.022, 0.016];
+  OSSOS.forEach((o, i) => tipos.push([pesos[i], () => ({ parte: 'osso', i, t: rnd(), a: naBorda() })]));
+  if (bone) {
+    tipos.push([0.04, () => ({ parte: 'copa', z: noMeio(), a: rnd() * Math.PI })]);
+    tipos.push([0.03, () => ({ parte: 'aba', u: rnd(), v: rnd() * 2 - 1 })]);
+  }
   const total = tipos.reduce((s, t) => s + t[0], 0);
   const lista = [];
   for (const [peso, gera] of tipos) {
@@ -445,25 +477,56 @@ function amostrasDaPessoa(n, rnd) {
   while (lista.length < n) lista.push(tipos[0][1]());
   return lista;
 }
-/* Devolve em `out` a posição e, em out[3], o quanto o ponto está na silhueta (0 a 1): é
-   a borda acesa que faz a figura ser lida como desenho, não como boneco. */
+// o tronco de perfil: [altura de 0 a 1, meia medida]
+const TRONCO_FRENTE = [[0, 0.1], [0.34, 0.088], [0.74, 0.112], [0.92, 0.09], [1, 0.05]];
+const TRONCO_LADO = [[0, 0.155], [0.34, 0.135], [0.84, 0.2], [0.95, 0.15], [1, 0.06]];
+const noPerfil = (t, pts) => {
+  for (let i = 1; i < pts.length; i++) {
+    if (t <= pts[i][0]) return mistura(pts[i - 1][1], pts[i][1], suave(pts[i - 1][0], pts[i][0], t));
+  }
+  return pts[pts.length - 1][1];
+};
+/* Devolve em `out` a posição; em out[3], o quanto o ponto está na silhueta (0 a 1) — é a
+   borda acesa que faz a figura ser lida como desenho, não como boneco; em out[4], a luz da
+   parte: o braço e a perna do lado de lá ficam mais apagados, e o olho separa um do outro. */
+const deCa = (z) => mistura(0.5, 1, suave(-0.08, 0.08, z));
 function posicaoNaPessoa(q, J, out) {
+  out[4] = 1;
   if (q.parte === 'tronco') {
-    const t = q.t, rx = 0.11 + 0.035 * t, rz = 0.16 + 0.075 * t * t;
-    out[0] = Math.cos(q.a) * rx; out[1] = mistura(J.quadril[1], J.pescoco[1], t); out[2] = Math.sin(q.a) * rz;
-    out[3] = 1 - Math.abs(Math.sin(q.a));
+    const t = q.t, rx = noPerfil(t, TRONCO_FRENTE), rz = noPerfil(t, TRONCO_LADO);
+    // o ângulo do ponto é medido no espaço de quem olha; no corpo, ele é esse menos o giro
+    const cl = Math.cos(q.a) * J.cs + Math.sin(q.a) * J.sn, sl = Math.sin(q.a) * J.cs - Math.cos(q.a) * J.sn;
+    const x = cl * rx, z = sl * rz;
+    out[0] = x * J.cs - z * J.sn; out[1] = mistura(0.87, J.pescoco[1] + 0.01, t); out[2] = x * J.sn + z * J.cs;
+    const nx = cl / rx, nz = sl / rz, n = Math.hypot(nx, nz) || 1;
+    out[3] = 1 - Math.abs((nx * J.sn + nz * J.cs) / n);
     return;
   }
   if (q.parte === 'cabeca' || q.parte === 'mao') {
-    const c = q.parte === 'cabeca' ? J.cab : J['mao' + q.lado];
-    const r = q.parte === 'cabeca' ? 0.128 : 0.06;
+    const cab = q.parte === 'cabeca';
+    const c = cab ? J.cab : J['mao' + q.lado];
+    const r = cab ? 0.108 : 0.04;
     const k = Math.sqrt(1 - q.z * q.z);
-    out[0] = c[0] + k * Math.cos(q.a) * r; out[1] = c[1] + k * Math.sin(q.a) * r * (q.parte === 'cabeca' ? 1.14 : 1); out[2] = c[2] + q.z * r;
+    out[0] = c[0] + k * Math.cos(q.a) * r; out[1] = c[1] + k * Math.sin(q.a) * r * (cab ? 1.19 : 1.1); out[2] = c[2] + q.z * r * 0.94;
     out[3] = 1 - Math.abs(q.z);
+    if (!cab) out[4] = deCa(c[2]);
     return;
   }
-  const [de, para, raio] = OSSOS[q.i];
-  const a = J[de], b = J[para];
+  if (q.parte === 'copa') {
+    // o boné: meia casca um pouco maior que a cabeça
+    const c = J.cab, k = Math.sqrt(1 - q.z * q.z);
+    out[0] = c[0] + k * Math.cos(q.a) * 0.118; out[1] = c[1] + 0.04 + k * Math.sin(q.a) * 0.105; out[2] = c[2] + q.z * 0.11;
+    out[3] = 1 - Math.abs(q.z); out[4] = 1.15;
+    return;
+  }
+  if (q.parte === 'aba') {
+    const c = J.cab, x = 0.1 + q.u * 0.15, z = q.v * 0.085 * (1 - 0.45 * q.u);
+    out[0] = c[0] + x * J.cs - z * J.sn; out[1] = c[1] + 0.042 - q.u * 0.03; out[2] = c[2] + x * J.sn + z * J.cs;
+    out[3] = 1; out[4] = 0.8;
+    return;
+  }
+  const [de, para, r0, r1] = OSSOS[q.i];
+  const a = J[de], b = J[para], raio = mistura(r0, r1, q.t);
   let dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2];
   const len = Math.hypot(dx, dy, dz) || 1;
   dx /= len; dy /= len; dz /= len;
@@ -478,6 +541,7 @@ function posicaoNaPessoa(q, J, out) {
   out[1] = a[1] + dy * len * q.t + ny * raio;
   out[2] = a[2] + dz * len * q.t + nz * raio;
   out[3] = 1 - Math.abs(nz);
+  if (de !== 'pescoco') out[4] = deCa((a[2] + b[2]) / 2);
 }
 
 // ---- o caminhão ----
@@ -712,16 +776,27 @@ quadro({ portas: 0, pe: [1.25, 0, 0], cam: [[-0.5, 2.0, 10.6], [2.5, 1.5, 0]] })
 quadro({ anda: 1, beira: {}, relevo: {}, lua: {}, farol: {}, pe: [1, 0, 0], cam: [[3.0, 1.8, 13.2], [3.3, 1.55, 0]] }); // 12 · estrada, de lado
 quadro({ cam: [[12.4, 1.3, 7.2], [3.6, 1.45, 0]] }); // 13 · de frente, com os faróis
 quadro({ cam: [[-6.8, 4.8, 9.4], [2.9, 1.2, 0]] }); // 14 · por trás e do alto
-quadro({ anda: 0, beira: null, farol: null, casa: {}, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'parado' }, cam: [[-2.4, 1.7, 8.2], [-2.3, 1.3, 0]] }); // 15 · chegou
-quadro({ portas: 56, entrega: { x: -2.46, z: 0.3, vira: -1, pose: 'segura' }, cam: [[-2.5, 1.6, 7.4], [-2.4, 1.25, 0]] }); // 16
-quadro({ portas: 112, caixa: NA_MAO(-2.88), cam: [[-2.6, 1.55, 6.8], [-2.5, 1.2, 0]] }); // 17 · a caixa sai do baú
-quadro({ caixa: NA_MAO(-3.08), entrega: { x: -2.46, z: 0.3, vira: -1, pose: 'estende' }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'estende' }, cam: [[-2.9, 1.5, 5.6], [-2.9, 1.15, 0.2]] }); // 18 · de mão em mão
-quadro({ caixa: NA_MAO(-3.28), entrega: { x: -2.46, z: 0.3, vira: -1, pose: 'parado' }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'segura' }, cam: [[-3.0, 1.5, 4.8], [-3.1, 1.15, 0.3]] }); // 19 · é dela agora
-quadro({ caminhao: null, rodas: null, portas: null, estrada: null, entrega: null, relevo: null, cam: [[-2.9, 1.45, 3.5], [-3.3, 1.2, 0.3]] }); // 20 · só ela e a caixa
-quadro({ caixa: { ...NA_MAO(-3.28), fi: 60 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'abre1' }, cam: [[-2.8, 1.5, 3.3], [-3.25, 1.25, 0.3]] }); // 21 · abre
-quadro({ caixa: { ...NA_MAO(-3.28), fi: 25 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'abre2' }, cam: [[-2.75, 1.55, 3.3], [-3.2, 1.3, 0.3]] }); // 22
-quadro({ caixa: { ...NA_MAO(-3.28), fi: -22 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'segura' }, coracao: { esc: 0.2, c: [-3.26, 1.52, 0.3], forma: 1 }, pe: [1.08, 0.1, 0], cam: [[-2.8, 1.65, 3.6], [-3.2, 1.45, 0.3]] }); // 23 · e de dentro sai
-quadro({ caixa: { c: [-3.3, 0.93, 0.3], rx: 0, teta: 90, fi: -22 }, recebe: { x: -3.7, z: 0.3, vira: 1, pose: 'olha' }, coracao: { esc: 0.52, c: [-3.05, 2.2, 0.3], forma: 1 }, casa: null, lua: null, ganho: 0.2, pe: [1.2, 0.25, 0], cam: [[-2.7, 1.85, 4.9], [-3.1, 1.7, 0.3]] }); // 24 · o que importava
+/* A entrega. A regra: a caixa nunca anda sozinha — ou está no assoalho do baú, ou na mão
+   de alguém. Por isso o centro dela é sempre o ponto entre as mãos de quem a leva (0.42 à
+   frente do corpo segurando, 0.62 estendendo). `gira`: 0 olha para o caminhão, 90 para a
+   câmera, 180 para a casa. */
+const ENT = -0.72; // onde o entregador para, junto à traseira do baú
+const REC = -3.2; // onde espera quem recebe, diante da porta
+const D = REC + 3.7; // a casa foi desenhada com a porta em −3.7: tudo do lado dela anda junto
+const entrega = (x, gira, pose) => ({ x, z: 0.3, gira, pose });
+const recebe = (pose) => ({ x: REC, z: 0.3, gira: 0, pose });
+quadro({ anda: 0, beira: null, farol: null, casa: { c: [D, 0, 0] }, recebe: recebe('parado'), pe: [1.15, 0, 0.35], cam: [[-1.46, 1.9, 8.8], [-1.46, 1.3, 0]] }); // 15 · chegou: a casa de um lado, o baú do outro
+quadro({ portas: 56, entrega: entrega(ENT, 0, 'parado'), cam: [[-1.46, 1.85, 8.5], [-1.46, 1.25, 0]] }); // 16 · o baú abre, o entregador já está ali
+quadro({ portas: 112, entrega: entrega(ENT, 0, 'estende'), caixa: NA_MAO(ENT + 0.62), pe: [1.1, 0, 0.3], cam: [[-1.82, 1.7, 6.95], [-1.82, 1.2, 0.1]] }); // 17 · a caixa desliza pelo assoalho até a mão dele
+quadro({ entrega: entrega(ENT, 90, 'segura'), caixa: { c: [ENT, 0.97, 0.3 + 0.42], rx: 0, teta: 90 }, pe: [1.05, 0, 0], cam: [[-1.88, 1.65, 6.7], [-1.88, 1.18, 0.2]] }); // 18 · ele traz a caixa para junto e se vira
+quadro({ entrega: entrega(-1.3, 180, 'passo'), caixa: NA_MAO(-1.3 - 0.42), cam: [[-1.98, 1.6, 6.3], [-1.98, 1.15, 0.2]] }); // 19 · a caminho da porta
+quadro({ entrega: entrega(REC + 1.24, 180, 'estende'), recebe: recebe('estende'), caixa: NA_MAO(REC + 0.62), pe: [1, 0, 0], cam: [[-2.9 + D, 1.5, 5.6], [-2.9 + D, 1.15, 0.2]] }); // 20 · de mão em mão
+quadro({ entrega: entrega(REC + 1.24, 180, 'parado'), recebe: recebe('segura'), caixa: NA_MAO(REC + 0.42), cam: [[-3.0 + D, 1.5, 4.8], [-3.1 + D, 1.15, 0.3]] }); // 21 · é dela agora
+quadro({ caminhao: null, rodas: null, portas: null, estrada: null, entrega: null, relevo: null, cam: [[-2.9 + D, 1.45, 3.5], [-3.3 + D, 1.2, 0.3]] }); // 22 · só ela e a caixa
+quadro({ caixa: { ...NA_MAO(REC + 0.42), fi: 60 }, recebe: recebe('abre1'), cam: [[-2.8 + D, 1.5, 3.3], [-3.25 + D, 1.25, 0.3]] }); // 23 · abre
+quadro({ caixa: { ...NA_MAO(REC + 0.42), fi: 25 }, recebe: recebe('abre2'), cam: [[-2.75 + D, 1.55, 3.3], [-3.2 + D, 1.3, 0.3]] }); // 24
+quadro({ caixa: { ...NA_MAO(REC + 0.42), fi: -22 }, recebe: recebe('segura'), coracao: { esc: 0.2, c: [REC + 0.44, 1.52, 0.3], forma: 1 }, pe: [1.08, 0.1, 0], cam: [[-2.8 + D, 1.65, 3.6], [-3.2 + D, 1.45, 0.3]] }); // 25 · e de dentro sai
+quadro({ caixa: { c: [REC + 0.4, 0.93, 0.3], rx: 0, teta: 90, fi: -22 }, recebe: recebe('olha'), coracao: { esc: 0.52, c: [REC + 0.65, 2.2, 0.3], forma: 1 }, casa: null, lua: null, ganho: 0.2, pe: [1.2, 0.25, 0], cam: [[-2.7 + D, 1.85, 4.9], [-3.1 + D, 1.7, 0.3]] }); // 26 · o que importava
 for (const q of QUADROS) {
   if (q.caixa && q.caixa.fi === undefined) q.caixa.fi = 90;
 }
@@ -822,7 +897,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     }
   }
 
-  const v4 = [0, 0, 0, 0];
+  const v4 = [0, 0, 0, 0], vp = [0, 0, 0, 0, 1];
   const giro = (x, z, graus) => {
     const a = graus * G, cs = Math.cos(a), sn = Math.sin(a);
     return [x * cs + z * sn, -x * sn + z * cs];
@@ -890,24 +965,23 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     rigido('lua', 0.015, fontesLua),
     rigido('casa', 0.075, fontesCasa),
     pessoa('recebe', 0.095, () => misturaCor(BRANCO, KRAFT, 0.3)),
-    pessoa('entrega', 0.075, () => misturaCor(BRANCO, AZUL, 0.45)),
+    pessoa('entrega', 0.075, () => misturaCor(BRANCO, AZUL, 0.45), true),
     rigido('poeira', 0.03, () => [[1, (rnd) => {
       const a = rnd() * 6.2831853, r = 2.5 + Math.pow(rnd(), 0.7) * 11;
       pinta({ color: misturaCor(BRANCO, rnd() < 0.5 ? VERDE : AZUL, rnd() * 0.7), a: 0.22 + rnd() * 0.4, size: 3 + Math.floor(rnd() * 3) });
       pt.x = Math.cos(a) * r * 1.2; pt.y = -0.5 + rnd() * 9; pt.z = Math.sin(a) * r - 3;
     }]], { sempre: true }),
   ];
-  function pessoa(id, fracao, cor) {
+  function pessoa(id, fracao, cor, bone) {
     return {
       id, fracao,
-      prepara(n, rnd) { this.lista = amostrasDaPessoa(n, rnd); this.anim = new Float32Array(n * 4); this.cor = cor(); },
+      prepara(n, rnd) { this.lista = amostrasDaPessoa(n, rnd, bone); this.anim = new Float32Array(n * 4); this.cor = cor(); },
       escreve(estado, q, i, o) {
-        const J = { ...CORPO, ...POSES[estado.pose] };
-        posicaoNaPessoa(this.lista[i], J, v4);
-        o[0] = estado.x + estado.vira * v4[0]; o[1] = v4[1]; o[2] = estado.z + v4[2];
-        const borda = v4[3] * v4[3] * v4[3];
-        o[3] = borda > 0.55 ? 6 : 4; o[4] = 0; o[5] = this.cor[0]; o[6] = this.cor[1]; o[7] = this.cor[2];
-        o[8] = limita((0.34 + 1.5 * borda) * (0.45 + 0.55 * limita(v4[1] / 0.7)));
+        posicaoNaPessoa(this.lista[i], juntas(estado.pose, estado.gira || 0), vp);
+        o[0] = estado.x + vp[0]; o[1] = vp[1]; o[2] = estado.z + vp[2];
+        const traco = suave(0.78, 0.97, vp[3]);
+        o[3] = traco > 0.5 ? 5 : 3; o[4] = 0; o[5] = this.cor[0]; o[6] = this.cor[1]; o[7] = this.cor[2];
+        o[8] = limita((0.07 + 0.93 * traco) * vp[4] * (0.6 + 0.4 * limita(vp[1] / 0.6)));
       },
     };
   }
@@ -1471,7 +1545,7 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
     const topo = capa.getBoundingClientRect().top + scrollY;
     const ate = topo + capa.offsetHeight - innerHeight;
     const volta = b.hasAttribute('data-volta');
-    sozinha = { de: scrollY, ate: volta ? topo : ate, t0: performance.now(), ms: volta ? 1400 : 34000 * (1 - limita((scrollY - topo) / (ate - topo))) + 800 };
+    sozinha = { de: scrollY, ate: volta ? topo : ate, t0: performance.now(), ms: volta ? 1400 : 37000 * (1 - limita((scrollY - topo) / (ate - topo))) + 800 };
     capa.setAttribute('data-rodando', 'true');
     requestAnimationFrame(rola);
   });

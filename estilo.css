@@ -435,7 +435,7 @@ h1 em, h2 em { font-style: italic; font-weight: 400; }
 .capa-ver { display: none; }
 
 .capa[data-campo="historia"] {
-  height: calc(var(--quadros, 24) * 38vh + 100svh);
+  height: calc(var(--quadros, 26) * 35vh + 100svh);
   padding: 0;
   /* clip, e não hidden: hidden faria da capa um contêiner de rolagem e soltaria o
      palco fixo. */
