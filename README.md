@@ -227,13 +227,17 @@ python3 -c "import hashlib,base64; s=\"document.documentElement.classList.add('j
 
 ## Desempenho
 
-> Os números abaixo foram medidos ANTES do campo 3D, da história da capa e da fonte dos
-> títulos. Não foram medidos de novo depois dessas mudanças.
+Lighthouse 12 em emulação de celular com rede 4G lenta, medido na prévia em 29/09/2026,
+já com a história em 3D, a fonte dos títulos e o visual novo:
 
-Lighthouse em emulação de celular com rede 4G lenta: **100 em acessibilidade e 100 em
-boas práticas em todas as páginas**; desempenho 100 nas internas e **99 na home**, que
-carrega as 29 miniaturas da faixa de catálogo. LCP entre 0,9 s e 1,0 s, bloqueio da
-thread principal em 0 ms, nenhum deslocamento de layout.
+| Página | Desempenho | Acessibilidade | Boas práticas | LCP | Bloqueio | Deslocamento |
+| --- | --- | --- | --- | --- | --- | --- |
+| Início | 97 | 100 | 100 | 1,3 s | 160 ms | 0 |
+| Produtos | 100 | 100 | 100 | 1,3 s | 0 ms | 0 |
+| Contato | 100 | 100 | 100 | 1,2 s | 0 ms | 0,029 |
+
+Uma rodada só por página, numa máquina de mesa: serve de ordem de grandeza, não de
+garantia. Antes do aquecimento da placa em etapas a home marcava 74, com 1,1 s de bloqueio.
 
 O SEO fica em 69 **de propósito**: a única auditoria que falha é `is-crawlable`,
 porque o `robots.txt` bloqueia a indexação enquanto o site não está no domínio
