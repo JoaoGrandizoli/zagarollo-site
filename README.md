@@ -186,7 +186,9 @@ normalizadas de 0 a 1) e o `ROTEIRO`, que diz de qual forma para qual e quando.
 
 HTML, CSS e JavaScript puros — sem framework. O único passo de build é minificação.
 
-- `estilo.css` — folha única. Paleta em variáveis CSS no topo do arquivo (`--azul`, `--verde`).
+- `estilo.css` — folha única. Paleta, fontes, grão do papel e traço de faca em variáveis CSS
+  no topo do arquivo (ver "Visual").
+- `fontes/` — a fonte dos títulos, servida pelo próprio site, com a licença ao lado.
 - `script.js` — menu no celular, formulário de orçamento, catálogo filtrável e entradas por scroll.
 - `campo.js` — a animação da capa.
 - `build.mjs` — minifica com esbuild, carimba o hash do conteúdo no nome do arquivo e
@@ -212,6 +214,9 @@ python3 -c "import hashlib,base64; s=\"document.documentElement.classList.add('j
 ```
 
 ## Desempenho
+
+> Os números abaixo foram medidos ANTES do campo 3D, da história da capa e da fonte dos
+> títulos. Não foram medidos de novo depois dessas mudanças.
 
 Lighthouse em emulação de celular com rede 4G lenta: **100 em acessibilidade e 100 em
 boas práticas em todas as páginas**; desempenho 100 nas internas e **99 na home**, que
@@ -239,7 +244,9 @@ Três decisões carregam a maior parte disso:
 - **As imagens são reprocessadas**, não usadas como vieram. O logo original tinha 433 px
   e 137 kB para aparecer a 46 px; agora tem 1,6 kB. O conjunto todo caiu de ~600 kB para
   ~90 kB. Regenerar: veja "Reprocessar imagens" abaixo.
-- **Nenhuma fonte é baixada.** A tipografia usa a pilha do sistema.
+- **Uma fonte é baixada, a dos títulos** (Fraunces, 67 kB; o itálico, 81 kB, só quando
+  aparece). Vem do próprio site, com `preload` e `font-display: swap`. O texto corrido
+  continua na pilha do sistema.
 - **A montagem do canvas espera o navegador ficar ocioso** e rasteriza a meia resolução.
   Feita de forma síncrona no carregamento, ela sozinha travava a thread por 360 ms.
 
@@ -251,16 +258,43 @@ redimensione para ~2x o tamanho em que ela aparece na tela e converta — por ex
 de propósito: `logo-96.png` (favicon — nem todo navegador aceita WebP aí) e `og.jpg`
 (compartilhamento em rede social, 1200x630; nem todo raspador lê WebP).
 
-## Paleta
+## Visual
 
-Extraída do próprio logo da empresa:
+A casa faz embalagem de papel, e o site parece feito disso: fundo em tom de papel, faixa
+de kraft, fio fino no lugar de caixa com sombra. O azul e o verde são os do logo.
 
-| Cor | Hex |
-| --- | --- |
-| Azul royal | `#2f4b8f` |
-| Azul escuro | `#23386b` |
-| Verde | `#00874a` |
-| Verde claro | `#8fd0ae` |
+| Cor | Variável | Hex | Onde |
+| --- | --- | --- | --- |
+| Azul royal | `--azul` | `#2f4b8f` | links |
+| Azul escuro | `--azul-escuro` | `#23386b` | capa, cenas |
+| Azul noite | `--azul-noite` | `#182545` | topo, rodapé, botão sobre kraft |
+| Verde | `--verde` | `#00874a` | botão principal |
+| Verde claro | `--verde-claro` | `#8fd0ae` | ênfase do título sobre azul |
+| Kraft | `--kraft` | `#b98a5a` | fios, molduras |
+| Kraft (texto) | `--kraft-texto` | `#855a2e` | sobretítulos sobre papel (5,5:1) |
+| Kraft claro | `--kraft-claro` | `#d9b48a` | sobretítulos sobre azul (5,9:1) |
+| Kraft folha | `--kraft-folha` | `#c39a6b` | faixa da chamada final |
+| Papel | `--papel` | `#f8f5ee` | fundo da página |
+| Papel forte | `--papel-forte` | `#f0eadf` | seções alternadas |
+| Folha | `--folha` | `#fffdf9` | cartões e formulário |
+
+`--azul-claro`, `--branco`, `--verde-claro` e `--kraft` também são lidas pelo campo 3D:
+mudar o valor muda a luz dos pontos.
+
+**Tipografia.** Títulos em Fraunces (serifa variável, SIL Open Font License 1.1 — o texto
+da licença está em `fontes/`), peso leve e itálico na ênfase. Texto corrido na fonte do
+sistema. Sobretítulos, botões e etiquetas em caixa alta pequena, bem espaçada.
+
+**Três sinais que se repetem.**
+
+- *O fio de kraft* antes de cada sobretítulo (`.selo`, `.capa-selo`).
+- *O tracejado é vinco.* Divisórias internas são tracejadas, como a linha de dobra na faca
+  de corte; o fio cheio fica para o que separa de verdade.
+- *A planificação da caixa* em traço de faca no canto das capas internas (`--faca`): o
+  desenho que toda embalagem é antes de ser dobrada, o mesmo que abre a história da home.
+
+**O grão do papel** (`--grao`) é um ruído em SVG embutido na própria folha de estilo. A
+política de segurança já aceitava imagem embutida (`img-src 'self' data:`); nada mudou nela.
 
 ## Formulário de orçamento
 

@@ -199,6 +199,8 @@ const JSONLD = {
 await rm(DIST, { recursive: true, force: true });
 await mkdir(DIST, { recursive: true });
 await cp(path.join(RAIZ, 'imagens'), path.join(DIST, 'imagens'), { recursive: true });
+/* A fonte dos títulos mora no próprio site: a política de segurança não aceita outra origem. */
+await cp(path.join(RAIZ, 'fontes'), path.join(DIST, 'fontes'), { recursive: true });
 await cp(path.join(RAIZ, 'staticwebapp.config.json'), path.join(DIST, 'staticwebapp.config.json'));
 
 const renomeados = new Map();
