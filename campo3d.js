@@ -1305,7 +1305,8 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
   composer.addPass(new RenderPass(scene, camera));
   const rastro = new AfterimagePass(0);
   composer.addPass(rastro);
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), 0.22, 0.45, 0.9));
+  const brilho = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.22, 0.45, 0.9);
+  composer.addPass(brilho);
   composer.addPass(new OutputPass());
 
   // ---- onde o campo mora em cada palco ----
@@ -1557,6 +1558,29 @@ const centroDoCoracao = (q) => (q.coracao && q.coracao.c) || (q.caixa ? [q.caixa
   };
   palcos.historia.visivel = contaHistoria && naJanela(capa);
   if (palcos.manifesto) palcos.manifesto.visivel = !palcos.historia.visivel && larga.matches && naJanela(manifesto);
+
+  /* Aquecer a placa antes do primeiro quadro de verdade. Compilar os shaders de tudo (pontos,
+     brilho, rastro, saída) num quadro só travava a página; aqui cada etapa compila os seus
+     numa tarefa separada, e os dos pontos sem bloquear, quando o navegador deixa. */
+  {
+    const primeiro = palcos.historia.visivel ? palcos.historia : palcos.manifesto && palcos.manifesto.visivel ? palcos.manifesto : null;
+    if (primeiro) {
+      troca(primeiro);
+      rastro.enabled = false; brilho.enabled = false;
+      renderer.setRenderTarget(composer.readBuffer);
+      await renderer.compileAsync(scene, camera);
+      renderer.setRenderTarget(null);
+      marca('shader dos pontos');
+      for (const etapa of [null, brilho, rastro]) {
+        await cede();
+        if (etapa) etapa.enabled = true;
+        passo(1 / 60, performance.now());
+        nasceu = -1;
+      }
+      marca('placa aquecida');
+      await cede();
+    }
+  }
   avalia();
   if (ativo && !quadroPedido) {
     introForcada = 1;

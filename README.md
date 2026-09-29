@@ -126,7 +126,12 @@ altura de tela (celular deitado não tem espaço para cena e legenda); senão o 
 com o manifesto. Se o 3D não carregar ou falhar, nada muda: o 2D segue no ar.
 
 Não pede o 3D quem tem `prefers-reduced-motion`, economia de dados, menos de 4 GB de
-memória, menos de 4 núcleos ou navegador sem WebGL2.
+memória, menos de 4 núcleos, navegador sem WebGL2 ou **sem placa de vídeo** (WebGL desenhado
+no processador: um quadro da cena leva dezenas de milissegundos e a página engasga).
+
+Antes do primeiro quadro a placa é aquecida em etapas — pontos, brilho, rastro — cada uma
+numa tarefa separada. Compilar todos os shaders num quadro só travava a página por 0,7 s
+num celular mediano simulado.
 
 **Decisões que valem explicação.**
 

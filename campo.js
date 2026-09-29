@@ -596,6 +596,22 @@
 
   var origem3d = tela.parentNode && tela.parentNode.getAttribute('data-src');
 
+  /* Sem placa de vídeo o navegador desenha o WebGL no processador: um quadro da cena 3D
+     leva dezenas de milissegundos e a página inteira engasga. Aí o 2D é o certo. */
+  function semPlaca() {
+    try {
+      var gl = document.createElement('canvas').getContext('webgl2');
+      if (!gl) return true;
+      var ext = gl.getExtension('WEBGL_debug_renderer_info');
+      var nome = String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || '');
+      var perde = gl.getExtension('WEBGL_lose_context');
+      if (perde) perde.loseContext();
+      return /swiftshader|llvmpipe|software|basic render/i.test(nome);
+    } catch (e) {
+      return true;
+    }
+  }
+
   function daConta() {
     if (reduzido || !origem3d || !window.WebGL2RenderingContext) return false;
     if (navigator.connection && navigator.connection.saveData) return false;
@@ -608,6 +624,8 @@
     var pede = function () {
       if (pedido) return;
       pedido = true;
+      // a consulta à placa cria um contexto WebGL: fica para a hora ociosa, fora da carga
+      if (semPlaca()) return;
       var s = document.createElement('script');
       s.src = origem3d;
       s.async = true;
