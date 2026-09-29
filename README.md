@@ -227,7 +227,7 @@ python3 -c "import hashlib,base64; s=\"document.documentElement.classList.add('j
 
 ## Desempenho
 
-Lighthouse 12 em emulação de celular com rede 4G lenta, medido na prévia em 29/09/2026,
+Lighthouse 12 em emulação de celular com rede 4G lenta, medido na prévia em 28/09/2026,
 já com a história em 3D, a fonte dos títulos e o visual novo:
 
 | Página | Desempenho | Acessibilidade | Boas práticas | LCP | Bloqueio | Deslocamento |
