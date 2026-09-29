@@ -340,7 +340,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -.02em; }
 .capa-ver { display: none; }
 
 .capa[data-campo="historia"] {
-  height: calc(var(--quadros, 24) * 38vh + 100svh);
+  height: calc(var(--quadros, 26) * 35vh + 100svh);
   padding: 0;
   /* clip, e não hidden: hidden faria da capa um contêiner de rolagem e soltaria o
      palco fixo. */
